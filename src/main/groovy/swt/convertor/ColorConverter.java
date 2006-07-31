@@ -30,18 +30,18 @@ public class ColorConverter {
      * @return RGB
      */
     protected RGB parseRGB(String value) {
-        StringTokenizer enum = new StringTokenizer(value, ",");
+        StringTokenizer enumeration = new StringTokenizer(value, ",");
         int red = 0;
         int green = 0;
         int blue = 0;
-        if (enum.hasMoreTokens()) {
-            red = parseNumber(enum.nextToken());
+        if (enumeration.hasMoreTokens()) {
+            red = parseNumber(enumeration.nextToken());
         }
-        if (enum.hasMoreTokens()) {
-            green = parseNumber(enum.nextToken());
+        if (enumeration.hasMoreTokens()) {
+            green = parseNumber(enumeration.nextToken());
         }
-        if (enum.hasMoreTokens()) {
-            blue = parseNumber(enum.nextToken());
+        if (enumeration.hasMoreTokens()) {
+            blue = parseNumber(enumeration.nextToken());
         }
         return new RGB(red, green, blue);
     }
