@@ -64,9 +64,9 @@ public class SwtUtils {
             if (toUpperCase) {
                 text = text.toUpperCase();
             }
-            StringTokenizer enum = new StringTokenizer(text, ",");
-            while (enum.hasMoreTokens()) {
-                String token = enum.nextToken().trim();
+            StringTokenizer enumeration = new StringTokenizer(text, ",");
+            while (enumeration.hasMoreTokens()) {
+                String token = enumeration.nextToken().trim();
                 answer |= getStyleCode(constantClass, token);
             }
         }
