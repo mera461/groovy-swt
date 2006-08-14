@@ -3,15 +3,17 @@ package groovy.swt.examples
 import groovy.swt.SwtBuilder
 import groovy.swt.CustomSwingBuilder
 
-
 class AwtSwtDemo {
-    @Property swt
     
-    void run() {
+    @Property swt
+    @Property swing
+    @Property shell
+    
+    def run() {
         swt = new SwtBuilder()
-   		def swing = new CustomSwingBuilder()        
+   		swing = new CustomSwingBuilder()        
    		
-        def shell = swt.shell ( text:'The AwtSwt Demo' ) {
+        shell = swt.shell ( text:'The AwtSwt Demo' ) {
          	fillLayout()
          	
          	label( text:"this is a swt label" )
@@ -31,6 +33,6 @@ class AwtSwtDemo {
 				shell.display.sleep();
 			}
 		}
-		
 	}
+    
 }

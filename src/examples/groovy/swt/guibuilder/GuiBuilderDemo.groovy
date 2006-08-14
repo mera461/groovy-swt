@@ -3,13 +3,14 @@ package groovy.swt.guibuilder
 import groovy.swt.guibuilder.ApplicationGuiBuilder
 
 class ApplicationGuiDemo {
-    property comp
-	property builder
-	property mainapp
-	property guiBuilder
-	property comp1
     
-    main( args ) {
+    @Property comp
+    @Property builder
+    @Property mainapp
+    @Property guiBuilder
+    @Property comp1
+    
+    def main( args ) {
 
 		mainapp = guiBuilder.applicationWindow( title:"The ApplicationGuiDemo", size:[700,400] ) { 
 			fillLayout( ) 

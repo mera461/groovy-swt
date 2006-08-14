@@ -1,12 +1,16 @@
-package groovy.jface.examples
+package groovy.jface 
 
 import groovy.jface.JFaceBuilder
 
-class WizardDemo extends Script {
+class WizardDemo {
+    
+    @Property jface
     @Property mainapp
-    @Property wizardPage1
     @Property text    
     @Property wizardDialog1
+    @Property wizardPage1
+    @Property wizardPage2
+    @Property wizardPage3
     
     def run() {
 		jface = new JFaceBuilder()
@@ -43,7 +47,6 @@ class WizardDemo extends Script {
 							})
 						}
 					} 
-		
 				})
 				
 				wizardPage2 = wizardPage( title:"Step 2", description:"Step 2", closure: { parent |
@@ -62,9 +65,9 @@ class WizardDemo extends Script {
 					}
 				})	
 			} 
-				wizardDialog1.open()
-				wizardPage1.setPageComplete(false)
-			
+				
+  			wizardDialog1.open()
+			wizardPage1.setPageComplete(false)
 		}
 	}
 	

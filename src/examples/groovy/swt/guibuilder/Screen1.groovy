@@ -1,8 +1,10 @@
 package groovy.swt.guibuilder
 
-class Screen1 extends Script {
-        
-    run() {     
+class Screen1 {
+    
+    @Property guiBuilder
+    
+    def main( args ) {
 		guiBuilder.composite {
 			fillLayout()
 			

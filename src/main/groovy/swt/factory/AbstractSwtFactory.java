@@ -77,9 +77,9 @@ public abstract class AbstractSwtFactory {
                 } else {
                     InvokerHelper.setProperty(bean, property, value);
                 }
-
             } catch (Exception e) {
             }
+            
             if (field == null) {
                 InvokerHelper.setProperty(bean, property, value);
             }

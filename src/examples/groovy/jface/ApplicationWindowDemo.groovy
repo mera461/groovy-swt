@@ -1,15 +1,16 @@
-package groovy.jface.examples
+package groovy.jface
 
 import groovy.jface.JFaceBuilder
 
 class ApplicationWindowDemo {
+    
+    @Property swt
     @Property mainapp
-        
-    void run() {
-        def swt = new JFaceBuilder()
+    
+    def run() {
+        swt = new JFaceBuilder()
         
 	    mainapp = swt.applicationWindow() { 	
-	         	
 	         	menuManager( text:"File" ) {
 	         		action ( text:"Very Nice", closure:{ println "Very Nice !!!" } )
 	         		separator()
@@ -24,13 +25,12 @@ class ApplicationWindowDemo {
 	
 				label( text:"A big red label", background:[204, 0, 0] ) 
 				label( text:"I can barelly read this", foreground:[0,200,0] )  
-				label( text:"It sure looks like the dutch flag", foreground:[0,0,150], background:[0, 0, 153] )
-	 
+				label( text:"It sure looks like the dutch flag", foreground:[0,0,150], background:[0, 0, 153] )	
 		}
   
 		mainapp.MenuBarManager.updateAll( true )
 		mainapp.getShell().layout()
 		mainapp.open()
-
 	}
+    
 }

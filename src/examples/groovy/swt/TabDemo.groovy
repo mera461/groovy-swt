@@ -4,12 +4,14 @@ import groovy.swt.SwtBuilder
 
 
 class TabDemo {
+    
     @Property swt
+    @Property shell
     
     void run() {
         swt = new SwtBuilder()
    		
-        def shell = swt.shell ( text:'The Tab Demo', size:[500,400] ) {
+        shell = swt.shell ( text:'The Tab Demo', size:[500,400] ) {
          	gridLayout()
 
 			cTabFolder( style:"flat" ) {

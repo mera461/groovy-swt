@@ -3,12 +3,13 @@ package groovy.swt.examples
 import groovy.swt.SwtBuilder
 
 class BrowserSwtDemo extends Script {
+    
     @Property swt
-    @Propert shell
-    @Propert browser
-    @Propert location
-    @Propert status
-    @Propert progressBar
+    @Property shell
+    @Property browser
+    @Property location
+    @Property status
+    @Property progressBar
         
     def run() {
         swt = new SwtBuilder()

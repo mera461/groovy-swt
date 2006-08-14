@@ -9,11 +9,14 @@ import org.eclipse.swt.graphics.Rectangle
 */
 
 class SwtDemo {
-    @Property shell    
-    @Property sashForm1    
     
-    void run() {
-        def builder = new SwtBuilder()
+    @Property shell    
+    @Property sashForm1  
+    @Property builder  
+    
+    def run() {
+        builder = new SwtBuilder()
+        
         shell = builder.shell ( text:'The SashForm Demo' ) {
         	fillLayout()
         
@@ -37,9 +40,7 @@ class SwtDemo {
        		}
        		
        		sashForm1.weights = [30,40,30]
-
        	}	
-	
 
 		shell.open()
 	
@@ -48,7 +49,7 @@ class SwtDemo {
 				shell.display.sleep();
 			}
 		}
-				
 	}
+    
 }
 

@@ -3,12 +3,14 @@ package groovy.swt.examples
 import groovy.swt.SwtBuilder
 
 class TableTreeDemo {
+    
     @Property swt
+    @Property shell
         
     void run() {
         swt = new SwtBuilder()
         
-        def shell = swt.shell ( text:'The TableTree Test1', location:[100,100], size:[700,600] ) {
+        shell = swt.shell ( text:'The TableTree Test1', location:[100,100], size:[700,600] ) {
          	gridLayout(numColumns:3) 
          	
          	tableTree( toolTipText:"This is a table tree!", style:"multi, full_selection" ) {  
@@ -37,6 +39,6 @@ class TableTreeDemo {
 				shell.display.sleep();
 			}
 		}
-			
 	}
+    
 }
