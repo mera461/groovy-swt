@@ -3,12 +3,14 @@ package groovy.swt.examples
 import groovy.swt.SwtBuilder
 
 class SwtDemo {
+    
     @Property swt
+    @Property shell
         
-    void run() {
+    def run() {
         swt = new SwtBuilder()
         
-        def shell = swt.shell ( text:'The Swt Demo #1', location:[100,100], size:[700,600] ) {
+        shell = swt.shell ( text:'The Swt Demo #1', location:[100,100], size:[700,600] ) {
          	gridLayout(numColumns:3) 
  
 			tree( toolTipText:"This is a tree!", style:"multi" ) {
@@ -31,9 +33,7 @@ class SwtDemo {
 					menuItem( text:"do something!" )
 					menuItem( text:"do something else" )
 				}
-				
-			}
-		
+			}		
         }
         
 		shell.open()
@@ -43,6 +43,6 @@ class SwtDemo {
 				shell.display.sleep();
 			}
 		}
-
 	}
+    
 }

@@ -1,16 +1,18 @@
-package groovy.jface.examples
+package groovy.jface 
 
 import groovy.jface.JFaceBuilder
 
 class PreferencesDemo {
-	@Property pd
-
-    void run() {
-        def jface = new JFaceBuilder()
-		def mainapp = jface.applicationWindow() { 	        
+    
+    @Property jface
+    @Property mainapp
+    @Property pd
+    
+    def run() {
+        jface = new JFaceBuilder()
 		
+        mainapp = jface.applicationWindow() { 	        
 			pd = preferenceDialog() {
-				
 				preferencePage( title:"General settings", filename:"settings.props" ) { 
 					booleanFieldEditor (propertyName:"var1", title:"It's boolean" )
 					colorFieldEditor( propertyName:"var2", title:"MainColor" )
@@ -19,8 +21,7 @@ class PreferencesDemo {
 					fontFieldEditor( propertyName:"var5", title:"Font" )
 					integerFieldEditor( propertyName:"var6", title:"Integer" )
 					stringFieldEditor( propertyName:"var7", title:"String" )
-				} 
-								
+				} 								
 				preferencePage( title:"Personal settings", filename:"settings.props" ) { 
 					booleanFieldEditor( propertyName:"var8", title:"It's boolean" )
 					colorFieldEditor( propertyName:"var2", title:"MainColor" )

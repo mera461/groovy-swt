@@ -7,7 +7,8 @@ package groovy.swt;
 import groovy.lang.GroovyObject;
 
 /**
- * @author <a href:ckl at dacelo.nl">Christiaan ten Klooster </a> $Id$
+ * @author <a href:ckl at dacelo.nl">Christiaan ten Klooster </a> 
+ * $Id$
  */
 public class RunAwtSwtDemo {
     
@@ -17,21 +18,4 @@ public class RunAwtSwtDemo {
         object.invokeMethod("run", null);
     }
     
-//    public static void main(String[] args) {
-//        Display display = new Display();
-//        Shell shell = new Shell(display);
-//        Composite locationComp = new Composite(shell, SWT.DEFAULT);
-//        shell.setLayout(new FillLayout());
-//        
-//        java.awt.Frame locationFrame = SWT_AWT.new_Frame(locationComp);
-//        
-//        locationFrame.add(new JTree());
-//        
-//        shell.open();
-//        while (!shell.isDisposed()) {
-//            if (!display.readAndDispatch()) display.sleep();
-//        }
-//        display.dispose();
-//        
-//    }
 }

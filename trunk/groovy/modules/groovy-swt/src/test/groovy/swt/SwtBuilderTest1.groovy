@@ -3,7 +3,8 @@ package groovy.swt
 import groovy.swt.SwtBuilder
 
 class SwtBuilderTest1 {
-    property swt    
+    @Property swt 
+    
     void run() {
         swt = new SwtBuilder()
         swt.shell(){        	

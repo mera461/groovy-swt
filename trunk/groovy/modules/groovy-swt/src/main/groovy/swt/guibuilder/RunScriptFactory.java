@@ -13,7 +13,6 @@ import groovy.util.ResourceException;
 import groovy.util.ScriptException;
 
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.codehaus.groovy.GroovyException;
 import org.eclipse.swt.widgets.Composite;
@@ -21,13 +20,10 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * Run another script
  * 
- * @author <a href:ckl at dacelo.nl">Christiaan ten Klooster </a> 
- * $Id$
+ * @author <a href:ckl at dacelo.nl">Christiaan ten Klooster </a> $Id:
+ *         RunScriptFactory.java 1862 2005-02-22 15:08:42Z ckl $
  */
 public class RunScriptFactory extends AbstractSwtFactory implements SwtFactory {
-
-    /** the logger */
-    private Logger log = Logger.getLogger(getClass().getName());
 
     /** the builder */
     private ApplicationGuiBuilder guiBuilder;
@@ -43,7 +39,8 @@ public class RunScriptFactory extends AbstractSwtFactory implements SwtFactory {
      * @see groovy.swt.factory.AbstractSwtFactory#newInstance(java.util.Map,
      *      java.lang.Object)
      */
-    public Object newInstance(Map properties, Object parent) throws GroovyException {
+    public Object newInstance(Map properties, Object parent)
+            throws GroovyException {
 
         // get src
         String src = (String) properties.remove("src");
@@ -61,19 +58,21 @@ public class RunScriptFactory extends AbstractSwtFactory implements SwtFactory {
         Composite parentComposite = null;
         Object obj = properties.remove("parent");
         if (obj != null) {
-            parentComposite = (Composite) SwtUtils.getParentWidget(obj, properties);
+            parentComposite = (Composite) SwtUtils.getParentWidget(obj,
+                    properties);
             if (parentComposite == null && parent instanceof Composite) {
                 parentComposite = (Composite) parent;
             }
         } else {
-            parentComposite = (Composite) SwtUtils.getParentWidget(guiBuilder.getCurrent(),
-                    properties);
+            parentComposite = (Composite) SwtUtils.getParentWidget(guiBuilder
+                    .getCurrent(), properties);
         }
         guiBuilder.setCurrent(parentComposite);
 
         // dispose children
         Boolean rebuild = (Boolean) properties.remove("rebuild");
-        if (parentComposite != null && rebuild != null && rebuild.booleanValue()) {
+        if (parentComposite != null && rebuild != null
+                && rebuild.booleanValue()) {
             SwtUtils.disposeChildren(parentComposite);
         }
 
@@ -84,10 +83,7 @@ public class RunScriptFactory extends AbstractSwtFactory implements SwtFactory {
         } catch (Exception e) {
             throw new GroovyException(e.getMessage());
         }
-        
-        if (result == null) {
-            throw new NullPointerException("Script returns null: " + src);
-        }
+
         return result;
     }
 

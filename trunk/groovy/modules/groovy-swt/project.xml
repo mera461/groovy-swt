@@ -32,16 +32,16 @@
   </developers>
   <dependencies>
 	<dependency>
-          <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.0.3</version>
-            <type>jar</type>
-            <properties/>
-        </dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.0.3</version>
+      <type>jar</type>
+      <properties/>
+    </dependency>
     <dependency>
       <groupId>groovy</groupId>
       <artifactId>groovy</artifactId>
-      <version>all-1.0-beta-9</version>
+      <version>all-1.0-jsr-06</version>
       <type>jar</type>
     </dependency>
     <dependency>
@@ -53,31 +53,43 @@
     <dependency>
       <groupId>swt</groupId>
       <artifactId>swt-${platform}</artifactId>
-      <version>3.1m5</version>
+      <jar>org.eclipse.swt.win32.win32.x86_3.2.0.v3232m.jar</jar>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>swt</groupId>
       <artifactId>jface</artifactId>
-      <version>3.1m5</version>
+      <jar>org.eclipse.jface_3.2.0.I20060605-1400.jar</jar>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>swt</groupId>
       <artifactId>forms</artifactId>
-      <version>3.1m5</version>
+      <jar>org.eclipse.ui.forms_3.2.0.v20060602.jar</jar>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>swt</groupId>
-      <artifactId>runtime</artifactId>
-      <version>3.1m5</version>
+      <artifactId>commands</artifactId>
+      <jar>org.eclipse.core.commands_3.2.0.I20060605-1400.jar</jar>
       <type>jar</type>
     </dependency>
     <dependency>
       <groupId>swt</groupId>
-      <artifactId>osgi-core</artifactId>
-      <version>3.1m5</version>
+      <artifactId>equinox</artifactId>
+      <jar>org.eclipse.equinox.common_3.2.0.v20060603.jar</jar>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>swt</groupId>
+      <artifactId>com.ibm.icu</artifactId>
+      <jar>com.ibm.icu_3.4.4.1.jar</jar>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>swt</groupId>
+      <artifactId>osgi</artifactId>
+      <jar>org.eclipse.osgi_3.2.0.v20060601.jar</jar>
       <type>jar</type>
     </dependency>
   </dependencies>

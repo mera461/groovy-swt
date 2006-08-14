@@ -3,12 +3,14 @@ package groovy.swt.examples
 import groovy.swt.SwtBuilder
 
 class TrayDemo {
+    
     @Property swt
+    @Property shell
         
-    void run() {
+    def run() {
         swt = new SwtBuilder()
         
-        def shell = swt.shell ( text:'The tray Demo' ) {
+        shell = swt.shell ( text:'The tray Demo' ) {
          	
          	def trayMenu = menu {
          		menuItem( text:"menuItem1" )
