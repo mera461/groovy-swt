@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src/main"/>
-	<classpathentry kind="src" path="src/examples"/>
-	<classpathentry output="target/test-classes" kind="src" path="src/test"/>
-	<classpathentry kind="var" path="MAVEN_REPO/junit/jars/junit-3.8.1.jar"/>
+	<classpathentry kind="src" output="target/examples" path="src/examples"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" output="target/test-classes" path="src/test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="var" path="MAVEN_REPO/commons-logging/jars/commons-logging-1.0.3.jar"/>
-	<classpathentry sourcepath="/TMP/groovy-1.0-jsr-06-src.zip" kind="var" path="MAVEN_REPO/groovy/jars/groovy-all-1.0-jsr-06.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/swt/jars/org.eclipse.swt.win32.win32.x86_3.2.0.v3232m.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/swt/jars/org.eclipse.jface_3.2.0.I20060605-1400.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/swt/jars/org.eclipse.ui.forms_3.2.0.v20060602.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/swt/jars/org.eclipse.core.commands_3.2.0.I20060605-1400.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/swt/jars/org.eclipse.equinox.common_3.2.0.v20060603.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/swt/jars/com.ibm.icu_3.4.4.1.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/swt/jars/org.eclipse.osgi_3.2.0.v20060601.jar"/>
+	<classpathentry exported="true" kind="con" path="GROOVY_SUPPORT"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
