@@ -3,44 +3,12 @@
 ================================================================
 == installing on windows
 ================================================================
-As the current swt libs are not on ibiblio you have to manually 
-install them. 
-I case you already have eclipse-3.1m5 installed, all the libs can be found in 
-the plugins directory. 
-
-copy 
-	eclipse/plugins/org.eclipse.swt.win32_3.1.0/ws/win32/swt.jar
-to 
-	maven/repository/swt/jars/swt-win32-3.1m5.jar
-
-
-copy 
-	eclipse/plugins/org.eclipse.jface_3.1.0/jface.jar
-to 
-	maven/repository/swt/jars/jface-3.1m5.jar
-	
-
-copy 
-	eclipse/plugins/org.eclipse.ui.forms_3.1.0/forms.jar
-to 
-	maven/repository/swt/jars/forms-3.1m5.jar	
-
-copy 
-	eclipse/plugins/org.eclipse.core.runtime_3.1.0/runtime.jar
-to 
-	maven/repository/swt/jars/runtime-3.1m5.jar	
-
-	
-copy 
-	eclipse/plugins/org.eclipse.osgi_3.1.0/core.jar
-to 
-	maven/repository/swt/jars/osgi-core-3.1m5.jar		
 
 copy
-	eclipse/plugins/org.eclipse.swt.win32_3.0.0/os/win32/x86/swt-awt-win32-3123.dll
 	eclipse/plugins/org.eclipse.swt.win32_3.0.0/os/win32/x86/swt-win32-3123.dll 
 to 
 	a directory in your system environment variable $PATH	
+
 (Alternatively you can run the examples by using the -Djava.library.path vm argument)
 
 All test cases will also fail when you do not have these libraries properly installed.
@@ -52,7 +20,44 @@ also contains most libraries but the forms.jar is missing.
 ================================================================
 == running the examples
 ================================================================
-The examples can be found in the src/examples subdirectory.
-For every example there is a java main class you can run.
+The examples can be found in the src/main/groovy subdirectory. If you run them
+from eclipse 3.3 the eclipse libraries are already on the path.
+
+If you want to run them from outside eclipse you need the following
+libraries on the path:
+- groovy-swt-0.3.jar
+- commands-3.3.0-I20070605-0010.jar
+- common-3.3.0-v20070426.jar
+- forms-3.3.0-v20070511.jar
+- jface-3.3.0-I20070606-0010.jar
+- runtime-3.3.100-v20070530.jar
+- swt-3.3.0-v3346.jar
+- x86-3.3.0-v3346.jar
+
+And the following dll on the path:
+- swt-win32-3347.dll
+	
+You can either copy them to the groovy/lib directory or include them on
+the classpath with
+	groovy -cp groovy-swt-0.2.jar;forms-3.3.0-v20070511.jar;jface-3.3.0-I20070606-0010.jar;runtime-3.3.100-v20070530.jar;common-3.3.0-v20070426.jar;x86-3.3.0-v3346.jar;commands-3.3.0-I20070605-0010.jar <Your file>.groovy
+
+
+
+================================================================
+== compiling it
+================================================================
+
+With new the maven 2 version it is no longer necessary to 
+maintain your local eclipse repository. There is a eclipse repository
+at repo1.maven.org, but it is not very consistent. Use the fornax 
+repository instead (it is slow, but consistent).
+
+Use the maven commands:
+mvn compile
+mvn test-compile
+mvn test
+mvn package
+
+To use eclipse you need the mavenide.
 
 
