@@ -3,7 +3,7 @@ package groovy.jface
 import groovy.jface.JFaceBuilder
 
 class JFaceBuilderTest1 {
-    property jface    
+    def jface    
     void run() {
         jface = new JFaceBuilder()
                
@@ -59,6 +59,7 @@ class JFaceBuilderTest1 {
 	        		fontFieldEditor( propertyName:"prop", title:"none" )
     	    		integerFieldEditor( propertyName:"prop", title:"none" )
     	    		stringFieldEditor( propertyName:"prop", title:"none" )
+    	    		radioGroupFieldEditor( propertyName:"prop", title:"none", numColumns:2, labelAndValues: [["label1", "value1"], ["label2", "value2"]] )
     	    	}
     	    }
 

@@ -3,7 +3,7 @@ package groovy.swt
 import groovy.swt.SwtBuilder
 
 class SwtBuilderTest1 {
-    @Property swt 
+    def swt 
     
     void run() {
         swt = new SwtBuilder()
@@ -13,11 +13,16 @@ class SwtBuilderTest1 {
         	caret()
 	        combo()
         	composite()
+        	coolBar() {
+       			coolItem()
+       		}
+       		dateTime()
         	scrolledComposite()
         	coolBar() {
 	        	coolItem()
 	        }
         	decorations()
+        	expandBar()
         	group()
         	label()
         	list()
@@ -31,6 +36,8 @@ class SwtBuilderTest1 {
 			sash()
 			scale()
 			slider()
+			spinner()
+			styledText()
 			tabFolder() {
 				tabItem()
 			}
@@ -42,6 +49,7 @@ class SwtBuilderTest1 {
 			toolBar(){
 				toolItem()
 			}
+			toolTip()
 			tracker()
 			tray() {
 				trayItem()
@@ -55,6 +63,7 @@ class SwtBuilderTest1 {
 			cTabFolder() {
 				cTabItem()
 			}
+			styledText()
 			tableTree() {
 				tableTreeItem()
 			}
@@ -105,7 +114,7 @@ class SwtBuilderTest1 {
 				statusTextListener()
 			}	
 			form(){
-				toolBarManager()
+				//TODO: toolBarManager()
 				
 				formButton()
 				formComposite()
@@ -131,4 +140,9 @@ class SwtBuilderTest1 {
 			scrolledForm()
         }
 	}
+    
+    public static void main(String[] args) {
+    	(new SwtBuilderTest1()).run()
+    }
+    
 }
