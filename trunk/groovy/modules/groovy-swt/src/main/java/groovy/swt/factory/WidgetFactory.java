@@ -12,6 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import org.codehaus.groovy.GroovyException;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -145,6 +146,17 @@ public class WidgetFactory extends AbstractSwtFactory implements SwtFactory {
             } else {
                 shell.setMenu(menu);
             }
+        } else if (bean instanceof Menu && parent instanceof Viewer){
+        	Menu menu = (Menu) bean;
+        	Control control = ((Viewer) parent).getControl();
+        	control.setMenu(menu);
+        }
+        // Try to add menu to control
+        // other possibilities to adda menu should be checked before
+        else if (bean instanceof Menu && parent instanceof Control) {
+        	Menu menu = (Menu) bean;
+        	Control control = (Control) parent;
+        	control.setMenu(menu);
         }
     }
 
