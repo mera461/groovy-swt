@@ -24,6 +24,22 @@ public class WizardDialogImpl extends WizardDialog implements ClosureSupport {
     public WizardDialogImpl(Shell parentShell, IWizard newWizard) {
         super(parentShell, newWizard);
         this.parentShell = parentShell;
+        /*********** TODO: Do we really want to do this
+        Display display = Display.getDefault( );
+                   
+        // add a global listener for key down events
+        // call cancelPressed if esc key is hit
+        display.addFilter(SWT.KeyDown, new Listener() {
+            public void handleEvent(Event event) {
+            	if (event.keyCode == SWT.ESC) {
+            		cancelPressed();
+            	}
+            }
+        }); 
+
+         */
+        
+        
     }
 
     public IWizard getWizard() {
@@ -47,4 +63,31 @@ public class WizardDialogImpl extends WizardDialog implements ClosureSupport {
     public void setClosure(Closure closure) {
         this.closure = closure;
     }
+
+    /********* TODO: Do we really want to do this?
+    protected void buttonPressed(int buttonId) {
+    	switch (buttonId) {
+        case IDialogConstants.HELP_ID: {
+            helpPressed();
+            break;
+        }
+        case IDialogConstants.BACK_ID: {
+        	((WizardPageImpl)this.getCurrentPage()).backPressed();
+            backPressed();
+            break;
+        }
+        case IDialogConstants.NEXT_ID: {
+        	((WizardPageImpl)this.getCurrentPage()).nextPressed();
+            nextPressed();
+            break;
+        }
+        case IDialogConstants.FINISH_ID: {
+            finishPressed();
+            break;
+        }
+        // The Cancel button has a listener which calls cancelPressed directly
+    	}
+    	*/
+
+
 }
