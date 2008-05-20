@@ -1,3 +1,4 @@
+package groovy.swt.scrapbook
 
 builder.composite( parent ) {
 
