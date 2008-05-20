@@ -10,10 +10,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.groovy.GroovyException;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.ExpandItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Widget;
@@ -149,13 +151,127 @@ public class SwtUtils {
             return ((CTabItem) parent).getParent();
         } else if (parent instanceof TabItem) {
             return ((TabItem) parent).getParent();
+        } else if (parent instanceof ExpandItem) {
+        	return ((ExpandItem) parent).getParent();
         } else if (parent instanceof Widget) {
             return (Widget) parent;
         } else if (parent instanceof TableViewer) {
             return ((TableViewer) parent).getTable();
+        } else if (parent instanceof TreeViewer){
+        	return ((TreeViewer) parent).getControl();
         } else {
             return parent;
         }
     }
+
+    
+    /**
+	 * Parse the given String and returns the static String defined in constantClass
+	 * @param constantClass
+	 * @param text
+	 * @return String
+	 */
+	public static String parseString(Class pConstantClass, String pText) throws GroovyException{
+		return parseString(pConstantClass, pText, true);
+	}
+	
+	
+	/**
+	 * Parse the given String and returns the static String defined in constantClass
+	 * @param constantClass
+	 * @param text
+	 * @param toUpperCase
+	 * @return String
+	 */
+	public static String parseString(Class pConstantClass, String pText, boolean pToUpperCase) throws GroovyException{
+		String ret = "";
+		if (pText != null) {
+            if (pToUpperCase) {
+                pText = pText.toUpperCase();
+            }
+            
+            try {
+                Field field = pConstantClass.getField(pText);
+                if (field == null) {
+                    log.warn("Unknown code: " + pText + " will be ignored");
+                    return "";
+                }
+                return field.get(pText).toString();
+            } catch (NoSuchFieldException e) {
+                throw new GroovyException("The value: " + pText + " is not understood ");
+            } catch (IllegalAccessException e) {
+                throw new GroovyException("The value: " + pText + " is not understood");
+            }
+        }
+		return ret;
+	}
+	
+	/**
+	 * Parse the given String and returns the static String defined in constantClass
+	 * String can be comma-delimited. Each value will be parsed.
+	 * @param constantClass
+	 * @param text
+	 * @return String[]
+	 */
+	public static String[] parseStringArray(Class pConstantClass, String pText) throws GroovyException{
+		return parseStringArray(pConstantClass, pText, true);
+	}
+	
+	/**
+	 * Parse the given String and returns the static String defined in constantClass
+	 * String can be comma-delimited. Each value will be parsed.
+	 * @param constantClass
+	 * @param text
+	 * @param toUpperCase
+	 * @return String[]
+	 */
+	public static String[] parseStringArray(Class pConstantClass, String pText, boolean pToUpperCase) throws GroovyException{
+		String[] ret = null;
+		int i = 0;
+		if (pText != null) {
+            if (pToUpperCase) {
+                pText = pText.toUpperCase();
+            }
+            StringTokenizer enumeration = new StringTokenizer(pText, ",");
+            ret = new String[enumeration.countTokens()];
+            while (enumeration.hasMoreTokens()) {
+            	String token = enumeration.nextToken().trim();
+            	ret[i] = new String() ;
+            	ret[i] = parseString(pConstantClass, token, pToUpperCase);
+            	i++;
+        	}
+        }
+		return ret;
+	}
+	
+	
+	/**
+	 * Parses the given String and returns the corresponding Object.
+	 * @param pConstantClass
+	 * @param pText
+	 * @param pToUpperCase
+	 * @return Object
+	 * @throws GroovyException
+	 */
+	public static Object parseObject(Class pConstantClass, String pText, boolean pToUpperCase) throws GroovyException{
+		if (pText != null) {
+            if (pToUpperCase) {
+                pText = pText.toUpperCase();
+            }
+            try {
+                Field field = pConstantClass.getField(pText);
+                if (field == null) {
+                    log.warn("Unknown code: " + pText + " will be ignored");
+                    return null;
+                }
+                return field.get(pText);
+            } catch (NoSuchFieldException e) {
+                throw new GroovyException("The value: " + pText + " is not understood ");
+            } catch (IllegalAccessException e) {
+                throw new GroovyException("The value: " + pText + " is not understood");
+            }
+        }
+		return null;
+	}
 
 }
