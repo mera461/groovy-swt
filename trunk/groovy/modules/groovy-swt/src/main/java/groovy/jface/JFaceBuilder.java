@@ -6,6 +6,7 @@ package groovy.jface;
 
 import groovy.jface.factory.ContributionManagerFactory;
 import groovy.jface.factory.DoubleClickListenerFactory;
+import groovy.jface.factory.JFaceImageFactory;
 import groovy.jface.factory.MenuManagerFactory;
 import groovy.jface.factory.PreferencesDialogFactory;
 import groovy.jface.factory.PreferencesFieldEditorFactory;
@@ -18,8 +19,8 @@ import groovy.jface.factory.WizardDialogFactory;
 import groovy.jface.factory.WizardPageFactory;
 import groovy.jface.impl.ActionImpl;
 import groovy.jface.impl.ApplicationWindowImpl;
+import groovy.jface.impl.WindowImpl;
 import groovy.swt.SwtBuilder;
-import groovy.swt.factory.ImageFactory;
 
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.preference.BooleanFieldEditor;
@@ -56,8 +57,8 @@ public class JFaceBuilder extends SwtBuilder {
 
         // Window
         registerFactory("applicationWindow", new WindowFactory(ApplicationWindowImpl.class));
-        //        registerFactory("window", new WindowFactory(
-        //                WindowImpl.class));
+        // Simple window
+        registerFactory("window", new WindowFactory(WindowImpl.class));
 
         // ContributionManager
         registerFactory("menuManager", new MenuManagerFactory());
@@ -93,6 +94,6 @@ public class JFaceBuilder extends SwtBuilder {
                 StringFieldEditor.class));
 
         // other
-        registerFactory("image", new ImageFactory());
+        registerFactory("image", new JFaceImageFactory());
     }
 }
