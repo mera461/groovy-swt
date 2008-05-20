@@ -18,6 +18,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.ExpandItem;
 
 /**
  * @author <a href="mailto:ckl@dacelo.nl">Christiaan ten Klooster </a>
@@ -57,6 +58,11 @@ public abstract class AbstractSwtFactory {
                 Color foreground = getColor(control, colorValue);
                 control.setForeground(foreground);
             }
+        } else if (bean instanceof ExpandItem){
+        	Integer height = (Integer)properties.remove("height");
+        	if (height != null){
+        		((ExpandItem) bean).setHeight(height.intValue());
+        	}
         }
 
         for (Iterator iter = properties.entrySet().iterator(); iter.hasNext();) {
