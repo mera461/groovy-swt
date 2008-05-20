@@ -8,6 +8,7 @@ import groovy.lang.MissingPropertyException;
 import groovy.swt.InvalidParentException;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Map;
 
 import org.codehaus.groovy.GroovyException;
@@ -45,8 +46,11 @@ public class ImageFactory extends AbstractSwtFactory implements SwtFactory {
         if (imageFile.exists()) {
         	image = new Image(Display.getCurrent(), src);
         } else {
-       		image = new Image(Display.getCurrent(), ImageFactory.class.getClassLoader()
-        				.getResourceAsStream(src));
+        	InputStream resourceAsStream = ImageFactory.class.getClassLoader().getResourceAsStream(src);
+        	if (resourceAsStream == null) {
+                throw new GroovyException("Can not open the given image with src="+src);
+        	}
+       		image = new Image(Display.getCurrent(), resourceAsStream);
         }
 
         setImage(parent, image);
