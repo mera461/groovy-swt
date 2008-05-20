@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>groovy-swt</groupId>
   <artifactId>groovy-swt</artifactId>
-  <version>0.3</version>
+  <version>0.4</version>
   <description></description>
   <repositories>
     <repository>
@@ -36,7 +36,7 @@
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy-all</artifactId>
-      <version>1.5.3</version>
+      <version>1.5.6</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -93,11 +93,11 @@
   <build>
     <sourceDirectory>src/main</sourceDirectory>
     
-    <resources>
-    	<resource>
+    <testResources>
+    	<testResource>
     		<directory>src/examples/resources</directory>
-    	</resource>
-    </resources>
+    	</testResource>
+    </testResources>
     
   	<plugins>
   		<plugin>
