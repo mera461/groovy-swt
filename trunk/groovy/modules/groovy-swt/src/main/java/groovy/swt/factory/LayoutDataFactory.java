@@ -11,6 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import org.codehaus.groovy.GroovyException;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Control;
 
 
@@ -44,6 +45,10 @@ public class LayoutDataFactory extends AbstractSwtFactory implements SwtFactory{
 
         if (parent instanceof Control) {
             Control control = (Control) parent;
+            control.setLayoutData(bean);
+        }
+        else if (parent instanceof Viewer) {
+        	Control control = ((Viewer)parent).getControl();
             control.setLayoutData(bean);
         }
 
