@@ -26,7 +26,9 @@ public class PreferenceDialogImpl extends PreferenceDialog implements
 
     protected void handleSave() {
         super.handleSave();
-        closure.call();
+        if (closure!=null) {
+        	closure.call();
+        }
     }
 
     /*
