@@ -17,7 +17,8 @@ class WizardDemo {
 
 		mainapp = jface.applicationWindow() { 	
 		
-  			wizardDialog1 = wizardDialog() {
+  			wizardDialog1 = wizardDialog(performFinish: {return onPerformFinish()},
+  										 performCancel: {return onPerformCancel()}) {
   			
 				wizardPage1 = wizardPage( title:"Step 1", description:"Step 1", closure: { parent ->
 					jface.composite( parent ) {
@@ -66,21 +67,23 @@ class WizardDemo {
 				})	
 			} 
 				
-  			wizardDialog1.getWizard().setClosure(
-  					{action-> 
-  						action.equals("FINISH") ? onPerformFinish() : onPerformCancel();
-  					})
+//  			wizardDialog1.getWizard().setClosure(
+//  					{action-> 
+//  						action.equals("FINISH") ? onPerformFinish() : onPerformCancel();
+//  					})
   			wizardDialog1.open()
 			wizardPage1.setPageComplete(false)
 		}
 	}
 	
-	void onPerformFinish() {
+	boolean onPerformFinish() {
 		println "The real onPerformFinish called ..."
+		return true;
 	}	 
 
-	void onPerformCancel() {
-		println "The real onPerformCancel called ......"
+	boolean onPerformCancel() {
+		println "The real onPerformCancel called. Try again....."
+		return false;
 	}
 
     public static void main(String[] args) {

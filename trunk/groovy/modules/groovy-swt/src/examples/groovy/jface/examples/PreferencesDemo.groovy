@@ -7,13 +7,14 @@ class PreferencesDemo {
     def jface
     def mainapp
     def pd
+    def p1
     
     def run() {
         jface = new JFaceBuilder()
 		
         mainapp = jface.applicationWindow() { 	        
 			pd = preferenceDialog() {
-				preferencePage( title:"General settings", filename:"settings.props" ) { 
+				p1 = preferencePage( title:"General settings", filename:"settings.props" ) { 
 					booleanFieldEditor (propertyName:"var1", title:"It's boolean" )
 					colorFieldEditor( propertyName:"var2", title:"MainColor" )
 					directoryFieldEditor(propertyName:"var3", title:"Directory"	)
@@ -21,7 +22,15 @@ class PreferencesDemo {
 					fontFieldEditor( propertyName:"var5", title:"Font" )
 					integerFieldEditor( propertyName:"var6", title:"Integer" )
 					stringFieldEditor( propertyName:"var7", title:"String" )
+					radioGroupFieldEditor( propertyName:"Burger with group", title:"Burger size:", numColumns: 3, useGroup: true,
+    						labelAndValues: [["Small", "0"], ["Big", "1"], ["HUGE", "2"]])
+    				radioGroupFieldEditor( propertyName:"Cola without group", title:"Cola size:", numColumns: 3, useGroup: false,
+    	    				labelAndValues: [["Small", "0"], ["Big", "1"], ["HUGE", "2"]])
+    	    		radioGroupFieldEditor( propertyName:"shake without group", title:"Shake size:", numColumns: 2, useGroup: true,
+    	    	    		labelAndValues: [["Small", "0"], ["Big", "1"], ["XL", "2"], ["HUGE", "3"]])
 				} 								
+				p1.noDefaultAndApplyButton()
+
 				preferencePage( title:"Personal settings", filename:"settings.props" ) { 
 					booleanFieldEditor( propertyName:"var8", title:"It's boolean" )
 					colorFieldEditor( propertyName:"var2", title:"MainColor" )

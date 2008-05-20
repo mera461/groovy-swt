@@ -14,7 +14,7 @@ class TabDemo {
         shell = swt.shell ( text:'The Tab Demo', size:[500,400] ) {
          	gridLayout()
 
-			cTabFolder( style:"flat" ) {
+			cTabFolder( style:"BOTTOM" ) {
 				gridData( style:"fill_both" )
 				cTabItem( style:"none", text:"Item1" ) {
 					text( style:"border, multi", text:"Content for Item1" ) 
@@ -23,11 +23,15 @@ class TabDemo {
 					text( style:"border, multi", text:"Content for Item2" ) 
 				}
 				cTabItem( style:"none", text:"Item3" ) {
-					text( style:"border, multi", text:"Content for Item3" ) 
+					composite(){
+						fillLayout()
+					    text( style:"border, multi", text:"Content for Item3" ) 
+						button(text:"ok")
+					}
 				}
 			}
 			
-			tabFolder( style:"none" ) {
+			tabFolder( style:"NONE" ) {
 				gridData( style:"fill_both" )
 				tabItem( style:"none", text:"Item4" ) {
 					text( style:"border, multi", text:"Content for Item4" ) 
@@ -50,7 +54,7 @@ class TabDemo {
 			}
 		}
 			
-	}
+        }
     
     public static void main(String[] args) {
     	new TabDemo().run();

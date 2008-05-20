@@ -28,7 +28,7 @@ class ApplicationWindowDemo {
 				label( text:"It sure looks like the dutch flag", foreground:[0,0,150], background:[0, 0, 153] )	
 		}
   
-		mainapp.menuBarManager.updateAll( true )
+		mainapp.getMenuBarManager().updateAll( true )
 		mainapp.getShell().layout()
 		mainapp.open()
 	}
