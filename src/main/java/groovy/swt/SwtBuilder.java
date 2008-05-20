@@ -5,7 +5,10 @@
 package groovy.swt;
 
 import groovy.lang.Closure;
+import groovy.swt.factory.ArrayTableFactory;
 import groovy.swt.factory.AwtSwtFactory;
+import groovy.swt.factory.DragSourceFactory;
+import groovy.swt.factory.DropTargetFactory;
 import groovy.swt.factory.Fontfactory;
 import groovy.swt.factory.FormFactory;
 import groovy.swt.factory.FormLayoutDataFactory;
@@ -13,6 +16,7 @@ import groovy.swt.factory.ImageFactory;
 import groovy.swt.factory.LayoutDataFactory;
 import groovy.swt.factory.LayoutFactory;
 import groovy.swt.factory.ListenerFactory;
+import groovy.swt.factory.SwtContainer;
 import groovy.swt.factory.SwtFactory;
 import groovy.swt.factory.TrayFactory;
 import groovy.swt.factory.WidgetFactory;
@@ -34,11 +38,14 @@ import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.custom.PopupList;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.custom.TableTree;
 import org.eclipse.swt.custom.TableTreeItem;
+import org.eclipse.swt.custom.TreeEditor;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
@@ -57,6 +64,7 @@ import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Decorations;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.ExpandBar;
+import org.eclipse.swt.widgets.ExpandItem;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.FontDialog;
 import org.eclipse.swt.widgets.Group;
@@ -191,7 +199,11 @@ public class SwtBuilder extends BuilderSupport {
 
         // widgets
         registerFactory("awtFrame", new AwtSwtFactory());
-        registerBeanFactory("button", Button.class, SWT.BORDER | SWT.PUSH | SWT.CENTER);
+        registerBeanFactory("button", Button.class, SWT.PUSH | SWT.CENTER);
+        // Radiobutton
+        registerBeanFactory("radioButton", Button.class, SWT.RADIO);
+        //CheckBox
+        registerBeanFactory("checkBox", Button.class, SWT.CHECK);
         registerBeanFactory("canvas", Canvas.class);
         registerBeanFactory("caret", Caret.class);
         registerBeanFactory("combo", Combo.class, SWT.DROP_DOWN);
@@ -206,8 +218,13 @@ public class SwtBuilder extends BuilderSupport {
         registerFactory("font", new Fontfactory());
         registerBeanFactory("group", Group.class);
         registerBeanFactory("label", Label.class, SWT.HORIZONTAL | SWT.SHADOW_IN);
-		registerBeanFactory("link", Link.class);
+        // line label
+        registerBeanFactory("line", Label.class, SWT.SEPARATOR| SWT.HORIZONTAL|SWT.BOLD );
+       
+        registerBeanFactory("link", Link.class);
         registerBeanFactory("list", List.class);
+        registerBeanFactory("multi_list", List.class, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
+
         registerBeanFactory("menu", Menu.class, SWT.DEFAULT);
         //        registerMenuTag("menuBar", SWT.BAR);
 
@@ -224,9 +241,15 @@ public class SwtBuilder extends BuilderSupport {
         registerBeanFactory("tabFolder", TabFolder.class);
         registerBeanFactory("tabItem", TabItem.class);
         registerBeanFactory("table", Table.class, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
+        // Table with checkbox
+        registerBeanFactory("check_table", Table.class, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION | SWT.CHECK);
         registerBeanFactory("tableColumn", TableColumn.class);
+
         registerBeanFactory("tableItem", TableItem.class);
-        registerBeanFactory("text", Text.class);
+        registerBeanFactory("text", Text.class, SWT.BORDER);
+        //textArea 
+        registerBeanFactory("textArea", Text.class, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
+
         registerBeanFactory("toolBar", ToolBar.class, SWT.VERTICAL);
         registerBeanFactory("toolItem", ToolItem.class);
         registerBeanFactory("toolTip", ToolTip.class, SWT.VERTICAL);
@@ -246,6 +269,12 @@ public class SwtBuilder extends BuilderSupport {
         registerBeanFactory("styledText", StyledText.class);
         registerBeanFactory("tableTree", TableTree.class);
         registerBeanFactory("tableTreeItem", TableTreeItem.class);
+        registerBeanFactory("styleRange", StyleRange.class);
+        registerBeanFactory("popupList", PopupList.class);
+        registerBeanFactory("treeEditor", TreeEditor.class);
+        // ExpandBar
+        registerBeanFactory("expandBar", ExpandBar.class);
+        registerBeanFactory("expandItem", ExpandItem.class);
 
         // layouts
         registerFactory("fillLayout", new LayoutFactory(FillLayout.class));
@@ -307,10 +336,20 @@ public class SwtBuilder extends BuilderSupport {
         registerFactory("hyperlinkListener", new ListenerFactory(IHyperlinkListener.class));
         registerFactory("expansionListener", new ListenerFactory(IExpansionListener.class));
 
+        // Array Table
+        registerFactory("arrayTable", new ArrayTableFactory());
+        
+        // SWT Container
+        registerFactory("swt", new SwtContainer());
+
         // none eclipse widgets
         // registerBeanFactory("tDateText", TDateText.class);
         // registerBeanFactory("tCalendar", TCalendar.class);
         // registerBeanFactory("textEditor", TextEditor.class);
+        // Drag and drop support
+        registerFactory("dragSource", new DragSourceFactory());
+        registerFactory("dropTarget", new DropTargetFactory());
+
     }
 
     /*
