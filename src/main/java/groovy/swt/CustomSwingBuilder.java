@@ -29,8 +29,9 @@ public class CustomSwingBuilder extends SwingBuilder {
      * @see groovy.util.BuilderSupport#setCurrent(java.lang.Object)
      */
     public void setCurrent(Object current) {
-    	throw new RuntimeException("Not supported in this build.");
-        //TODO: super.setCurrent(current);
+	    throw new RuntimeException("Not supported in this build.");
+    	// TODO:
+        //super.setCurrent(current);
     }
     
 }
