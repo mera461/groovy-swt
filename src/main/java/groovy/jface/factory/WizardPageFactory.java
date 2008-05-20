@@ -49,8 +49,7 @@ public class WizardPageFactory extends AbstractSwtFactory implements SwtFactory 
         setBeanProperties(page, properties);
 
         // get Wizard
-        WizardDialogImpl dialog = (WizardDialogImpl) parent;
-        Wizard wizard = (Wizard) dialog.getWizard();
+        Wizard wizard = (Wizard) wizardDialog.getWizard();
 
         // add WizardPage to the Wizard
         wizard.addPage(page);
