@@ -1,5 +1,15 @@
 - Getting started
 
+Thanks to Alexander Becher for lots of updates.
+
+================================================================
+== Platforms
+================================================================
+
+GroovySWT is platform independent, but SWT is not. So if you are on 
+another platform than windows then you need to download the appropriate
+version of SWT for your platform and include the libraries. 
+
 ================================================================
 == installing on windows
 ================================================================
@@ -33,6 +43,11 @@ libraries on the path:
 - runtime-3.3.100-v20070530.jar
 - swt-3.3.0-v3346.jar
 - x86-3.3.0-v3346.jar
+
+If you use the forms (see groovy.swt.examples.FormDemo) you also need:
+- org.eclipse.osgi_3.3.2.R33x_v20080105.jar 
+- com.ibm.icu_3.6.1.v20070906.jar 
+
 
 And the following dll on the path:
 - swt-win32-3347.dll
