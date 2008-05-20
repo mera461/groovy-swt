@@ -29,8 +29,18 @@ public class WizardDialogFactory extends AbstractSwtFactory implements SwtFactor
      */
     public Object newInstance(Map properties, Object parent) throws GroovyException {
         Shell parentShell = SwtUtils.getParentShell(parent);
-        Wizard wizard = new WizardImpl();
+
+        // get performFinish and performCancel closures for the wizard.
+        // both closures must return boolean
+        // if false is returned by finish/cancel the wizard isn't closed
+        // see org.eclipse.jface.wizard.IWizard#performFinish()
+        // see org.eclipse.jface.wizard.IWizard#performCancel()
+       	Wizard wizard = new WizardImpl(properties.get("performFinish"), properties.get("performCancel"));
+       	// get the property text which will be used for the wizard's title
+        String text = (String) properties.get("text");
+       	wizard.setWindowTitle(text);
+       	
         WizardDialog wizardDialog = new WizardDialogImpl(parentShell, wizard);
-        return wizardDialog;
+        return wizardDialog; 
     }
 }

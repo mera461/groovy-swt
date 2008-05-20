@@ -5,8 +5,8 @@
 package groovy.jface.impl;
 
 import groovy.lang.Closure;
-import groovy.swt.ClosureSupport;
 
+import groovy.swt.ClosureSupport;
 import org.eclipse.jface.wizard.Wizard;
 
 /**
@@ -17,35 +17,63 @@ import org.eclipse.jface.wizard.Wizard;
  */
 public class WizardImpl extends Wizard implements ClosureSupport{
     private Closure closure;
+    private Closure finish;
+    private Closure cancel;
+    
     public WizardImpl() {
         super();
         setNeedsProgressMonitor(true);
     }
-
+    
+    
+    public WizardImpl(Object onfinish, Object oncancel) {
+    	super();
+    	this.finish = (Closure) onfinish;
+    	this.cancel  = (Closure) oncancel;
+        setNeedsProgressMonitor(true);
+    }
+    
     /* 
-     * TODO implements this
+     * New implementation of performCancel()
+     * return true if no closure was defined for performCancel
+     * 
+     * standard text output for testing purpose
      * 
      * @see org.eclipse.jface.wizard.IWizard#performCancel()
      */
     public boolean performCancel() {
-        System.out.println("performCancel ...");
-        if (closure!=null) {
-        	closure.call("CANCEL");
+    	if (cancel == null) {
+        	return true;
         }
-        return true;
+    	// workaround since closures return Object and we need boolean 
+    	
+        Boolean bool = Boolean.valueOf(true);
+        if (bool.equals(cancel.call() )) {
+        	return true;
+        }
+        return false;
     }
 
     /* 
-     * TODO implements this
+     * New implementation of performFinish()
+     * standard text output for testing purpose
+     * 
+     * Should performFinish return true if no method was implemented?
+     * atm its returning false
      * 
      * @see org.eclipse.jface.wizard.IWizard#performFinish()
      */
     public boolean performFinish() {
-        System.out.println("performFinish ...");
-        if (closure!=null) {
-        	closure.call("FINISH");
+        
+        if (finish == null) {
+        	return false;
         }
-        return true;
+        // workaround since closures return Object and we need boolean
+        Boolean bool = Boolean.TRUE;
+        if (bool.equals(finish.call() )) {
+        	return true;
+        }
+        return false;
     }
 
     /*

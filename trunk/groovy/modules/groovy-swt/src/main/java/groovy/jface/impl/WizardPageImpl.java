@@ -19,7 +19,9 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class WizardPageImpl extends WizardPage implements ClosureSupport {
     private Closure closure;
-
+    private Closure nextPressed;
+    private Closure backPressed; 
+    
     public WizardPageImpl(String title) {
         super(title);
     }
@@ -40,4 +42,43 @@ public class WizardPageImpl extends WizardPage implements ClosureSupport {
     public void setClosure(Closure closure) {
         this.closure = closure;
     }
+    
+    public void nextPressed() {
+    	if (nextPressed != null)
+    		nextPressed.call();
+    }
+    
+    public void backPressed() {
+    	if (backPressed != null)
+    		backPressed.call();
+    }
+
+	/**
+	 * @return the nextPressed
+	 */
+	public Closure getNextPressed() {
+		return nextPressed;
+	}
+
+	/**
+	 * @param nextPressed the nextPressed to set
+	 */
+	public void setNextPressed(Closure nextPressed) {
+		this.nextPressed = nextPressed;
+	}
+
+	/**
+	 * @return the backPressed
+	 */
+	public Closure getBackPressed() {
+		return backPressed;
+	}
+
+	/**
+	 * @param backPressed the backPressed to set
+	 */
+	public void setBackPressed(Closure backPressed) {
+		this.backPressed = backPressed;
+	}     
+    
 }
