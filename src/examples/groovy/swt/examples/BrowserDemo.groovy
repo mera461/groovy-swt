@@ -46,6 +46,9 @@ class BrowserSwtDemo extends Script {
         	label( style:"none", text:"Address" )
         	location = text( style:"border" ) {  
 	        	gridData( style:"fill_horizontal", horizontalSpan:2, grabExcessHorizontalSpace:true )
+	        	onEvent(type:"DefaultSelection", closure: {
+	        		browser.setUrl( location.getText() ) 
+	        		})
         	}
 
 

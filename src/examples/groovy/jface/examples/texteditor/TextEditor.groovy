@@ -51,37 +51,37 @@ public class TextEditor implements ExtendedModifyListener {
 	     	}
 	     	toolBar( style:"none" ) {
         		boldButton = toolItem(style:"check", toolTipText:"Bold") {
-        			image( src:"src/examples/groovy/swt/examples/TextEditor/bold.png" ) 
+        			image( src:"bold.png" ) 
         			onEvent(type:"Selection", closure:{setStyle(it.widget)}) 
         		}
         		italicButton = toolItem(style:"check", toolTipText:"Italic") {
-        			image( src:"src/examples/groovy/swt/examples/TextEditor/italic.png" ) 
+        			image( src:"italic.png" ) 
         			onEvent(type:"Selection", closure:{setStyle(it.widget)}) 
         		}
         		underlineButton = toolItem(style:"check", toolTipText:"Underline") {
-        			image( src:"src/examples/groovy/swt/examples/TextEditor/underline.png" ) 
+        			image( src:"underline.png" ) 
         			onEvent(type:"Selection", closure:{setStyle(it.widget)}) 
         		}
         		strikeoutButton = toolItem(style:"check", toolTipText:"Strikeout") {
-        			image( src:"src/examples/groovy/swt/examples/TextEditor/strikeout.png" ) 
+        			image( src:"strikeout.png" ) 
         			onEvent(type:"Selection", closure:{setStyle(it.widget)}) 
         		}
         		toolItem(style:"separator")
         		toolItem(style:"push", toolTipText:"Red text") {
-        			image( src:"src/examples/groovy/swt/examples/TextEditor/red.png" ) 
+        			image( src:"red.png" ) 
         			onEvent(type:"Selection", closure:{fgColor(RED)}) 
         		}
         		toolItem(style:"push", toolTipText:"Blue text") {
-        			image( src:"src/examples/groovy/swt/examples/TextEditor/blue.png" ) 
+        			image( src:"blue.png" ) 
         			onEvent(type:"Selection", closure:{fgColor(BLUE)}) 
         		}
         		toolItem(style:"push", toolTipText:"Green text") {
-        			image( src:"src/examples/groovy/swt/examples/TextEditor/green.png" ) 
+        			image( src:"green.png" ) 
         			onEvent(type:"Selection", closure:{fgColor(GREEN)}) 
         		}
         		toolItem(style:"separator")
         		toolItem(style:"push", toolTipText:"Clear formatting") {
-        			image( src:"src/examples/groovy/swt/examples/TextEditor/erase.png" ) 
+        			image( src:"erase.png" ) 
         			onEvent(type:"Selection", closure:{clear()}) 
         		}
 	     	}        		

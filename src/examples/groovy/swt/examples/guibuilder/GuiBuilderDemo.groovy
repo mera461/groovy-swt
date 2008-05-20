@@ -61,7 +61,7 @@ class ApplicationGuiDemo {
 			
 		}
 		
-		mainapp.menuBarManager.updateAll(true)
+		mainapp.getMenuBarManager().updateAll(true)
 		mainapp.open()
 	}
 }

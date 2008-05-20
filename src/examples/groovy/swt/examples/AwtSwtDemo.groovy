@@ -21,7 +21,7 @@ class AwtSwtDemo {
          	composite ( style:"border, embedded" ) {
          		fillLayout()
          	
-	         	swing.current = awtFrame()
+	         	//swing.awtFrame()
 				swing.tree()
 			}
         }
