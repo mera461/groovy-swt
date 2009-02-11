@@ -6,13 +6,11 @@ package groovy.jface.factory;
 
 import groovy.lang.Closure;
 import groovy.swt.ClosureSupport;
-import groovy.swt.InvalidParentException;
 import groovy.swt.factory.AbstractSwtFactory;
-import groovy.swt.factory.SwtFactory;
+import groovy.util.FactoryBuilderSupport;
 
 import java.util.Map;
 
-import org.codehaus.groovy.GroovyException;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
@@ -25,22 +23,20 @@ import org.eclipse.jface.viewers.Viewer;
  * @version $Revision: 1556 $
  */
 public class SelectionChangedListenerFactory extends AbstractSwtFactory
-        implements SwtFactory, ISelectionChangedListener, ClosureSupport {
+        implements ISelectionChangedListener, ClosureSupport {
 
     private Closure closure;
 
-    /*
-     * @see groovy.swt.factory.AbstractSwtFactory#newInstance(java.util.Map,
-     *           java.lang.Object)
-     */
-    public Object newInstance(Map properties, Object parent)
-            throws GroovyException {
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+		Object parent = builder.getCurrent();
 
         if (parent instanceof Viewer) {
             Viewer viewer = (Viewer) parent;
             viewer.addSelectionChangedListener(this);
         } else {
-            throw new InvalidParentException("viewer");
+            throw new InstantiationException("The parent of a SelectionChangedListenermust be a Viewer");
         }
         
         return this; 

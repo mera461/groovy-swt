@@ -1,6 +1,7 @@
 package groovy.swt;
 
 import groovy.jface.impl.ApplicationWindowImpl;
+import groovy.lang.GroovyRuntimeException;
 
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -8,7 +9,6 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.codehaus.groovy.GroovyException;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.ApplicationWindow;
@@ -44,7 +44,7 @@ public class SwtUtils {
      * @param text is a comma delimited text value such as "border, resize"
      * @return the int code
      */
-    public static int parseStyle(Class constantClass, String text) throws GroovyException {
+    public static int parseStyle(Class constantClass, String text) {
         return parseStyle(constantClass, text, true);
     }
 
@@ -59,8 +59,7 @@ public class SwtUtils {
      * 
      * @return the int code
      */
-    public static int parseStyle(Class constantClass, String text, boolean toUpperCase)
-            throws GroovyException {
+    public static int parseStyle(Class constantClass, String text, boolean toUpperCase) {
         int answer = 0;
         if (text != null) {
             if (toUpperCase) {
@@ -79,7 +78,7 @@ public class SwtUtils {
      * @return the code for the given word or zero if the word doesn't match a
      * valid style
      */
-    public static int getStyleCode(Class constantClass, String text) throws GroovyException {
+    public static int getStyleCode(Class constantClass, String text) {
         try {
             Field field = constantClass.getField(text);
             if (field == null) {
@@ -88,9 +87,9 @@ public class SwtUtils {
             }
             return field.getInt(null);
         } catch (NoSuchFieldException e) {
-            throw new GroovyException("The value: " + text + " is not understood ");
+            throw new GroovyRuntimeException("The value: " + text + " is not understood ");
         } catch (IllegalAccessException e) {
-            throw new GroovyException("The value: " + text + " is not understood");
+            throw new GroovyRuntimeException("The value: " + text + " is not understood");
         }
     }
 
@@ -171,7 +170,7 @@ public class SwtUtils {
 	 * @param text
 	 * @return String
 	 */
-	public static String parseString(Class pConstantClass, String pText) throws GroovyException{
+	public static String parseString(Class pConstantClass, String pText) {
 		return parseString(pConstantClass, pText, true);
 	}
 	
@@ -183,7 +182,7 @@ public class SwtUtils {
 	 * @param toUpperCase
 	 * @return String
 	 */
-	public static String parseString(Class pConstantClass, String pText, boolean pToUpperCase) throws GroovyException{
+	public static String parseString(Class pConstantClass, String pText, boolean pToUpperCase) {
 		String ret = "";
 		if (pText != null) {
             if (pToUpperCase) {
@@ -198,9 +197,9 @@ public class SwtUtils {
                 }
                 return field.get(pText).toString();
             } catch (NoSuchFieldException e) {
-                throw new GroovyException("The value: " + pText + " is not understood ");
+                throw new GroovyRuntimeException("The value: " + pText + " is not understood ");
             } catch (IllegalAccessException e) {
-                throw new GroovyException("The value: " + pText + " is not understood");
+                throw new GroovyRuntimeException("The value: " + pText + " is not understood");
             }
         }
 		return ret;
@@ -213,7 +212,7 @@ public class SwtUtils {
 	 * @param text
 	 * @return String[]
 	 */
-	public static String[] parseStringArray(Class pConstantClass, String pText) throws GroovyException{
+	public static String[] parseStringArray(Class pConstantClass, String pText) {
 		return parseStringArray(pConstantClass, pText, true);
 	}
 	
@@ -225,7 +224,7 @@ public class SwtUtils {
 	 * @param toUpperCase
 	 * @return String[]
 	 */
-	public static String[] parseStringArray(Class pConstantClass, String pText, boolean pToUpperCase) throws GroovyException{
+	public static String[] parseStringArray(Class pConstantClass, String pText, boolean pToUpperCase) {
 		String[] ret = null;
 		int i = 0;
 		if (pText != null) {
@@ -251,9 +250,8 @@ public class SwtUtils {
 	 * @param pText
 	 * @param pToUpperCase
 	 * @return Object
-	 * @throws GroovyException
 	 */
-	public static Object parseObject(Class pConstantClass, String pText, boolean pToUpperCase) throws GroovyException{
+	public static Object parseObject(Class pConstantClass, String pText, boolean pToUpperCase) {
 		if (pText != null) {
             if (pToUpperCase) {
                 pText = pText.toUpperCase();
@@ -266,9 +264,9 @@ public class SwtUtils {
                 }
                 return field.get(pText);
             } catch (NoSuchFieldException e) {
-                throw new GroovyException("The value: " + pText + " is not understood ");
+                throw new GroovyRuntimeException("The value: " + pText + " is not understood ");
             } catch (IllegalAccessException e) {
-                throw new GroovyException("The value: " + pText + " is not understood");
+                throw new GroovyRuntimeException("The value: " + pText + " is not understood");
             }
         }
 		return null;

@@ -4,18 +4,21 @@
  */
 package groovy.swt.factory;
 
-import groovy.swt.InvalidChildException;
+import groovy.lang.GString;
+import groovy.lang.GroovyRuntimeException;
 import groovy.swt.SwtUtils;
+import groovy.util.FactoryBuilderSupport;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-import org.codehaus.groovy.GroovyException;
+import org.codehaus.groovy.runtime.InvokerHelper;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
@@ -25,11 +28,11 @@ import org.eclipse.swt.widgets.TabItem;
  * @author <a href="mailto:ckl@dacelo.nl">Christiaan ten Klooster </a>
  * @version $Revision: 1556 $
  */
-public class WidgetFactory extends AbstractSwtFactory implements SwtFactory {
+public class WidgetFactory extends AbstractSwtFactory {
 
     protected Class beanClass;
 
-    protected int style = SWT.NONE;
+    protected int defaultStyle = SWT.NONE;
 
     public WidgetFactory(Class beanClass) {
         this.beanClass = beanClass;
@@ -41,39 +44,58 @@ public class WidgetFactory extends AbstractSwtFactory implements SwtFactory {
      */
     public WidgetFactory(Class beanClass, int style) {
         this.beanClass = beanClass;
-        this.style = style;
+        this.defaultStyle = style;
     }
 
-    /*
-     * @see groovy.swt.impl.Factory#newInstance(java.util.Map, java.lang.Object)
-     */
-    public Object newInstance(Map properties, Object parent) throws GroovyException {
-        String styleProperty = (String) properties.remove("style");
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+		Object parent = builder.getCurrent();
+		
+		// if no parent given, check if value can be the parent
+		if (/*parent == null
+			&& */ value != null
+			&& value instanceof Composite) {
+			parent = value;
+		}
+		
+        String styleProperty = (String) attributes.remove("style");
+        int style = defaultStyle;
         if (styleProperty != null) {
-            style = SwtUtils.parseStyle(SWT.class, styleProperty);
+        	style = SwtUtils.parseStyle(SWT.class, styleProperty);
         }
 
-        Object parentWidget = SwtUtils.getParentWidget(parent, properties);
+        Object parentWidget = SwtUtils.getParentWidget(parent, attributes);
 
-        Object bean = createWidget(parentWidget);
-        if (bean != null) {
-            setBeanProperties(bean, properties);
+        Object bean = createWidget(parentWidget, style);
+
+        // TODO: Do we need this?
+        setParent(builder, parent, bean);
+
+        // 
+        if (value instanceof GString) value = value.toString();
+        if (value instanceof String) {
+            // this does not create property setting order issues, since the value arg preceeds all attributes in the builder element
+            InvokerHelper.setProperty(bean, "text", value);
         }
-
-        setControl(bean, parent);
-
+        
         return bean;
     }
 
+    protected Object createWidget(Object parent) throws InstantiationException {
+    	return createWidget(parent, 0);
+    }	
+	
     /**
      * @param parent
      * @param bean
      * @return @throws
      *         GroovyException
+     * @throws InstantiationException 
      */
-    protected Object createWidget(Object parent) throws GroovyException {
+    protected Object createWidget(Object parent, int style) throws InstantiationException {
         if (beanClass == null) {
-            throw new GroovyException("No Class available to create the new widget");
+            throw new InstantiationException("No Class available to create the new widget of beanClass=null");
         }
         try {
             if (parent == null) {
@@ -109,52 +131,53 @@ public class WidgetFactory extends AbstractSwtFactory implements SwtFactory {
             }
             return beanClass.newInstance();
         } catch (NoSuchMethodException e) {
-            throw new GroovyException(e.getMessage());
+            throw new GroovyRuntimeException(e);
         } catch (InstantiationException e) {
-            throw new GroovyException("Could not instantiate class "+beanClass.getName()+" (may be abstract or could not find a suitable constructor): "+ e.getMessage());
+            throw new GroovyRuntimeException("Could not instantiate class "+beanClass.getName()+" (may be abstract or could not find a suitable constructor): "+ e.getMessage(), e);
         } catch (IllegalAccessException e) {
-            throw new GroovyException(e.getMessage());
+            throw new GroovyRuntimeException(e);
         } catch (InvocationTargetException e) {
-            throw new GroovyException(e.getTargetException().getLocalizedMessage());
+            throw new GroovyRuntimeException(e.getTargetException().getLocalizedMessage(), e);
         }
     }
 
-    protected void setControl(Object bean, Object parent) throws InvalidChildException {
+    public void setParent(FactoryBuilderSupport builder, Object parent, Object child) {
+    	parent = builder.getCurrent();
         if (parent instanceof CTabItem) {
-            if (!(bean instanceof Control)) {
-                throw new InvalidChildException("cTabItem", Control.class.getName());
+            if (!(child instanceof Control)) {
+                throw new GroovyRuntimeException("The first child of cTabItem should be "+ Control.class.getName());
             }
             CTabItem tabItem = (CTabItem) parent;
-            tabItem.setControl((Control) bean);
+            tabItem.setControl((Control) child);
         } else if (parent instanceof TabItem) {
-            if (!(bean instanceof Control)) {
-                throw new InvalidChildException("tabItem", Control.class.getName());
+            if (!(child instanceof Control)) {
+                throw new GroovyRuntimeException("The first child of tabItem should be "+ Control.class.getName());
             }
             TabItem tabItem = (TabItem) parent;
-            tabItem.setControl((Control) bean);
+            tabItem.setControl((Control) child);
         } else if (parent instanceof ScrolledComposite) {
-            if (!(bean instanceof Control)) {
-                throw new InvalidChildException("scrolledComposite", Control.class.getName());
+            if (!(child instanceof Control)) {
+                throw new GroovyRuntimeException("The first child of scrolledComposite should be "+ Control.class.getName());
             }
             ScrolledComposite scrolledComposite = (ScrolledComposite) parent;
-            scrolledComposite.setContent((Control) bean);
-        } else if (bean instanceof Menu && parent instanceof Shell) {
-            Menu menu = (Menu) bean;
+            scrolledComposite.setContent((Control) child);
+        } else if (child instanceof Menu && parent instanceof Shell) {
+            Menu menu = (Menu) child;
             Shell shell = (Shell) parent;
-            if (style == SWT.BAR) {
+            if (defaultStyle == SWT.BAR) {
                 shell.setMenuBar(menu);
             } else {
                 shell.setMenu(menu);
             }
-        } else if (bean instanceof Menu && parent instanceof Viewer){
-        	Menu menu = (Menu) bean;
+        } else if (child instanceof Menu && parent instanceof Viewer){
+        	Menu menu = (Menu) child;
         	Control control = ((Viewer) parent).getControl();
         	control.setMenu(menu);
         }
         // Try to add menu to control
-        // other possibilities to adda menu should be checked before
-        else if (bean instanceof Menu && parent instanceof Control) {
-        	Menu menu = (Menu) bean;
+        // other possibilities to add a menu should be checked before
+        else if (child instanceof Menu && parent instanceof Control) {
+        	Menu menu = (Menu) child;
         	Control control = (Control) parent;
         	control.setMenu(menu);
         }

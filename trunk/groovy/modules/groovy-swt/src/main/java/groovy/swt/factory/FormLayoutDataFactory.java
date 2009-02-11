@@ -4,10 +4,13 @@
  */
 package groovy.swt.factory;
 
+import groovy.lang.GroovyRuntimeException;
+import groovy.util.FactoryBuilderSupport;
+
 import java.lang.reflect.Constructor;
 import java.util.List;
 import java.util.Map;
-import org.codehaus.groovy.GroovyException;
+
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Control;
@@ -16,23 +19,23 @@ import org.eclipse.swt.widgets.Control;
  * @author <a href:ckl at dacelo.nl">Christiaan ten Klooster </a> $Id
  *         LayoutDataFactory.java,v 1.2 2004/03/18 08:51:47 ckl Exp $
  */
-public class FormLayoutDataFactory extends AbstractSwtFactory implements
-        SwtFactory {
+public class FormLayoutDataFactory extends AbstractSwtFactory {
 
-    /*
-     * @see groovy.swt.impl.SwtFactory#newInstance(java.util.Map,
-     *      java.lang.Object)
-     */
-    public Object newInstance(Map properties, Object parent)
-            throws GroovyException {
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+		return new FormData();
+	}
+	
+    public boolean onHandleNodeAttributes( FactoryBuilderSupport builder, Object node, Map attributes ) {
         // get attachment properties
-        List left = (List) properties.remove("left");
-        List right = (List) properties.remove("right");
-        List top = (List) properties.remove("top");
-        List bottom = (List) properties.remove("bottom");
+        List left = (List) attributes.remove("left");
+        List right = (List) attributes.remove("right");
+        List top = (List) attributes.remove("top");
+        List bottom = (List) attributes.remove("bottom");
 
         // build new formdata
-        FormData formData = new FormData();
+        FormData formData = (FormData) node;
         if (left != null) {
             formData.left = getFormAttachment(left);
         }
@@ -47,24 +50,26 @@ public class FormLayoutDataFactory extends AbstractSwtFactory implements
         }
 
         // set layout data
+        Object parent = builder.getCurrent();
         if (parent instanceof Control) {
             Control control = (Control) parent;
             control.setLayoutData(formData);
         }
 
         // set remaining properties
-        setBeanProperties(formData, properties);
-
-        // return formdata
-        return formData;
+    	setBeanProperties(node, attributes);
+    	return true;
     }
+	
+	
+	
 
     /**
      * @param list
      * @return @throws
      *         GroovyException
      */
-    private FormAttachment getFormAttachment(List list) throws GroovyException {
+    private FormAttachment getFormAttachment(List list) {
         FormAttachment formAttachment = null;
         try {
             // get constructor
@@ -75,7 +80,7 @@ public class FormLayoutDataFactory extends AbstractSwtFactory implements
                 } else if (list.get(i) instanceof Control) {
                     types[i] = Control.class;
                 } else {
-                    throw new GroovyException(
+                    throw new GroovyRuntimeException(
                             "list element must be of type 'int' or 'Control': "
                                     + list.get(i));
                 }
@@ -93,7 +98,7 @@ public class FormLayoutDataFactory extends AbstractSwtFactory implements
                         .newInstance(values);
             }
         } catch (Exception e) {
-            throw new GroovyException(e.getMessage());
+            throw new GroovyRuntimeException(e);
         }
         return formAttachment;
     }

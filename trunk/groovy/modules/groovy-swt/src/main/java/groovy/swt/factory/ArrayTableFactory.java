@@ -1,9 +1,10 @@
 package groovy.swt.factory;
 
 import groovy.swt.SwtUtils;
+import groovy.util.FactoryBuilderSupport;
 
 import java.util.Map;
-import org.codehaus.groovy.GroovyException;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
@@ -23,62 +24,71 @@ import org.eclipse.swt.widgets.TableItem;
  * @author Alexander Becher
  *
  */
-public class ArrayTableFactory extends AbstractSwtFactory implements SwtFactory{
-	protected int mStyle = SWT.NONE;
+public class ArrayTableFactory extends AbstractSwtFactory {
 
-public Object newInstance(Map pProperties, Object pParent) throws GroovyException {
-    	
-        Shell parentShell = SwtUtils.getParentShell(pParent);
-        
-        String[] columnNames = (String[]) pProperties.get("columnNames");
-        Object[][] data =  (Object[][]) pProperties.get("data");
-        int[] width = (int[]) pProperties.get("width");
-        /*
-         *	Get the swt styles, seperated by ',' and without leading 'swt.' 
-         */
-        String styleProperty = (String) pProperties.remove("style");
+	
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+        //Shell parentShell = SwtUtils.getParentShell(builder.getCurrent());
+		Object parent = builder.getCurrent();
+
+        // Get the swt styles, seperated by ',' and without leading 'swt.' 
+        String styleProperty = (String) attributes.remove("style");
+    	int mStyle = SWT.NONE;
         if (styleProperty != null) {
-            mStyle = SwtUtils.parseStyle(SWT.class, styleProperty);
+			mStyle = SwtUtils.parseStyle(SWT.class, styleProperty);
         }
-        Table table = new Table((Composite) parentShell,mStyle);
-        
+        Table table = new Table((Composite) parent,mStyle);
+		
+		return table;
+	}
+
+	
+    public boolean onHandleNodeAttributes( FactoryBuilderSupport builder, Object node, Map attributes ) {
+        String[] columnNames = (String[]) attributes.remove("columnNames");
+        Object[][] data =  (Object[][]) attributes.remove("data");
+        int[] width = (int[]) attributes.remove("width");
+
+        Table table = (Table) node;
         table.setHeaderVisible(true);
         table.setLinesVisible(true);
         int columns = columnNames.length;
         
+        // if the width have been specified for all columns
         if (width != null && width.length == columns){
         	for (int i=0; i<columns;i++) {
         		createColumn(columnNames[i], table, width[i]);
         	}
-        }
+        } // if identical width for all columns
         else if (width != null && width.length == 1){
         	for (int i=0; i<columns;i++) {
         		createColumn(columnNames[i], table,  width[0]);
         	}
-        }
-        else {
+        } else { // if no width given
             for (int i=0; i<columns;i++) {
             	createColumn(columnNames[i], table);
             }
         }
 
-        if (data.length > 0){
+        if (data!=null && data.length > 0){
         	for (int i=0; i< data.length; i++){
         		createRow(data[i], table, columns);
         	}
         }
         if (width != null && width.length == 0){
-        	for (int loopIndex = 0; loopIndex < data.length; loopIndex++) {
+        	for (int loopIndex = 0; loopIndex < width.length; loopIndex++) {
                 table.getColumn(loopIndex).pack();
             }
         }
-        return table;
+        
+        return true;
     }
-
+	
 	private void createColumn(String pName, Table pTable){
 		TableColumn col1 = new TableColumn(pTable,SWT.LEFT);
         col1.setText(pName);
-        //col1.pack();
+        col1.pack();
 	}
 	
 	private void createColumn(String pName, Table pTable, int width){

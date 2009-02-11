@@ -10,12 +10,10 @@ import groovy.swt.impl.ListenerImpl;
 import groovy.swt.impl.LocationListenerImpl;
 import groovy.swt.impl.ProgressListenerImpl;
 import groovy.swt.impl.StatusTextListenerImpl;
+import groovy.util.FactoryBuilderSupport;
 
-import java.lang.reflect.Method;
-import java.util.EventListener;
 import java.util.Map;
 
-import org.codehaus.groovy.GroovyException;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
@@ -33,7 +31,7 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
  * @author <a href="mailto:ckl@dacelo.nl">Christiaan ten Klooster </a>
  * @version $Revision: 1141 $
  */
-public class ListenerFactory extends AbstractSwtFactory implements SwtFactory {
+public class ListenerFactory extends AbstractSwtFactory {
 
     private Class beanClass;
 
@@ -44,13 +42,13 @@ public class ListenerFactory extends AbstractSwtFactory implements SwtFactory {
         this.beanClass = beanClass;
     }
 
-    /*
-     * @see groovy.swt.impl.SwtFactory#newInstance(java.util.Map,
-     *      java.lang.Object)
-     */
-    public Object newInstance(Map properties, Object parent)
-            throws GroovyException {
-        final String type = (String) properties.remove("type");
+    
+    
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+		Object parent = builder.getCurrent();
+        final String type = (String) attributes.remove("type");
         if (parent instanceof Browser) {
             Browser browser = (Browser) parent;
             if (beanClass.equals(LocationListener.class)) {
@@ -94,15 +92,17 @@ public class ListenerFactory extends AbstractSwtFactory implements SwtFactory {
             }
             // try the simple event types defined in SWT
             int eventType = getEventType(type);
-            if (eventType == 0) { throw new GroovyException(
-                    "No event type specified, could not understand the event: " + type); }
+            if (eventType == 0) {
+            	throw new InstantiationException(
+                    "No event type specified, could not understand the event: " + type);
+            }
            	ListenerImpl listenerImpl = new ListenerImpl();
            	widget.addListener(eventType, listenerImpl);
            	return listenerImpl;
         }
-        throw new GroovyException("No factory found for class: " + beanClass);
+        
+        throw new InstantiationException("No factory found for class: " + beanClass.getName());
     }
-
     
 	/**
      * Parses the given event type String and returns the SWT event type code
@@ -111,7 +111,7 @@ public class ListenerFactory extends AbstractSwtFactory implements SwtFactory {
      *            is the String event type
      * @return the SWT integer event type
      */
-    protected int getEventType(String type) throws GroovyException {
+    protected int getEventType(String type) {
         return SwtUtils.parseStyle(SWT.class, type, false);
     }
 }
