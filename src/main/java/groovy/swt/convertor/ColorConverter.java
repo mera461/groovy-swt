@@ -79,11 +79,9 @@ public class ColorConverter {
         }
         if (value.charAt(0) == '#') {
             return parseHtml(value);
-        }
-        else if (value.indexOf(',') != -1) {
+        } else if (value.indexOf(',') != -1) {
             return parseRGB(value);
-        }
-        else {
+        } else {
             throw new IllegalArgumentException(usageText);
         }
     }
