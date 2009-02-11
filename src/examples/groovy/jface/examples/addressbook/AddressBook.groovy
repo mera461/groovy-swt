@@ -64,7 +64,7 @@ public static void main(String[] args) {
 }
 
 public void open() {
-    popupMenu = jface.menuManager(text: "popup") {
+    popupMenu = jface.menuManager("popup") {
     	/* TODO: 
      	onEvent (type: "Show", closure: { e ->
  			Menu menu = (Menu)e.widget;
@@ -76,16 +76,16 @@ public void open() {
  			items[5].setEnabled(count != 0); // delete
  			items[7].setEnabled(table.getItemCount() != 0); // find
      	}) */
-        action ( text: resAddressBook.getString("Pop_up_new"),
+        action (  resAddressBook.getString("Pop_up_new"),
         		 closure:{ newEntry() })
         separator()
-     	action ( text: resAddressBook.getString("Pop_up_edit"),
+     	action (  resAddressBook.getString("Pop_up_edit"),
      			 accelerator: SWT.MOD1 + (int) 'E',
      	   		 closure:{ def items = table.getSelection()
      					   if (items.size() == 0) return
      					   editEntry(items[0])
      			 } )
-     	action ( text: resAddressBook.getString("Pop_up_copy"),
+     	action (  resAddressBook.getString("Pop_up_copy"),
      			 accelerator: SWT.MOD1 + (int) 'C',
      	   		 closure:{ TableItem[] items = table.getSelection()
      	   		 		   if (items.size() == 0) return
@@ -94,27 +94,27 @@ public void open() {
      	   		 			   copyBuffer[i] = items[0].getText(i)
      	   		 		   }
      			 } )
-     	action ( text: resAddressBook.getString("Pop_up_paste"),
+     	action (  resAddressBook.getString("Pop_up_paste"),
      			 accelerator: SWT.MOD1 + (int) 'V',
      	   		 closure:{ if (copyBuffer == null) return
      	   		   	       TableItem item = new TableItem(table, SWT.NONE)
      	   		   	       item.setText(copyBuffer)
      	   		   	       isModified = true
      			 } )
-    	action ( text: resAddressBook.getString("Delete"),
+    	action (  resAddressBook.getString("Delete"),
      	   		 closure:{ TableItem[] items = table.getSelection()
      	   		 		   if (items.length == 0) return
      	   		 		   items[0].dispose()
      	   		   	       isModified = true
      			 } )
         separator()
-    	action ( text: resAddressBook.getString("Pop_up_find"),
+    	action (  resAddressBook.getString("Pop_up_find"),
      	   		 closure:{ searchDialog.open() } )
     } // End of popup menu
 	
     mainapp = jface.applicationWindow( title:"Address Book" ) {
      	fillLayout()
-     	menuManager( text: resAddressBook.getString("File_menu_title") ) {
+     	menuManager(  resAddressBook.getString("File_menu_title") ) {
      		/* TODO:
      		onEvent (type: "Show", closure: { e -> 
     			Menu menu = (Menu)e.widget;
@@ -123,33 +123,33 @@ public void open() {
     			items[5].setEnabled((file != null) && isModified); // save
     			items[6].setEnabled(table.getItemCount() != 0); // save as
      		}) */
-     		action ( text: resAddressBook.getString("New_contact"),
+     		action (  resAddressBook.getString("New_contact"),
      				 accelerator: SWT.MOD1 + (int) 'N',
      				 closure:{ newEntry() } )
-     	    action ( text: resAddressBook.getString("Edit_contact"),
+     	    action (  resAddressBook.getString("Edit_contact"),
      	    		 accelerator: SWT.MOD1 + (int) 'E',
      	    		 closure:{ def items = table.getSelection()
      	    		 	       if (items.size() == 0) return
      	    		 	       editEntry(items[0])
      	    		 } )
      	    separator()
-     		action ( text: resAddressBook.getString("New_address_book"),
+     		action (  resAddressBook.getString("New_address_book"),
     				 accelerator: SWT.MOD1 + (int) 'B',
     				 closure:{ if (closeAddressBook()) newAddressBook() } )
-     		action ( text: resAddressBook.getString("Open_address_book"),
+     		action (  resAddressBook.getString("Open_address_book"),
      				 accelerator: SWT.MOD1 + (int) 'O',
     		    	 closure:{ if (closeAddressBook()) openAddressBook() } )
-    		action ( text: resAddressBook.getString("Save_address_book"),
+    		action (  resAddressBook.getString("Save_address_book"),
     				 accelerator: SWT.MOD1 + (int) 'S',
     				 closure:{ save() } )
-    		action ( text: resAddressBook.getString("Save_book_as"),
+    		action (  resAddressBook.getString("Save_book_as"),
     				 accelerator: SWT.MOD1 + (int) 'A',
     				 closure:{ saveAs() } )
     		separator()
-    		action ( text: resAddressBook.getString("Exit"),
+    		action (  resAddressBook.getString("Exit"),
     				 closure:{ mainapp.close() } )
      	}
-     	menuManager( text: resAddressBook.getString("Edit_menu_title") ) {
+     	menuManager(  resAddressBook.getString("Edit_menu_title") ) {
      		/* TODO:
      		onEvent (type: "Show", closure: { e -> 
     			Menu menu = (Menu)e.widget;
@@ -161,13 +161,13 @@ public void open() {
     			items[3].setEnabled(count != 0); // delete
     			items[5].setEnabled(table.getItemCount() != 0); // sort
 			}) */
-     		action ( text: resAddressBook.getString("Edit"),
+     		action (  resAddressBook.getString("Edit"),
      				 accelerator: SWT.MOD1 + (int) 'E',
      	    		 closure:{ def items = table.getSelection()
      						   if (items.size() == 0) return
      						   editEntry(items[0])
      				 } )
-     		action ( text: resAddressBook.getString("Copy"),
+     		action (  resAddressBook.getString("Copy"),
      				 accelerator: SWT.MOD1 + (int) 'C',
      	    		 closure:{ TableItem[] items = table.getSelection()
      	    		 		   if (items.size() == 0) return
@@ -176,14 +176,14 @@ public void open() {
      	    		 			   copyBuffer[i] = items[0].getText(i)
      	    		 		   }
      				 } )
-     		action ( text: resAddressBook.getString("Paste"),
+     		action (  resAddressBook.getString("Paste"),
      				 accelerator: SWT.MOD1 + (int) 'V',
      	    		 closure:{ if (copyBuffer == null) return
      	    		   	       TableItem item = new TableItem(table, SWT.NONE)
      	    		   	       item.setText(copyBuffer)
      	    		   	       isModified = true
      				 } )
-    		action ( text: resAddressBook.getString("Delete"),
+    		action (  resAddressBook.getString("Delete"),
     				 accelerator: SWT.DEL,
      	    		 closure:{ TableItem[] items = table.getSelection()
      	    		 		   if (items.length == 0) return
@@ -191,15 +191,15 @@ public void open() {
      	    		   	       isModified = true
      				 } )
      		separator()
-     		menuManager( text: resAddressBook.getString("Sort") ) {
+     		menuManager(  resAddressBook.getString("Sort") ) {
      			for(int i = 0; i < columnNames.length; i++) {
      				final int column = i;
-     				action (text: columnNames [i], closure: {sort(column)} )
+     				action ( columnNames [i], closure: {sort(column)} )
      			}
      		}
      	} // end of Edit menu.
-     	menuManager( text: resAddressBook.getString("Search_menu_title") ) {
-     		action ( text: resAddressBook.getString("Find"),
+     	menuManager(  resAddressBook.getString("Search_menu_title") ) {
+     		action (  resAddressBook.getString("Find"),
      				 accelerator: SWT.MOD1 + (int) 'F',
      	    		 closure:{ 
      			        searchDialog.open();
@@ -209,14 +209,14 @@ public void open() {
      					searchDialog.setSearchString("");
      					searchDialog.setSelectedSearchArea(0);
      				 } )
-     		action ( text: resAddressBook.getString("Find_next"),
+     		action (  resAddressBook.getString("Find_next"),
      				 accelerator: SWT.F3,
      				 closure:{searchDialog.open()} )
      	}
      	
-     	menuManager( text: resAddressBook.getString("Help_menu_title") ) {
-     		action ( text: resAddressBook.getString("About"),
-     	    		 closure:{ def box = jface.messageBox(text: resAddressBook.getString("About_1") + mainapp.getShell().getText(),
+     	menuManager(  resAddressBook.getString("Help_menu_title") ) {
+     		action (  resAddressBook.getString("About"),
+     	    		 closure:{ def box = jface.messageBox( resAddressBook.getString("About_1") + mainapp.getShell().getText(),
      													  style: "ICON_WARNING, YES, NO, CANCEL",
      													  message: mainapp.getShell().getText() + resAddressBook.getString("About_2"))
      						   box.open()
@@ -226,7 +226,7 @@ public void open() {
     	table = table(style: "SINGLE, BORDER, FULL_SELECTION", headerVisible: true /*TODO:, menu: popupMenu.getMenu() */) {
         	for(int i = 0; i < columnNames.length; i++) {
         		final int columnIndex = i;
-        		def column = tableColumn(style: "none", text: columnNames[i], width: 150 ) {
+        		def column = tableColumn(style: "none",  columnNames[i], width: 150 ) {
         			onEvent (type: "Selection", closure: {sort(columnIndex)})
         		}
         	}
