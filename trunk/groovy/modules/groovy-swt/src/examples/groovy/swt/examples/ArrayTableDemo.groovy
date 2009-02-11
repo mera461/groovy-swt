@@ -1,10 +1,11 @@
 package groovy.swt.examples
 
 import groovy.swt.SwtBuilder
+import groovy.swt.examples.DemoLauncher
 import org.eclipse.swt.layout.GridData
     
 
-public class ArrayTableDemo{
+public class ArrayTableDemo extends DemoLauncher {
 	
     def swt = new SwtBuilder()
     
@@ -15,7 +16,7 @@ public class ArrayTableDemo{
     
     def run(){
         
-        def shell = swt.shell (  text:'The ArrayTable Demo', location:[100,100], size:[700,700] ) {
+        def shell = swt.shell ('The ArrayTable Demo', location:[100,100], size:[700,700] ) {
     	rowLayout()
 		def String[] cn = ["one","two","three","four"]
     	
@@ -31,9 +32,9 @@ public class ArrayTableDemo{
 		def String[][]  data = [["fsgsdf","dfdf","dfdfddfdfdfdfdfdfdfdfdfdf","sfdfd"],[ "sdsd","sdsd","sdsdsdsd","rt"],["wew"],["sdsd","sdsd"]]
 		def int[] widthdata = [100,200,100,100]		
 		def int[] width = [150]
-		label(text:"ArrayTable with width=150")
+		label("ArrayTable with width=150")
 		def table= arrayTable(data:testdata, columnNames:cn, style:"MULTI , BORDER , FULL_SELECTION, H_SCROLL, V_SCROLL", width:width)
-		label(text:"ArrayTable with different widths for each column")
+		label("ArrayTable with different widths for each column")
 		def table2 = arrayTable(data:data, columnNames:cn, style:"MULTI , BORDER , FULL_SELECTION", width:widthdata)
 
            
