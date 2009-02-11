@@ -6,6 +6,7 @@ package groovy.swt.factory;
 import groovy.swt.InvalidParentException;
 import groovy.swt.SwtUtils;
 import groovy.swt.impl.DragSourceListenerImpl;
+import groovy.util.FactoryBuilderSupport;
 
 import java.util.Map;
 
@@ -57,16 +58,15 @@ import org.eclipse.swt.widgets.Control;
     
     */
  
-public class DragSourceFactory extends AbstractSwtFactory implements SwtFactory {
+public class DragSourceFactory extends AbstractSwtFactory {
 
-	/* (non-Javadoc)
-	 * @see org.codehaus.groovy.ui.swt.factory.AbstractSwtFactory#newInstance(java.util.Map, java.lang.Object)
-	 */
-	public Object newInstance(Map pProperties, Object pParent)
-			throws GroovyException {
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+		Object pParent = builder.getCurrent();
 		Control parent;
 		if (!(pParent instanceof Control || pParent instanceof Viewer))
-			throw new InvalidParentException("Widget or Viewer");
+			throw new InstantiationException("Parent node of DragSource ("+name+") must be Widget or Viewer");
 		if (pParent instanceof Control){
 			parent = (Control) pParent;
 		}
@@ -76,19 +76,18 @@ public class DragSourceFactory extends AbstractSwtFactory implements SwtFactory 
 		
 		// get operations
 		// e.g. "DROP_MOVE, DROP_COPY, DROP_LINK"
-		String ops = (String)pProperties.get("operations");
+		String ops = (String)attributes.remove("operations");
 		if (ops == null)
-			ops = (String)pProperties.get("style");
+			ops = (String)attributes.remove("style");
 		if (ops == null)
-			ops = (String)pProperties.get("type");
+			ops = (String)attributes.remove("type");
 		if (ops == null)
 			ops = "copy, move, link";
-		int operations = SwtUtils.parseStyle(DND.class, ops , true);
-		
+			int operations = SwtUtils.parseStyle(DND.class, ops , true);
 
 //		 try to get Transfer
 		Transfer[] types = null;
-		Object transfer = pProperties.get("transfer");
+		Object transfer = attributes.remove("transfer");
 		if (transfer instanceof String){
 			
 			if (((String)transfer).equalsIgnoreCase("text")){
@@ -114,7 +113,7 @@ public class DragSourceFactory extends AbstractSwtFactory implements SwtFactory 
 		
 		DragSource source = new DragSource(parent, operations);
 		source.setTransfer(types);
-		DragSourceListenerImpl listener = new DragSourceListenerImpl(pProperties, pParent, operations);
+		DragSourceListenerImpl listener = new DragSourceListenerImpl(attributes, pParent, operations);
 		
 		source.addDragListener(listener);
 		

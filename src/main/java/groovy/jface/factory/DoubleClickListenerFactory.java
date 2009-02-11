@@ -6,11 +6,11 @@ package groovy.jface.factory;
 
 import groovy.lang.Closure;
 import groovy.swt.ClosureSupport;
-import groovy.swt.InvalidParentException;
 import groovy.swt.factory.AbstractSwtFactory;
-import groovy.swt.factory.SwtFactory;
+import groovy.util.FactoryBuilderSupport;
+
 import java.util.Map;
-import org.codehaus.groovy.GroovyException;
+
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.StructuredViewer;
@@ -19,21 +19,19 @@ import org.eclipse.jface.viewers.StructuredViewer;
  * @author <a href="mailto:ckl@dacelo.nl">Christiaan ten Klooster </a>
  * @version $Revision: 1556 $
  */
-public class DoubleClickListenerFactory extends AbstractSwtFactory implements SwtFactory,
-        IDoubleClickListener, ClosureSupport {
+public class DoubleClickListenerFactory extends AbstractSwtFactory implements IDoubleClickListener, ClosureSupport {
     
     private Closure closure;
 
-    /*
-     * @see groovy.swt.factory.AbstractSwtFactory#newInstance(java.util.Map,
-     *      java.lang.Object)
-     */
-    public Object newInstance(Map properties, Object parent) throws GroovyException {
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+		Object parent = builder.getCurrent();
         if (parent instanceof StructuredViewer) {
             StructuredViewer viewer = (StructuredViewer) parent;
             viewer.addDoubleClickListener(this);
         } else {
-            throw new InvalidParentException("structuredViewer");
+            throw new InstantiationException("The parent of a DoubleClickListener must be a StructuredViewer");
         }
         return this;
     }

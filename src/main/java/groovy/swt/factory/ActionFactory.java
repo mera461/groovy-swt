@@ -1,6 +1,7 @@
 package groovy.swt.factory;
 
 import groovy.jface.factory.ActionImpl;
+import groovy.util.FactoryBuilderSupport;
 
 import java.util.Map;
 
@@ -12,21 +13,20 @@ import org.eclipse.jface.action.IContributionManager;
  * @author <a href="mailto:ckl@dacelo.nl">Christiaan ten Klooster </a>
  * @version $Revision: 915 $
  */
-public class ActionFactory extends AbstractSwtFactory implements SwtFactory {
+public class ActionFactory extends AbstractSwtFactory {
 
 
-    /*
-     * @see groovy.swt.impl.SwtFactory#newInstance(java.util.Map,
-     *      java.lang.Object)
-     */
-    public Object newInstance(Map properties, Object parent)
-    throws GroovyException {
-        Action action = new ActionImpl();
-        setBeanProperties(action, properties);
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+		return new ActionImpl();
+	}
+	
+    public void setParent( FactoryBuilderSupport builder, Object parent, Object child ) {
         if (parent instanceof IContributionManager){
             IContributionManager contributionManager = (IContributionManager) parent;
-            contributionManager.add(action);
+            contributionManager.add((Action)child);
         }
-        return action;
     }
+	
 }

@@ -2,7 +2,7 @@ package groovy.jface.factory;
 
 import groovy.swt.InvalidParentException;
 import groovy.swt.factory.AbstractSwtFactory;
-import groovy.swt.factory.SwtFactory;
+import groovy.util.FactoryBuilderSupport;
 
 import java.util.Map;
 
@@ -15,13 +15,12 @@ import org.eclipse.ui.forms.widgets.Form;
  * @author <a href="mailto:ckl@dacelo.nl">Christiaan ten Klooster </a>
  * @version $Revision: 1560 $
  */
-public class ToolBarManagerFactory extends AbstractSwtFactory implements SwtFactory {
+public class ToolBarManagerFactory extends AbstractSwtFactory {
 
-    /*
-     * @see groovy.swt.impl.SwtFactory#newInstance(java.util.Map,
-     *      java.lang.Object)
-     */
-    public Object newInstance(Map properties, Object parent) throws GroovyException {
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+		Object parent = builder.getCurrent();
 
         ToolBarManager toolBarManager = null;
 
@@ -40,7 +39,7 @@ public class ToolBarManagerFactory extends AbstractSwtFactory implements SwtFact
         }
 
         if (toolBarManager == null) {
-            throw new InvalidParentException("<form> or <applicationWindow>");
+            throw new InstantiationException("The parent of a ToolBarManager must be a Form or ApplicationWindow");
         }
 
         return toolBarManager;

@@ -4,12 +4,12 @@
  */
 package groovy.swt.factory;
 
-import groovy.swt.InvalidParentException;
+import groovy.lang.GroovyRuntimeException;
 import groovy.swt.SwtUtils;
+import groovy.util.FactoryBuilderSupport;
 
 import java.util.Map;
 
-import org.codehaus.groovy.GroovyException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -28,7 +28,7 @@ import org.eclipse.ui.forms.widgets.Section;
  * @author <a href:ckl at dacelo.nl">Christiaan ten Klooster </a>
  * @version $Revision: 1862 $
  */
-public class FormFactory extends AbstractSwtFactory implements SwtFactory {
+public class FormFactory extends AbstractSwtFactory {
 
     /** static is evil, too many toolkits is evil */
     protected static FormToolkit toolkit;
@@ -55,16 +55,13 @@ public class FormFactory extends AbstractSwtFactory implements SwtFactory {
         this.type = type;
     }
 
-    /*
-     * @see groovy.swt.factory.AbstractSwtFactory#newInstance(java.util.Map,
-     *      java.lang.Object)
-     */
-    public Object newInstance(Map properties, Object parent) throws GroovyException {
-        // boolean shouldLayout = properties.containsKey("parent");
-        Composite parentComposite = (Composite) SwtUtils.getParentWidget(parent, properties);
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+		Object parent = builder.getCurrent(); 
+        Composite parentComposite = (Composite) SwtUtils.getParentWidget(parent, attributes);
 
-        String styleProperty = (String) properties.remove("style");
-        String text = (String) properties.remove("text");
+        String styleProperty = (String) attributes.remove("style");
         int style = SWT.NULL;
         if (styleProperty != null) {
             if (type.equals("formSection")) {
@@ -74,9 +71,14 @@ public class FormFactory extends AbstractSwtFactory implements SwtFactory {
             }
         }
 
+        String text = (String) attributes.remove("text");
+        if (text==null && value instanceof String) {
+        	text = (String) value;
+        }
+        
         if (parentComposite != null) {
-            Object formWidget = getFormWidget(parentComposite, properties, style, text);
-            setBeanProperties(formWidget, properties);
+            Object formWidget = getFormWidget(parentComposite, attributes, style, text);
+            setBeanProperties(formWidget, attributes);
 
             // if (shouldLayout && parentComposite != null && parentComposite instanceof Composite) {
             //    ((Composite) parentComposite).layout();
@@ -85,10 +87,12 @@ public class FormFactory extends AbstractSwtFactory implements SwtFactory {
             return formWidget;
 
         } else {
-            throw new InvalidParentException("composite instance");
+            throw new InstantiationException("The parent of the Form must be a Composite instance");
         }
-    }
 
+	}
+    
+    
     /**
      * @param parentComposite
      * @param style
@@ -96,7 +100,7 @@ public class FormFactory extends AbstractSwtFactory implements SwtFactory {
      * @return
      */
     private Object getFormWidget(final Composite parentComposite, Map properties, int style,
-            String text) throws GroovyException {
+            String text) throws InstantiationException {
         if ("form".equals(type)) {
             Form form = getToolkit().createForm(parentComposite);
             form.setText(text);
@@ -148,10 +152,10 @@ public class FormFactory extends AbstractSwtFactory implements SwtFactory {
                     pageBook.registerPage(key, page);
                     return page;
                 } else {
-					 throw new GroovyException("attribute \"key\" is " + key);
+					 throw new GroovyRuntimeException("formPageBookPage must have an attribute \"key\" (is null)");
                 }
             } else {
-                throw new InvalidParentException("formPageBook");
+                throw new InstantiationException("The parent of a formPageBookPage must be a formPageBook");
             }
         }
         if ("formSection".equals(type)) {

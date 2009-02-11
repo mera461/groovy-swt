@@ -2,9 +2,11 @@ package groovy.jface.factory;
 
 import groovy.lang.MissingPropertyException;
 import groovy.swt.factory.AbstractSwtFactory;
-import groovy.swt.factory.SwtFactory;
+import groovy.util.FactoryBuilderSupport;
+
 import java.util.Map;
-import org.codehaus.groovy.GroovyException;
+
+import org.codehaus.groovy.runtime.InvokerHelper;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.window.ApplicationWindow;
 
@@ -12,19 +14,25 @@ import org.eclipse.jface.window.ApplicationWindow;
  * @author <a href="mailto:ckl@dacelo.nl">Christiaan ten Klooster </a>
  * @version $Revision: 915 $
  */
-public class MenuManagerFactory extends AbstractSwtFactory implements SwtFactory {
+public class MenuManagerFactory extends AbstractSwtFactory {
 
     /*
      * @see groovy.swt.impl.SwtFactory#newInstance(java.util.Map,
      *      java.lang.Object)
      */
-    public Object newInstance(Map properties, Object parent)
-    throws GroovyException {
-        
-        String text = (String) properties.remove("text");
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+		Object parent = builder.getCurrent();
+
+		
+        String text = (String) attributes.remove("text");
         if (text == null) {
-            throw new MissingPropertyException("text", 
-            String.class);
+            if (value instanceof String) {
+            	text = (String) value;
+            } else {
+            	throw new MissingPropertyException("text", String.class);
+            }
         }
         
         MenuManager menuManager = new MenuManager(text);

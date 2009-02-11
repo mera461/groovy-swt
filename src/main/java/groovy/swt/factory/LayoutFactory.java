@@ -5,10 +5,10 @@
 package groovy.swt.factory;
 
 import groovy.swt.SwtUtils;
+import groovy.util.FactoryBuilderSupport;
 
 import java.util.Map;
 
-import org.codehaus.groovy.GroovyException;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Widget;
@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Widget;
  * @author <a href="mailto:ckl@dacelo.nl">Christiaan ten Klooster </a>
  * @version $Revision: 1556 $
  */
-public class LayoutFactory extends AbstractSwtFactory implements SwtFactory {
+public class LayoutFactory extends AbstractSwtFactory {
 
     private Class beanClass;
 
@@ -28,31 +28,17 @@ public class LayoutFactory extends AbstractSwtFactory implements SwtFactory {
         this.beanClass = beanClass;
     }
 
-    /*
-     * @see groovy.swt.impl.SwtFactory#newInstance(java.util.Map,
-     *      java.lang.Object)
-     */
-    public Object newInstance(Map properties, Object parent)
-            throws GroovyException {
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+		Object parent = builder.getCurrent();
+        Layout layout = (Layout) beanClass.newInstance();
 
-        Layout layout;
-        try {
-            layout = (Layout) beanClass.newInstance();
-        } catch (InstantiationException e) {
-            throw new GroovyException(e.getMessage());
-        } catch (IllegalAccessException e) {
-            throw new GroovyException(e.getMessage());
-        }
-
-        if (layout != null) {
-            setBeanProperties(layout, properties);
-        }
-
-        Widget parentComposite = (Widget) SwtUtils.getParentWidget(parent, properties);
+        Widget parentComposite = (Widget) SwtUtils.getParentWidget(parent, attributes);
         if (parentComposite != null) {
             ((Composite) parentComposite).setLayout(layout);
         }
 
         return layout;
-    }
+	}
 }

@@ -10,7 +10,7 @@ import org.codehaus.groovy.GroovyException;
  * @author <a href="mailto:ckl@dacelo.nl">Christiaan ten Klooster </a>
  * @version $Revision: 915 $
  */
-public class InvalidParentException extends GroovyException {
+public class InvalidParentException extends InstantiationException {
 
     /**
      * @param message

@@ -4,16 +4,19 @@
  */
 package groovy.swt.factory;
 
+import groovy.swt.SwtUtils;
 import groovy.swt.convertor.ColorConverter;
 import groovy.swt.convertor.PointConverter;
+import groovy.util.AbstractFactory;
+import groovy.util.FactoryBuilderSupport;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.groovy.GroovyException;
-import org.codehaus.groovy.runtime.InvokerHelper;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
@@ -24,10 +27,15 @@ import org.eclipse.swt.widgets.ExpandItem;
  * @author <a href="mailto:ckl@dacelo.nl">Christiaan ten Klooster </a>
  * @version $Revision: 3981 $
  */
-public abstract class AbstractSwtFactory {
+public abstract class AbstractSwtFactory extends AbstractFactory {
 
-    public abstract Object newInstance(Map properties, Object parent) throws GroovyException;
-
+	
+    public boolean onHandleNodeAttributes( FactoryBuilderSupport builder, Object node, Map attributes ) {
+    	setBeanProperties(node, attributes);
+    	return true;
+    }
+	
+	
     /**
      * set the properties
      * 
@@ -65,13 +73,15 @@ public abstract class AbstractSwtFactory {
         	}
         }
 
-        for (Iterator iter = properties.entrySet().iterator(); iter.hasNext();) {
+        List<String> propertiesProcessed = new ArrayList<String>();
+        for (Iterator iter=properties.entrySet().iterator(); iter.hasNext();) {
             Map.Entry entry = (Map.Entry) iter.next();
             String property = entry.getKey().toString();
             Object value = entry.getValue();
             Field field = null;
             try {
                 field = bean.getClass().getDeclaredField(property);
+                // throws an exception if no field defined with that name.
                 if (value instanceof Boolean) {
                     field.setBoolean(bean, ((Boolean) value).booleanValue());
                 } else if (value instanceof Integer) {
@@ -81,14 +91,27 @@ public abstract class AbstractSwtFactory {
                 } else if (value instanceof Float) {
                     field.setFloat(bean, ((Float) value).floatValue());
                 } else {
-                    InvokerHelper.setProperty(bean, property, value);
+                	// Is it a String with a SWT constant?
+                	if (value instanceof String) {
+               			int constValue = SwtUtils.parseStyle(SWT.class, (String)value);
+                        field.setInt(bean, constValue);
+                	} else {
+                		field = null;
+                	}
                 }
             } catch (Exception e) {
+            	field = null;
             }
             
-            if (field == null) {
-                InvokerHelper.setProperty(bean, property, value);
+            if (field != null) {
+            	// the field has been set. Remove it from the properties and let 
+            	// and let FactoryBuilderSupport handle the rest
+            	propertiesProcessed.add(property);
             }
+        }
+        // remove all processed properties
+        for (String prop: propertiesProcessed) {
+        	properties.remove(prop);
         }
     }
 

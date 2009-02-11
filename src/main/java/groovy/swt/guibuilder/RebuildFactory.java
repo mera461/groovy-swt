@@ -9,8 +9,10 @@ import groovy.lang.MissingPropertyException;
 import groovy.swt.InvalidParentException;
 import groovy.swt.SwtUtils;
 import groovy.swt.factory.AbstractSwtFactory;
-import groovy.swt.factory.SwtFactory;
+import groovy.util.FactoryBuilderSupport;
+
 import java.util.Map;
+
 import org.codehaus.groovy.GroovyException;
 import org.eclipse.swt.widgets.Composite;
 
@@ -20,7 +22,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href:ckl at dacelo.nl">Christiaan ten Klooster </a> 
  * $Id$
  */
-public class RebuildFactory extends AbstractSwtFactory implements SwtFactory {
+public class RebuildFactory extends AbstractSwtFactory {
 
     private ApplicationGuiBuilder guiBuilder;
 
@@ -31,27 +33,27 @@ public class RebuildFactory extends AbstractSwtFactory implements SwtFactory {
         this.guiBuilder = guiBuilder;
     }
 
-    /*
-     * @see groovy.swt.factory.AbstractSwtFactory#newInstance(java.util.Map,
-     *      java.lang.Object)
-     */
-    public Object newInstance(Map properties, Object parent) throws GroovyException {
-        // get parent
-        if( properties.containsKey("parent") ) {
-            parent = properties.remove("parent");
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+		Object parent = builder.getCurrent();
+
+		// get parent
+        if( attributes.containsKey("parent") ) {
+            parent = attributes.remove("parent");
         }
         if (parent == null) {
-            throw new InvalidParentException("not null");
+            throw new InstantiationException("Parent widget can not be null");
         }
         
-        Composite parentComposite = (Composite) SwtUtils.getParentWidget(parent, properties);
+        Composite parentComposite = (Composite) SwtUtils.getParentWidget(parent, attributes);
         if (parentComposite == null) {
             throw new MissingPropertyException("parent", RebuildFactory.class);
         }
-        guiBuilder.setCurrent(parentComposite);
+        // TODO: ????? builder.setCurrent(parentComposite);
 
         // get closure
-        Closure closure = (Closure) properties.remove("closure");
+        Closure closure = (Closure) attributes.remove("closure");
         if (closure == null) {
             throw new MissingPropertyException("closure", RebuildFactory.class);
         }

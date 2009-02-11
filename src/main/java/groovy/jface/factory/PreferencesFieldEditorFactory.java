@@ -4,7 +4,7 @@ import groovy.jface.impl.PreferencePageFieldEditorImpl;
 import groovy.lang.MissingPropertyException;
 import groovy.swt.InvalidParentException;
 import groovy.swt.factory.AbstractSwtFactory;
-import groovy.swt.factory.SwtFactory;
+import groovy.util.FactoryBuilderSupport;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -18,8 +18,7 @@ import org.eclipse.jface.preference.RadioGroupFieldEditor;
  * @author <a href="mailto:ckl@dacelo.nl">Christiaan ten Klooster </a>
  * @version $Revision: 915 $
  */
-public class PreferencesFieldEditorFactory extends AbstractSwtFactory implements
-        SwtFactory {
+public class PreferencesFieldEditorFactory extends AbstractSwtFactory {
 
     private Class beanClass;
 
@@ -28,35 +27,39 @@ public class PreferencesFieldEditorFactory extends AbstractSwtFactory implements
     }
     
     private Object getValueOrThrow(Map properties, String name) {
-        Object value = properties.get(name);
+        Object value = properties.remove(name);
         if (name == null) {
         	throw new MissingPropertyException(name, FieldEditor.class);
         }
     	return value;
     }
 
-    public Object newInstance(Map properties, Object parent)
-            throws GroovyException {
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+		Object parent = builder.getCurrent();
 
-        if (beanClass == null) { throw new GroovyException(
-                "No Class available to create the FieldEditor"); }
+        if (beanClass == null) {
+        	throw new InstantiationException("No Class available to create the FieldEditor");
+        }
 
         // check location
-        if (!(parent instanceof PreferencePage)) { throw new InvalidParentException(
-                "preferencePage"); }
+        if (!(parent instanceof PreferencePage)) {
+        	throw new InstantiationException("the parent of a PreferencesFieldEditor must be a PreferencePage");
+        }
 
-        String name = (String) getValueOrThrow(properties, "propertyName");
-        String labelText = (String) getValueOrThrow(properties, "title");
+        String propertyName = (String) getValueOrThrow(attributes, "propertyName");
+        String labelText = (String) getValueOrThrow(attributes, "title");
 
         PreferencePageFieldEditorImpl preferencePageImpl = (PreferencePageFieldEditorImpl) parent;
         if (beanClass.equals(RadioGroupFieldEditor.class)) {
-            int numColumns = ((Integer) getValueOrThrow(properties, "numColumns")).intValue();
-            Boolean bUseGroup = (Boolean) properties.get("useGroup");
+            int numColumns = ((Integer) getValueOrThrow(attributes, "numColumns")).intValue();
+            Boolean bUseGroup = (Boolean) attributes.remove("useGroup");
             boolean useGroup = false;
             if (bUseGroup!=null) {
             	useGroup = bUseGroup.booleanValue();
             }
-            ArrayList values = (ArrayList) getValueOrThrow(properties, "labelAndValues");
+            ArrayList values = (ArrayList) getValueOrThrow(attributes, "labelAndValues");
             
             String[][] labelAndValues = new String[values.size()][2];
             for (int no=0; no<values.size(); no++) {
@@ -68,9 +71,9 @@ public class PreferencesFieldEditorFactory extends AbstractSwtFactory implements
             	labelAndValues[no][1] = (String) labelValuePair.get(1);
             }
 //            String[][] labelAndValues = new String[][] {{"label1", "value1"}, {"label2", "value2"}};
-        	preferencePageImpl.addRadioGroupFieldCreator(name, labelText, numColumns, labelAndValues, useGroup);
+        	preferencePageImpl.addRadioGroupFieldCreator(propertyName, labelText, numColumns, labelAndValues, useGroup);
         } else {
-        	preferencePageImpl.addFieldCreator(beanClass, name, labelText);
+        	preferencePageImpl.addFieldCreator(beanClass, propertyName, labelText);
         }
 
         return preferencePageImpl;

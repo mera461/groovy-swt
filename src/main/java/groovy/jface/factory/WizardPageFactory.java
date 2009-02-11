@@ -7,13 +7,11 @@ package groovy.jface.factory;
 import groovy.jface.impl.WizardDialogImpl;
 import groovy.jface.impl.WizardPageImpl;
 import groovy.lang.MissingPropertyException;
-import groovy.swt.InvalidParentException;
 import groovy.swt.factory.AbstractSwtFactory;
-import groovy.swt.factory.SwtFactory;
+import groovy.util.FactoryBuilderSupport;
 
 import java.util.Map;
 
-import org.codehaus.groovy.GroovyException;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jface.wizard.WizardPage;
@@ -22,23 +20,21 @@ import org.eclipse.jface.wizard.WizardPage;
  * @author <a href="mailto:ckl@dacelo.nl">Christiaan ten Klooster </a>
  * @version $Revision: 915 $
  */
-public class WizardPageFactory extends AbstractSwtFactory implements SwtFactory {
+public class WizardPageFactory extends AbstractSwtFactory {
 
-    /*
-     * @see groovy.swt.factory.SwtFactory#newInstance(java.util.Map,
-     *      java.lang.Object)
-     */
-    public Object newInstance(Map properties, Object parent)
-    throws GroovyException {
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+		Object parent = builder.getCurrent();
 
         // check location
         if (!(parent instanceof WizardDialog)) {
-            throw new InvalidParentException("wizardDialog");
+            throw new InstantiationException("The parent of a WizardPage must be a WizardDialog");
         }
         WizardDialogImpl wizardDialog = (WizardDialogImpl) parent;
 
         // check for missing attributes
-        String title = (String) properties.get("title");
+        String title = (String) attributes.get("title");
         if (title == null) {
             throw new MissingPropertyException("title", 
             WizardPage.class);
@@ -46,7 +42,7 @@ public class WizardPageFactory extends AbstractSwtFactory implements SwtFactory 
 
         // get WizardPageImpl
         WizardPageImpl page = new WizardPageImpl(title);
-        setBeanProperties(page, properties);
+        setBeanProperties(page, attributes);
 
         // get Wizard
         Wizard wizard = (Wizard) wizardDialog.getWizard();

@@ -4,10 +4,10 @@ package groovy.jface.factory;
 import groovy.jface.impl.WizardDialogImpl;
 import groovy.jface.impl.WizardImpl;
 import groovy.swt.factory.ImageFactory;
+import groovy.util.FactoryBuilderSupport;
 
 import java.util.Map;
 
-import org.codehaus.groovy.GroovyException;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -22,8 +22,10 @@ public class JFaceImageFactory extends ImageFactory {
     /*
      * @see groovy.swt.impl.Factory#newInstance(java.util.Map, java.lang.Object)
      */
-    public Object newInstance(Map properties, Object parent) throws GroovyException {
-        return super.newInstance(properties, parent);
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+        return super.newInstance(builder, name, value, attributes);
     }
 
     /**
@@ -31,7 +33,7 @@ public class JFaceImageFactory extends ImageFactory {
      * Now supports actions and wizardpages.
      * 
      */
-    protected void setImage(Object parent, Image image) throws GroovyException {
+    protected void setImage(Object parent, Image image) {
         
     	if (parent instanceof Action) {
     		Action action = (Action) parent;

@@ -8,11 +8,10 @@ import groovy.jface.impl.WizardDialogImpl;
 import groovy.jface.impl.WizardImpl;
 import groovy.swt.SwtUtils;
 import groovy.swt.factory.AbstractSwtFactory;
-import groovy.swt.factory.SwtFactory;
+import groovy.util.FactoryBuilderSupport;
 
 import java.util.Map;
 
-import org.codehaus.groovy.GroovyException;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
@@ -21,13 +20,12 @@ import org.eclipse.swt.widgets.Shell;
  * @author <a href="mailto:ckl@dacelo.nl">Christiaan ten Klooster </a>
  * @version $Revision: 1537 $
  */
-public class WizardDialogFactory extends AbstractSwtFactory implements SwtFactory {
+public class WizardDialogFactory extends AbstractSwtFactory {
 
-    /*
-     * @see groovy.swt.factory.SwtFactory#newInstance(java.util.Map,
-     *      java.lang.Object)
-     */
-    public Object newInstance(Map properties, Object parent) throws GroovyException {
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+		Object parent = builder.getCurrent();
         Shell parentShell = SwtUtils.getParentShell(parent);
 
         // get performFinish and performCancel closures for the wizard.
@@ -35,9 +33,9 @@ public class WizardDialogFactory extends AbstractSwtFactory implements SwtFactor
         // if false is returned by finish/cancel the wizard isn't closed
         // see org.eclipse.jface.wizard.IWizard#performFinish()
         // see org.eclipse.jface.wizard.IWizard#performCancel()
-       	Wizard wizard = new WizardImpl(properties.get("performFinish"), properties.get("performCancel"));
+       	Wizard wizard = new WizardImpl(attributes.remove("performFinish"), attributes.remove("performCancel"));
        	// get the property text which will be used for the wizard's title
-        String text = (String) properties.get("text");
+        String text = (String) attributes.remove("text");
        	wizard.setWindowTitle(text);
        	
         WizardDialog wizardDialog = new WizardDialogImpl(parentShell, wizard);

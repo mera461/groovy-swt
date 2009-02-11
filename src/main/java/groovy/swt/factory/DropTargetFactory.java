@@ -3,13 +3,12 @@
  */
 package groovy.swt.factory;
 
-import groovy.swt.InvalidParentException;
 import groovy.swt.SwtUtils;
 import groovy.swt.impl.DropTargetListenerImpl;
+import groovy.util.FactoryBuilderSupport;
 
 import java.util.Map;
 
-import org.codehaus.groovy.GroovyException;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTarget;
@@ -24,16 +23,15 @@ import org.eclipse.swt.widgets.Control;
  * @author Alexander Becher
  *
  */
-public class DropTargetFactory extends AbstractSwtFactory implements SwtFactory {
+public class DropTargetFactory extends AbstractSwtFactory {
 
-	/* (non-Javadoc)
-	 * @see org.codehaus.groovy.ui.swt.factory.AbstractSwtFactory#newInstance(java.util.Map, java.lang.Object)
-	 */
-	public Object newInstance(Map pProperties, Object pParent)
-			throws GroovyException {
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+		Object pParent = builder.getCurrent();
 		Control parent;
 		if (!(pParent instanceof Control || pParent instanceof Viewer))
-			throw new InvalidParentException("Widget or Viewer");
+			throw new InstantiationException("Parent node of DropTarget ("+name+") must be Widget or Viewer");
 		if (pParent instanceof Control){
 			parent = (Control) pParent;
 		}
@@ -43,18 +41,18 @@ public class DropTargetFactory extends AbstractSwtFactory implements SwtFactory 
 		
 		// get operations
 		// e.g. "DROP_MOVE, DROP_COPY, DROP_LINK"
-		String ops = (String)pProperties.get("operations");
+		String ops = (String)attributes.remove("operations");
 		if (ops == null)
-			ops = (String)pProperties.get("style");
+			ops = (String)attributes.remove("style");
 		if (ops == null)
-			ops = (String)pProperties.get("type");
+			ops = (String)attributes.remove("type");
 		if (ops == null)
 			ops = "copy, move, link";
 		int operations = SwtUtils.parseStyle(DND.class, ops, true);
 		
 		// try to get Transfer
 		Transfer[] types = null;
-		Object transfer = pProperties.get("transfer");
+		Object transfer = attributes.remove("transfer");
 		if (transfer instanceof String){
 			
 			if (((String)transfer).equalsIgnoreCase("text")){
@@ -83,7 +81,7 @@ public class DropTargetFactory extends AbstractSwtFactory implements SwtFactory 
 		DropTarget source = new DropTarget(parent, operations);
 		source.setTransfer(types);
 
-		DropTargetListenerImpl listener = new DropTargetListenerImpl(pProperties, pParent, operations);
+		DropTargetListenerImpl listener = new DropTargetListenerImpl(attributes, pParent, operations);
 		source.addDropListener(listener);
 		
 		return listener;

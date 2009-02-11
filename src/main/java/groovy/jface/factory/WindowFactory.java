@@ -6,8 +6,8 @@ package groovy.jface.factory;
 
 import groovy.swt.InvalidParentException;
 import groovy.swt.convertor.PointConverter;
-import groovy.swt.factory.SwtFactory;
 import groovy.swt.factory.WidgetFactory;
+import groovy.util.FactoryBuilderSupport;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.Shell;
  * @author <a href:ckl at dacelo.nl">Christiaan ten Klooster </a>
  * @version $Revision: 915 $
  */
-public class WindowFactory extends WidgetFactory implements SwtFactory {
+public class WindowFactory extends WidgetFactory {
 
     /**
      * @param beanClass
@@ -30,16 +30,16 @@ public class WindowFactory extends WidgetFactory implements SwtFactory {
         super(beanClass);
     }
 
-    /*
-     * @see groovy.swt.factory.AbstractSwtFactory#newInstance(java.util.Map,
-     *      java.lang.Object)
-     */
-    public Object newInstance(Map properties, Object parent) throws GroovyException {
-        if (parent == null){
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+		Object parent = builder.getCurrent();
+
+		if (parent == null){
             parent = new Shell();
         }
         if (!(parent instanceof Shell)){
-            throw new InvalidParentException("shell");
+            throw new InstantiationException("The parent of a Window must be a Shell");
         }
         
         Window window = (Window) createWidget(parent);
@@ -47,26 +47,26 @@ public class WindowFactory extends WidgetFactory implements SwtFactory {
             Shell shell = (Shell) parent;
 
             // set title of Window
-            String title = (String) properties.remove("title");
+            String title = (String) attributes.remove("title");
             if (title != null){
                 window.getShell().setText((String) title);
             }
 
             // set size of Window
-            List size = (List) properties.remove("size");
+            List size = (List) attributes.remove("size");
             if (size != null){
                 Point point = PointConverter.getInstance().parse(size);
                 window.getShell().setSize(point);
             }
 
             // set location of Window
-            List location = (List) properties.remove("location");
+            List location = (List) attributes.remove("location");
             if (location != null){
                 Point point = PointConverter.getInstance().parse(location);
                 window.getShell().setLocation(point);
             }
         }
-        setBeanProperties(window, properties);
+        setBeanProperties(window, attributes);
         return window;
     }
 }

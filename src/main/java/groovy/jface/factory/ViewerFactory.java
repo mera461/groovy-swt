@@ -5,8 +5,8 @@
 package groovy.jface.factory;
 
 import groovy.swt.SwtUtils;
-import groovy.swt.factory.SwtFactory;
 import groovy.swt.factory.WidgetFactory;
+import groovy.util.FactoryBuilderSupport;
 
 import java.util.Map;
 
@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Tree;
  * @author <a href:ckl at dacelo.nl">Christiaan ten Klooster </a>
  * @version $Revision: 1557 $
  */
-public class ViewerFactory extends WidgetFactory implements SwtFactory {
+public class ViewerFactory extends WidgetFactory {
 
     /**
      * @param beanClass
@@ -41,40 +41,35 @@ public class ViewerFactory extends WidgetFactory implements SwtFactory {
         super(beanClass);
     }
 
-    /*
-     * @see groovy.swt.factory.AbstractSwtFactory#newInstance(java.util.Map,
-     *      java.lang.Object)
-     */
-    public Object newInstance(Map properties, Object parent) throws GroovyException {
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+		Object parent = builder.getCurrent();
         Object bean;
 
-        String styleProperty = (String) properties.remove("style");
+        String styleProperty = (String) attributes.remove("style");
         if (styleProperty != null) {
-            style = SwtUtils.parseStyle(SWT.class, styleProperty);
+            defaultStyle = SwtUtils.parseStyle(SWT.class, styleProperty);
         }
 
         if (beanClass.equals(TableViewer.class) && (parent instanceof Table)) {
-            bean = new TableViewer((Table) parent, style);
+            bean = new TableViewer((Table) parent, defaultStyle);
 
         } else if (beanClass.equals(TableTreeViewer.class) && (parent instanceof TableTree)) {
-            bean = new TableTreeViewer((TableTree) parent, style);
+            bean = new TableTreeViewer((TableTree) parent, defaultStyle);
 
         } else if (beanClass.equals(TreeViewer.class) && (parent instanceof Tree)) {
-            bean = new TreeViewer((Tree) parent, style);
+            bean = new TreeViewer((Tree) parent, defaultStyle);
 
         } else if (beanClass.equals(CheckboxTreeViewer.class) && (parent instanceof Tree)) {
-            bean = new CheckboxTreeViewer((Tree) parent, style);
+            bean = new CheckboxTreeViewer((Tree) parent, defaultStyle);
 
         } else {
-            Object parentWidget = SwtUtils.getParentWidget(parent, properties);
+            Object parentWidget = SwtUtils.getParentWidget(parent, attributes);
             bean = createWidget(parentWidget);
         }
 
-        if (bean != null) {
-            setBeanProperties(bean, properties);
-        }
-
-        setControl(bean, parent);
+        setParent(builder, parent, bean);
 
         return bean;
     }

@@ -4,9 +4,10 @@
  */
 package groovy.swt.factory;
 
+import groovy.util.FactoryBuilderSupport;
+
 import java.util.Map;
 
-import org.codehaus.groovy.GroovyException;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 
@@ -14,19 +15,16 @@ import org.eclipse.swt.widgets.Composite;
  * @author <a href="mailto:ckl@dacelo.nl">Christiaan ten Klooster </a>
  * @version $Revision: 1084 $
  */
-public class AwtSwtFactory extends AbstractSwtFactory implements SwtFactory {
+public class AwtSwtFactory extends AbstractSwtFactory {
 
-    /*
-     * @see groovy.swt.impl.Factory#newInstance(java.util.Map, java.lang.Object)
-     */
-    public Object newInstance(Map properties, Object parent)
-            throws GroovyException {
-        
-        if (parent instanceof Composite) {
-            return SWT_AWT.new_Frame((Composite) parent);
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+
+        if (builder.getCurrent() instanceof Composite) {
+            return SWT_AWT.new_Frame((Composite) builder.getCurrent());
         }
         
         return null;
-    }
-
+	}	
 }

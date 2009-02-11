@@ -4,14 +4,14 @@
  */
 package groovy.swt.factory;
 
+import groovy.lang.GroovyRuntimeException;
 import groovy.lang.MissingPropertyException;
-import groovy.swt.InvalidParentException;
+import groovy.util.FactoryBuilderSupport;
 
 import java.io.File;
 import java.io.InputStream;
 import java.util.Map;
 
-import org.codehaus.groovy.GroovyException;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Button;
@@ -26,19 +26,19 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
  * @author <a href="mailto:ckl@dacelo.nl">Christiaan ten Klooster </a>
  * @version $Revision: 1306 $
  */
-public class ImageFactory extends AbstractSwtFactory implements SwtFactory {
+public class ImageFactory extends AbstractSwtFactory {
 
-    /*
-     * @see groovy.swt.impl.Factory#newInstance(java.util.Map, java.lang.Object)
-     */
-    public Object newInstance(Map properties, Object parent) throws GroovyException {
-        String src = (String) properties.remove("src");
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+		Object parent = builder.getCurrent();
+        String src = (String) attributes.remove("src");
         if (src == null) {
             throw new MissingPropertyException("src", Image.class);
         }
 
         if (parent == null) {
-            throw new InvalidParentException("Widget or a Window");
+            throw new InstantiationException("The parent of a Image must be a Widget or a Window");
         }
 
         Image image = null;
@@ -48,7 +48,7 @@ public class ImageFactory extends AbstractSwtFactory implements SwtFactory {
         } else {
         	InputStream resourceAsStream = ImageFactory.class.getClassLoader().getResourceAsStream(src);
         	if (resourceAsStream == null) {
-                throw new GroovyException("Can not open the given image with src="+src);
+                throw new GroovyRuntimeException("Can not open the given image with src="+src);
         	}
        		image = new Image(Display.getCurrent(), resourceAsStream);
         }
@@ -56,7 +56,7 @@ public class ImageFactory extends AbstractSwtFactory implements SwtFactory {
         setImage(parent, image);
 
         return image;
-    }
+	}
 
     /**
      * Add image to a widget or window
@@ -65,7 +65,7 @@ public class ImageFactory extends AbstractSwtFactory implements SwtFactory {
      * @param image
      * @throws JellyTagException
      */
-    protected void setImage(Object parent, Image image) throws GroovyException {
+    protected void setImage(Object parent, Image image) {
         if (parent instanceof Label) {
             Label label = (Label) parent;
             label.setImage(image);
@@ -95,8 +95,8 @@ public class ImageFactory extends AbstractSwtFactory implements SwtFactory {
             window.getShell().setImage(image);
 
         } else {
-            throw new GroovyException(
-                    "This tag must be nested inside a <label>, <button> or <item> tag");
+            throw new GroovyRuntimeException(
+                    "This tag must be nested inside a Label, Button, Item, Decorations, Form, or a Window");
         }
     }
 

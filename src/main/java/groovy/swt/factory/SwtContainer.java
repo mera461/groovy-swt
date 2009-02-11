@@ -1,6 +1,7 @@
 package groovy.swt.factory;
 
 import groovy.lang.Closure;
+import groovy.util.FactoryBuilderSupport;
 
 import java.util.Map;
 
@@ -13,14 +14,15 @@ import org.codehaus.groovy.GroovyException;
  * @author Alexander Becher
  *
  */
-public class SwtContainer extends AbstractSwtFactory implements SwtFactory {
+public class SwtContainer extends AbstractSwtFactory {
 	
 	
-	public Object newInstance(Map pProperties, Object pParent)
-			throws GroovyException {
-		Closure container = (Closure)pProperties.remove("closure");
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+		Closure container = (Closure)attributes.remove("closure");
 		//container.setProperty("parent", pParent);
-		container.call(pParent);
+		container.call(builder.getCurrent());
 		return this;
 	}
 

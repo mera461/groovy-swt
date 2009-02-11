@@ -1,11 +1,12 @@
 package groovy.jface.factory;
 
-import groovy.swt.factory.SwtFactory;
 import groovy.swt.factory.WidgetFactory;
+import groovy.util.FactoryBuilderSupport;
 
 import java.util.Map;
 
 import org.codehaus.groovy.GroovyException;
+import org.codehaus.groovy.runtime.InvokerHelper;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IContributionManager;
@@ -14,7 +15,7 @@ import org.eclipse.jface.action.IContributionManager;
  * @author <a href="mailto:ckl@dacelo.nl">Christiaan ten Klooster </a>
  * @version $Revision: 1581 $
  */
-public class ContributionManagerFactory extends WidgetFactory implements SwtFactory {
+public class ContributionManagerFactory extends WidgetFactory {
 
     public ContributionManagerFactory(Class beanClass) {
         super(beanClass);
@@ -24,11 +25,11 @@ public class ContributionManagerFactory extends WidgetFactory implements SwtFact
      * @see groovy.swt.impl.SwtFactory#newInstance(java.util.Map,
      *      java.lang.Object)
      */
-    public Object newInstance(Map properties, Object parent) throws GroovyException {
-
+	public Object newInstance(FactoryBuilderSupport builder, Object name,
+			Object value, Map attributes) throws InstantiationException,
+			IllegalAccessException {
+		Object parent = builder.getCurrent();
         Object bean = createWidget(parent);
-
-        setBeanProperties(bean, properties);
 
         if (parent instanceof IContributionManager) {
             IContributionManager contributionManager = (IContributionManager) parent;
@@ -41,6 +42,12 @@ public class ContributionManagerFactory extends WidgetFactory implements SwtFact
                 contributionManager.add((IContributionItem) bean);
             }
         }
+        
+        if (value instanceof String) {
+            // this does not create property setting order issues, since the value arg preceeds all attributes in the builder element
+            InvokerHelper.setProperty(bean, "text", value);
+        }
+        
         return bean;
     }
 }
