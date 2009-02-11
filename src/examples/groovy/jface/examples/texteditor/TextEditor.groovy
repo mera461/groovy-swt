@@ -38,16 +38,16 @@ public class TextEditor implements ExtendedModifyListener {
 	void createWindow () {
 	    mainapp = jface.applicationWindow( title:"Groovy Text Editor", location:[100,100], size:[500, 300] ) {
 	     	gridLayout(numColumns:1)
-	     	menuManager( text:"File" ) {
-	     		action ( text:"Exit", closure:{ mainapp.close() } )
+	     	menuManager( "File" ) {
+	     		action ( "Exit", closure:{ mainapp.close() } )
 	     	}
 
-	     	menuManager( text:"Edit" ) {
-	     		action ( text:"Cut", accelerator: SWT.MOD1 + (int) 'X', closure:{ handleCutCopy(); text.cut() } )
-	     		action ( text:"Copy", accelerator: SWT.MOD1 + (int) 'C',closure:{ handleCutCopy(); text.copy() } )
-	     		action ( text:"Paste", accelerator: SWT.MOD1 + (int) 'P',closure:{ text.paste() } )
+	     	menuManager( "Edit" ) {
+	     		action ( "Cut", accelerator: SWT.MOD1 + (int) 'X', closure:{ handleCutCopy(); text.cut() } )
+	     		action ( "Copy", accelerator: SWT.MOD1 + (int) 'C',closure:{ handleCutCopy(); text.copy() } )
+	     		action ( "Paste", accelerator: SWT.MOD1 + (int) 'P',closure:{ text.paste() } )
 	     		separator()
-	     		action ( text:"Set Font", closure:{ setFont() } )
+	     		action ( "Set Font", closure:{ setFont() } )
 	     	}
 	     	toolBar( style:"none" ) {
         		boldButton = toolItem(style:"check", toolTipText:"Bold") {
