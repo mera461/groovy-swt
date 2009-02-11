@@ -13,11 +13,11 @@ class FormDemo {
 
         mainapp = jface.applicationWindow( title:"The forms demo", size:[700,800], location:[0,0] ) { 	
          	gridLayout ( numColumns:2 )
-			form( text:"Hello, Eclipse Forms" ) {
+			form( "Hello, Eclipse Forms" ) {
 				gridData( style:"fill_both" )
 				tableWrapLayout()
 
-				formSection( text:"section1", description:"description of section1", style:"description, twistie" ) {
+				formSection( "section1", description:"description of section1", style:"description, twistie" ) {
 					tableWrapData( style:"fill" )
 					
 					expansionListener( type:"expansionStateChanging", closure: { println "expansionStateChanging ... " + it } )
@@ -30,32 +30,32 @@ class FormDemo {
 			        htmlText += "<li style=\"text\" value=\"2.\">list item 3</li>"
 			        htmlText += "</form>"
 					
-					formFormattedText( text:htmlText, parseTags:true, expandURLs:true )					
+					formFormattedText( htmlText, parseTags:true, expandURLs:true )					
 					
-					formButton ( text:"This is radiobutton1", style:"radio" ) 
-					formButton ( text:"This is radiobutton2", style:"radio" ) 
+					formButton ( "This is radiobutton1", style:"radio" ) 
+					formButton ( "This is radiobutton2", style:"radio" ) 
 					
-					formButton ( text:"This is a ARROW button", style:"arrow" ) {
+					formButton ( "This is a ARROW button", style:"arrow" ) {
 						onEvent(type:"Selection", closure:{ println "stop selecting me !!!" }) 
 					}	
-					formButton ( text:"This is a PUSH button", style:"push" ) {
+					formButton ( "This is a PUSH button", style:"push" ) {
 	        			onEvent(type:"Selection", closure:{ println "stop pushing me !!!" }) 
 	        		}
-					formButton ( text:"This is a TOGGLE button", style:"TOGGLE" ) {
+					formButton ( "This is a TOGGLE button", style:"TOGGLE" ) {
 						onEvent(type:"Selection", closure:{ println "TOGGLE" }) 
 					}
 					
 				}
 				
-				formSection( text:"section2", description:"description of section2", style:"description, twistie" ) {
+				formSection( "section2", description:"description of section2", style:"description, twistie" ) {
 					tableWrapData( style:"fill" )
-					formLabel( text:"This is a label in section 2" )
-					formExpandableComposite( text:"formExpandableComposite" )
+					formLabel( "This is a label in section 2" )
+					formExpandableComposite( "formExpandableComposite" )
 				}
 
-				formSection( text:"section3", description:"description of section3", style:"description, twistie" ) {
+				formSection( "section3", description:"description of section3", style:"description, twistie" ) {
 					tableWrapData( style:"fill" )
-					formLabel( text:"Below me is a tree" )
+					formLabel( "Below me is a tree" )
 	       			formTree()
 				}
 				
@@ -63,18 +63,18 @@ class FormDemo {
 					tableWrapData( style:"fill" )
 				}
 				
-				formButton( text:"This is a formButton" )
+				formButton( "This is a formButton" )
 				
        			formCompositeSeparator()
 								
-				formHyperlink( text:"this is a hyperlink" ) {
+				formHyperlink( "this is a hyperlink" ) {
 					hyperlinkListener( type:"hyperlinkUpdate", closure: { println "hyperlinkUpdate ... " + it } )
 					hyperlinkListener( type:"linkEntered", closure: { println "linkEntered ... " + it } )
 					hyperlinkListener( type:"linkExited", closure: { println "linkExited ... " + it } )
 					hyperlinkListener( type:"linkActivated", closure: { println "linkActivated ... " + it } )
 				}
        			
-       			formLabel( text:"This is a formLabel, folowed by a formTable" )
+       			formLabel( "This is a formLabel, folowed by a formTable" )
        			formTable() {
 	       			tableWrapData( style:"fill" )
        			}
@@ -82,15 +82,15 @@ class FormDemo {
      			
        			
        			// NOT FULLY IMPLEMENTED YET:
-       			// formImageHyperlink( text:"formImageHyperlink" )
-       			// formPageBook( text:"formPageBook" )
+       			// formImageHyperlink( "formImageHyperlink" )
+       			// formPageBook( "formPageBook" )
        			
 			}
 			
-			form( text:"hello formScrolledForm" ) {
+			form( "hello formScrolledForm" ) {
 				gridData( style:"fill_both" )
-				formLabel( text:"my parent is a scrolledForm" )
-				formButton( text:"formButton" )
+				formLabel( "my parent is a scrolledForm" )
+				formButton( "formButton" )
 			}
 		}
 		
