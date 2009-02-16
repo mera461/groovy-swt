@@ -248,8 +248,8 @@ public void open() {
     
     
 // TODO:	mainapp.getShell().addShellListener(this)
-    mainapp.menuBarManager.updateAll( true )
-    mainapp.getShell().pack()
+    //mainapp.menuBarManager.updateAll( true )
+    //mainapp.getShell().pack()
 	// TODO: mainapp.setSize(table.computeSize(SWT.DEFAULT, SWT.DEFAULT).x, 300);
 	newAddressBook();
 

@@ -33,7 +33,6 @@ class ToolBarManagerDemo {
 				*/
 			}
 		}
-		mainapp.getToolBarManager().update(true)
 		mainapp.getShell().layout()
 		mainapp.open()
 	}

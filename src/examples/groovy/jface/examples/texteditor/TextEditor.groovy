@@ -96,7 +96,6 @@ public class TextEditor implements ExtendedModifyListener {
 	     	
 	     	text.addExtendedModifyListener(this)
 		}
-     	mainapp.menuBarManager.updateAll( true )
 		mainapp.open()
 	}
 

@@ -38,9 +38,8 @@ class MenuManagerDemo {
 				image(src:"icon.gif")
 			}
 		}
-  		mainapp.getMenuBarManager().updateAll(true)
-		mainapp.getShell().layout()
-		mainapp.open()
+
+  		mainapp.open()
 		
   	}
   	
