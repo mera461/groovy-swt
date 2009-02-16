@@ -4,7 +4,6 @@
  */
 package groovy.jface.factory;
 
-import groovy.swt.InvalidParentException;
 import groovy.swt.convertor.PointConverter;
 import groovy.swt.factory.WidgetFactory;
 import groovy.util.FactoryBuilderSupport;
@@ -12,7 +11,6 @@ import groovy.util.FactoryBuilderSupport;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.groovy.GroovyException;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Shell;
