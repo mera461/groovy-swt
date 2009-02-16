@@ -17,7 +17,7 @@ class SashFormDemo {
     def run() {
         builder = new SwtBuilder()
         
-        shell = builder.shell ( text:'The SashForm Demo' ) {
+        shell = builder.shell ( 'The SashForm Demo' ) {
         	fillLayout()
         
        		sashForm1 = sashForm( style:"horizontal" ) {
@@ -25,17 +25,17 @@ class SashFormDemo {
        			
        			composite( style:"none" ) {
 	       			fillLayout()
-	       			label( text:"Label in pane 1" )
+	       			label( "Label in pane 1" )
        			}
     
        			composite( style:"none" ) {
 	       			fillLayout()
-	       			button( text:"Button in pane2", style:"push" )
+	       			button( "Button in pane2", style:"push" )
        			}
     
        			composite( style:"none" ) {
        				fillLayout()
-	       			label( text:"Label in pane3" )
+	       			label( "Label in pane3" )
        			}
        		}
        		

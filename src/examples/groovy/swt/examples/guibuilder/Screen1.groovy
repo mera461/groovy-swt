@@ -8,11 +8,11 @@ class Screen1 {
 		guiBuilder.composite {
 			fillLayout()
 			
-			group( text:"This is Screen1.groovy" ) {
+			group( "This is Screen1.groovy" ) {
 				gridLayout()
-				button( text:"the hardest", background:[0, 255, 255] )
-				button( text:"button", background:[0, 255, 255] )
-				button( text:"to button", background:[0, 255, 255] )
+				button( "the hardest", background:[0, 255, 255] )
+				button( "button", background:[0, 255, 255] )
+				button( "to button", background:[0, 255, 255] )
 			}
 		}
 	}

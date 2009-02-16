@@ -14,36 +14,36 @@ class BrowserSwtDemo extends Script {
     def run() {
         swt = new SwtBuilder()
         
-        shell = swt.shell( text:"The Browser Test", location:[100,100], size:[700,600] ) {
+        shell = swt.shell( "The Browser Test", location:[100,100], size:[700,600] ) {
          	gridLayout(numColumns:3) 
 
         	toolBar( style:"none" ) {
         		gridData( horizontalSpan:3 )
         	
-        		toolItem(style:"push", text:"Back") {
+        		toolItem(style:"push", "Back") {
         			onEvent(type:"Selection", closure:{ browser.back() }) 
         		}
         		
-        		toolItem(style:"push", text:"Forward") {
+        		toolItem(style:"push", "Forward") {
         			onEvent(type:"Selection", closure:{ browser.forward() } ) 
         		}
         		
-        		toolItem(style:"push", text:"Stop") {	
+        		toolItem(style:"push", "Stop") {	
         			onEvent(type:"Selection", closure:{ browser.stop() } )
         		}
         		
-        		toolItem(style:"push", text:"Refresh") { 
+        		toolItem(style:"push", "Refresh") { 
         			onEvent(type:"Selection", closure:{ browser.refresh() } )
         		}
         		
-        		toolItem(style:"push", text:"Go") {
+        		toolItem(style:"push", "Go") {
         			onEvent(type:"Selection", closure:{ 
         				browser.setUrl( location.getText() ) 
         			})
         		}
         	}
 
-        	label( style:"none", text:"Address" )
+        	label( style:"none", "Address" )
         	location = text( style:"border" ) {  
 	        	gridData( style:"fill_horizontal", horizontalSpan:2, grabExcessHorizontalSpace:true )
 	        	onEvent(type:"DefaultSelection", closure: {
@@ -77,7 +77,7 @@ class BrowserSwtDemo extends Script {
 				
 			}
 			browser.setUrl( "http://feeds.codehaus.org/" )
-			status = label( style:"none", text:"" ) {
+			status = label( style:"none", "" ) {
 				gridData( style:"fill_horizontal", horizontalSpan:2) 
 			}
 		

@@ -26,7 +26,7 @@ class AnotherWizardDemo {
 		// lets create a window
 		def mainapp = jface.window() {
 			// and now the wizard dialog
-	  		def wizardDialog = wizardDialog(text:"Groovy Wizard Demo", 
+	  		def wizardDialog = wizardDialog("Groovy Wizard Demo", 
 	  				performFinish:{ println "Finished was pressed"; return true}, 
 	  				performCancel:{ println "Cancel method"; return true} ) 
 	  		{
@@ -88,7 +88,7 @@ class AnotherWizardDemo {
 						jface.composite( it ) {
 							gridLayout( numColumns:"2" )
 							label( "Set PageComplete to true/false: " )
-							    def button2 = button(style:"PUSH", text:"Change it") {
+							    def button2 = button("Change it") {
         							onEvent(type:"Selection", closure:{ 
 							        	wizardPage2.setPageComplete(!wizardPage2.isPageComplete() )
 							        })

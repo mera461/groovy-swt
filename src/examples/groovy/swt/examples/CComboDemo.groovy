@@ -20,11 +20,11 @@ class CComboDemo {
   
   	void run(){
   		
-  		shell = swt.shell(text:"cCombo Demo", location:[0,0], size:[390,150]) {
+  		shell = swt.shell("cCombo Demo", location:[0,0], size:[390,150]) {
   			rowLayout()
   			cCombo(style:"BORDER", items:["1 Item one", "2 Item two", "3 Item three"])
   			combo(  items:["1 Item one", "2 Item two", "3 Item three"], visibleItemCount:10)
-  	  		button1 = button(style:"PUSH", text:'Open') {
+  	  		button1 = button('Open') {
   		        onEvent(type:"Selection", closure:{ 
   		        	println "button"
   		        })

@@ -10,28 +10,28 @@ class TreeDemo {
     def run() {
         swt = new SwtBuilder()
         
-        shell = swt.shell ( text:'The Swt Demo #1', location:[100,100], size:[700,600] ) {
+        shell = swt.shell ( 'The Swt Demo #1', location:[100,100], size:[700,600] ) {
          	gridLayout(numColumns:3) 
  
 			tree( toolTipText:"This is a tree!", style:"multi" ) {
 			
 				gridData( style:"fill_both" )
 			
-				treeItem( text:"A" ) {
-					treeItem( text:"A/A" )
-					treeItem( text:"A/B" )
-					treeItem( text:"A/C" )
+				treeItem( "A" ) {
+					treeItem( "A/A" )
+					treeItem( "A/B" )
+					treeItem( "A/C" )
 				}
 				
-				treeItem( text:"B" ) {
-					treeItem( text:"B/A" )
-					treeItem( text:"B/B" )
-					treeItem( text:"B/C" )
+				treeItem( "B" ) {
+					treeItem( "B/A" )
+					treeItem( "B/B" )
+					treeItem( "B/C" )
 				}
 						
 				menu( style:"pop_up" ) {
-					menuItem( text:"do something!" )
-					menuItem( text:"do something else" )
+					menuItem( "do something!" )
+					menuItem( "do something else" )
 				}
 			}		
         }

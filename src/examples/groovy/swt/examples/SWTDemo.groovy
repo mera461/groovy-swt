@@ -20,26 +20,26 @@ class SWTDemo {
   void run() {
 	  println "SWT Demo Application"
 /* TODO: Make maven compile this 	  
-	  def shell = mSwtBuilder.shell(text:"The SWT Builder Demo", location:[100,100], size:[300,300] ) {
+	  def shell = mSwtBuilder.shell("The SWT Builder Demo", location:[100,100], size:[300,300] ) {
 		gridLayout(numColumns:2)
-		label(text:"Swt Demo", layoutData:gridData(horizontalSpan:2))
-		def wizardButton = button(style:"push", text:"Start wizard") {
+		label("Swt Demo", layoutData:gridData(horizontalSpan:2))
+		def wizardButton = button("Start wizard") {
 			onEvent(type:"Selection", closure:{ 
 				showWizard() 
 			})
 		}
-		def simpleWizardButton = button(style:"push", text:"Start simple wizard") {
+		def simpleWizardButton = button("Start simple wizard") {
 			onEvent(type:"Selection", closure:{ 
 				showSimpleWizard() 
 			})
 		}
 		
-		def textEditorDemoButton = button(style:"push", text:"Start TextEditorDemo") {
+		def textEditorDemoButton = button("Start TextEditorDemo") {
 			onEvent(type:"Selection", closure:{ 
 				showTextEditorDemo() 
 			})
 		}
-		button(text:"Button with border", style:"BORDER", layoutData:gridData(horizontalSpan:2))
+		button("Button with border", style:"BORDER", layoutData:gridData(horizontalSpan:2))
 		
 	  }
 		shell.open()
