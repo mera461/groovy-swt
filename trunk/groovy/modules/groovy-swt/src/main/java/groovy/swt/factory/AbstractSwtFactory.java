@@ -4,6 +4,7 @@
  */
 package groovy.swt.factory;
 
+import groovy.lang.GString;
 import groovy.swt.SwtUtils;
 import groovy.swt.convertor.ColorConverter;
 import groovy.swt.convertor.PointConverter;
@@ -92,6 +93,7 @@ public abstract class AbstractSwtFactory extends AbstractFactory {
                     field.setFloat(bean, ((Float) value).floatValue());
                 } else {
                 	// Is it a String with a SWT constant?
+                	if (value instanceof GString) value = value.toString();
                 	if (value instanceof String) {
                			int constValue = SwtUtils.parseStyle(SWT.class, (String)value);
                         field.setInt(bean, constValue);
