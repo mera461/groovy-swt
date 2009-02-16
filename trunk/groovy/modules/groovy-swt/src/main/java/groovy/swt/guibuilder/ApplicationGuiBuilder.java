@@ -40,7 +40,7 @@ public class ApplicationGuiBuilder extends JFaceBuilder {
     /*
      * @see groovy.swt.SwtBuilder#registerWidgets()
      */
-    protected void registerApplicationWidgets() {
+    public void registerApplicationWidgets() {
         registerFactory("rebuild", new RebuildFactory(this));
         registerFactory("runScript", new RunScriptFactory(this));
     }
