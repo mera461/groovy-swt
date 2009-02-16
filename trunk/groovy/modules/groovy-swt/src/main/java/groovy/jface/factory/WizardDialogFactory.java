@@ -6,12 +6,14 @@ package groovy.jface.factory;
 
 import groovy.jface.impl.WizardDialogImpl;
 import groovy.jface.impl.WizardImpl;
+import groovy.lang.GString;
 import groovy.swt.SwtUtils;
 import groovy.swt.factory.AbstractSwtFactory;
 import groovy.util.FactoryBuilderSupport;
 
 import java.util.Map;
 
+import org.codehaus.groovy.runtime.InvokerHelper;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
@@ -34,11 +36,20 @@ public class WizardDialogFactory extends AbstractSwtFactory {
         // see org.eclipse.jface.wizard.IWizard#performFinish()
         // see org.eclipse.jface.wizard.IWizard#performCancel()
        	Wizard wizard = new WizardImpl(attributes.remove("performFinish"), attributes.remove("performCancel"));
-       	// get the property text which will be used for the wizard's title
+       	
+        if (value instanceof GString) value = value.toString();
+        if (value instanceof String) {
+        	wizard.setWindowTitle((String)value);
+        }
+        // get the property text which will be used for the wizard's title
         String text = (String) attributes.remove("text");
-       	wizard.setWindowTitle(text);
+        if (text != null) {
+        	wizard.setWindowTitle(text);
+        }
+
        	
         WizardDialog wizardDialog = new WizardDialogImpl(parentShell, wizard);
         return wizardDialog; 
     }
+	
 }
