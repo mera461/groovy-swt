@@ -20,13 +20,14 @@ class CheckTableDemo {
 	void run(){
 		
 		swt = new SwtBuilder()
-		def shell = swt.shell(text:"Table Demo", size:[280,280]){
-			label1 = label(text:"", style:"CENTER")
+		def shell = swt.shell("Table Demo", size:[280,280]){
+			label1 = label("label", style:"CENTER")
 			table1 = table(linesVisible:true, headerVisible:true,style:"CHECK, BORDER, H_SCROLL,V_SCROLL,FULL_SELECTION"){
-				tableColumn(text:"Column1", width:80)
-			  	tableColumn(text:"Column2", width:60)
-				tableColumn(text:"Column3", width:60)
-				tableColumn(text:"Column4", width:60)
+				tableColumn("Column1", width:80)
+			  	tableColumn("Column2", width:60)
+				tableColumn("Column3", width:60)
+				tableColumn("Column4", width:60)
+				// TODO: has this ever been working?
 				def row = ["1","2","3","4"]
 				tableItem(text:row)
 				(0..24).each{

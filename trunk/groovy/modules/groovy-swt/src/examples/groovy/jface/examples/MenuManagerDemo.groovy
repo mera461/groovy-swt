@@ -22,19 +22,19 @@ class MenuManagerDemo {
   		
   		mainapp = jface.applicationWindow() { 
   			
-         	menuManager( text:"&File" ) {
-         		action ( text:"&Open file", closure:{ println "Open file pressed" } )
+         	menuManager( "&File" ) {
+         		action ( "&Open file", closure:{ println "Open file pressed" } )
          		separator()
-         		action ( text:"E&xit", closure:{ mainapp.close() } )
+         		action ( "E&xit", closure:{ mainapp.close() } )
          	}
 
-         	menuManager( text:"&Color" ) {
-         		act1 = action ( text:"Enable blue", checked:false, closure:{if (act1.checked)label1.background=new Color(Display.getDefault( ), 0,0,255); else label1.background=new Color(Display.getDefault( ), 255,0,0)} )
+         	menuManager( "&Color" ) {
+         		act1 = action ( "Enable blue", checked:false, closure:{if (act1.checked)label1.background=new Color(Display.getDefault( ), 0,0,255); else label1.background=new Color(Display.getDefault( ), 255,0,0)} )
          	}
        
 			fillLayout ( type:"vertical" )
 
-			label1 = label( text:"A label", background:[255, 0, 0] ) {
+			label1 = label( "A label", background:[255, 0, 0] ) {
 				image(src:"icon.gif")
 			}
 		}

@@ -26,7 +26,7 @@ class TextEditorDemo {
 		def shell
 		def textarea
 		def shelltitle= "Simple texteditor"
-		shell = swt.shell(text:shelltitle, size:(new org.eclipse.swt.graphics.Point(393, 279)) ) {
+		shell = swt.shell(shelltitle, size:(new org.eclipse.swt.graphics.Point(393, 279)) ) {
 			
 		    def gridLayout2 = gridLayout(numColumns:3, makeColumnsEqualWidth:false)
 		    
@@ -39,7 +39,7 @@ class TextEditorDemo {
 		    		}
 		    	})
 		    } 
-		    def button1 = button(style:"push", text:'Load', layoutData:gridData(horizontalAlignment:GridData.END, verticalAlignment:GridData.CENTER, grabExcessHorizontalSpace:true)) {
+		    def button1 = button(style:"push", 'Load', layoutData:gridData(horizontalAlignment:GridData.END, verticalAlignment:GridData.CENTER, grabExcessHorizontalSpace:true)) {
 		        onEvent(type:"Selection", closure:{ 
 		        	def result = ""
 		        	def fileshell = swt.shell(){
@@ -56,7 +56,7 @@ class TextEditorDemo {
 		        	}
 		        })
 		    }
-		    def button2 = button(style:"push", text:'Save', layoutData:gridData(horizontalAlignment:GridData.CENTER, verticalAlignment:GridData.CENTER)) {
+		    def button2 = button(style:"push", 'Save', layoutData:gridData(horizontalAlignment:GridData.CENTER, verticalAlignment:GridData.CENTER)) {
 		        onEvent(type:"Selection", closure:{ 
 		        	def result = ""
 		        	def fileshell = swt.shell(){
@@ -68,7 +68,7 @@ class TextEditorDemo {
 		        		def message_result
 						if (file.exists()){
 							def messageshell = swt.shell(){
-				        		def dialog = messageBox(text:"File already exists!", message:"Do you wish to overwrite?", style:"YES, NO, ICON_WARNING")
+				        		def dialog = messageBox("File already exists!", message:"Do you wish to overwrite?", style:"YES, NO, ICON_WARNING")
 				        		message_result = dialog.open()
 				        	}
 						}	
@@ -79,14 +79,14 @@ class TextEditorDemo {
 								haschanged = false;
 							} catch (FileNotFoundException e1) {
 								swt.shell(){
-					        		messageBox(text:"Error", message:e1, style:"OK, ICON_ERROR").open()
+					        		messageBox("Error", message:e1, style:"OK, ICON_ERROR").open()
 					        	}
 							} 
 						}
 		        	}
 		        })
 		    }
-		    def button3 = button(style:"push", text:'Exit', layoutData:gridData(grabExcessHorizontalSpace:true)) {
+		    def button3 = button('Exit', layoutData:gridData(grabExcessHorizontalSpace:true)) {
 		        onEvent(type:"Selection", closure:{ 
 		        	doExit(shell)
 		        })

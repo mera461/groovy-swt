@@ -18,12 +18,12 @@ class ToolBarManagerDemo {
 		def mainapp = jface.applicationWindow( size:[300,200], location:[100,100]){
 			fillLayout()
 			def tb = toolBarManager() {
-				action ( text:"&Open file", closure:{ println "Open file pressed" } )
-				action ( text:"&C", closure:{ println "C pressed" } )
-				action ( text:"&A", closure:{ println "A pressed" } )
+				action ( "&Open file", closure:{ println "Open file pressed" } )
+				action ( "&C", closure:{ println "C pressed" } )
+				action ( "&A", closure:{ println "A pressed" } )
 				separator()
-				action ( text:"&Z", closure:{ println "Z pressed" } )
-				action ( text:"&Y", closure:{ println "Y pressed" } )
+				action ( "&Z", closure:{ println "Z pressed" } )
+				action ( "&Y", closure:{ println "Y pressed" } )
 				separator()
 				def act1 = action ( closure:{ println "last one" } )
 				/*

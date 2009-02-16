@@ -19,15 +19,15 @@ class SimpleWizardDemo {
 		
 		def mainapp = jface.window() {
 			// and now the wizard dialog
-	  		def wizardDialog = wizardDialog(text:"Wizard Demo") 
+	  		def wizardDialog = wizardDialog("Wizard Demo") 
 	  		{ image(src:"groovy.gif")
 				// first page for the wizard
 		  		def wizardPage1 = wizardPage( title:"Step 1", description:"This is the first page", closure: 
 		  		{ 
 	  				jface.composite(it) {
 	  					gridLayout( numColumns:"2" )
-					    label(text:"label on first page")
-					    button(text:"do nothing")
+					    label("label on first page")
+					    button("do nothing")
 					}
 	  			})
 	  			
@@ -35,8 +35,8 @@ class SimpleWizardDemo {
 	  			def wizardPage2 = wizardPage( title:"Step 2", description:"This is the second page", closure: { 
 					jface.composite( it ) {
 						gridLayout( numColumns:"2" )
-					    label(text:"label on second page")
-					    button(text:"do nothing")							}
+					    label("label on second page")
+					    button("do nothing")							}
 				})
 				
 	  		}

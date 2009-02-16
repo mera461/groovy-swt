@@ -18,17 +18,17 @@ class MenuDemo {
 	void run() {
 		
 		def shell, label1
-		shell = swt.shell( text:"Menu Demo", size:[300,150]) {
+		shell = swt.shell( "Menu Demo", size:[300,150]) {
 			fillLayout()
-			label1= label(text:"a text")
+			label1= label("a text")
 			def menuBar = menu(style:"BAR"){
-				def file = menuItem(text:"&File", style:"CASCADE")
-				def menu2 = menuItem(text:"&Menu2", style:"CASCADE")
-				def help = menuItem(text:"&Help", style:"CASCADE")
+				def file = menuItem("&File", style:"CASCADE")
+				def menu2 = menuItem("&Menu2", style:"CASCADE")
+				def help = menuItem("&Help", style:"CASCADE")
 				def filemenu = menu( style:"DROP_DOWN")	{
-					menuItem(style:"PUSH", text:"&Open file")
+					menuItem(style:"PUSH", "&Open file")
 					menuSeparator()
-					menuItem(style:"PUSH", text:"E&xit"){
+					menuItem(style:"PUSH", "E&xit"){
 						onEvent(type:"Selection", closure:{
 							shell.dispose()						
 						})
@@ -37,7 +37,7 @@ class MenuDemo {
 				file.menu= filemenu
 				def m2
 				def menu2menu = menu(style:"DROP_DOWN"){
-						m2 = menuItem(style:"CHECK", text:"&Change text"){
+						m2 = menuItem(style:"CHECK", "&Change text"){
 							onEvent(type:"Selection", closure:{
 								if (!m2.getSelection())
 								label1.text="a text"
@@ -48,7 +48,7 @@ class MenuDemo {
 				}
 				menu2.menu = menu2menu
 				def helpmenu = menu(style:"DROP_DOWN") {
-					menuItem(style:"PUSH", text:"&About")
+					menuItem(style:"PUSH", "&About")
 				}
 				help.menu = helpmenu
 				

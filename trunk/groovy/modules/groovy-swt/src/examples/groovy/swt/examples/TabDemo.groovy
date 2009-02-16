@@ -11,36 +11,36 @@ class TabDemo {
     void run() {
         swt = new SwtBuilder()
    		
-        shell = swt.shell ( text:'The Tab Demo', size:[500,400] ) {
+        shell = swt.shell ( 'The Tab Demo', size:[500,400] ) {
          	gridLayout()
 
 			cTabFolder( style:"BOTTOM" ) {
 				gridData( style:"fill_both" )
-				cTabItem( style:"none", text:"Item1" ) {
-					text( style:"border, multi", text:"Content for Item1" ) 
+				cTabItem( "Item1", style:"none", ) {
+					text( style:"border, multi", "Content for Item1" ) 
 				}
-				cTabItem( style:"none", text:"Item2" ) {
-					text( style:"border, multi", text:"Content for Item2" ) 
+				cTabItem( "Item2", style:"none") {
+					text( style:"border, multi", "Content for Item2" ) 
 				}
-				cTabItem( style:"none", text:"Item3" ) {
+				cTabItem( "Item3", style:"none" ) {
 					composite(){
 						fillLayout()
-					    text( style:"border, multi", text:"Content for Item3" ) 
-						button(text:"ok")
+					    text( style:"border, multi", "Content for Item3" ) 
+						button("ok")
 					}
 				}
 			}
 			
 			tabFolder( style:"NONE" ) {
 				gridData( style:"fill_both" )
-				tabItem( style:"none", text:"Item4" ) {
-					text( style:"border, multi", text:"Content for Item4" ) 
+				tabItem( "Item4", style:"none") {
+					text( style:"border, multi", "Content for Item4" ) 
 				}
-				tabItem( style:"none", text:"Item5" ) {
-					text( style:"border, multi", text:"Content for Item5" ) 
+				tabItem( "Item5", style:"none") {
+					text( style:"border, multi", "Content for Item5" ) 
 				}
-				tabItem( style:"none", text:"Item6" ) {
-					text( style:"border, multi", text:"Content for Item6" ) 
+				tabItem( "Item6", style:"none") {
+					text( style:"border, multi", "Content for Item6" ) 
 				}
 			}
          	

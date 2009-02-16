@@ -10,11 +10,11 @@ class TrayDemo {
     def run() {
         swt = new SwtBuilder()
         
-        shell = swt.shell ( text:'The tray Demo' ) {
+        shell = swt.shell ( 'The tray Demo' ) {
          	
          	def trayMenu = menu {
-         		menuItem( text:"menuItem1" )
-         		menuItem( text:"menuItem2" )
+         		menuItem( "menuItem1" )
+         		menuItem( "menuItem2" )
          	}
          	
          	tray() {

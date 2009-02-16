@@ -55,7 +55,7 @@ public SearchDialog(Shell parentShell) {
 			shell.setVisible(false);
 		})
 		gridLayout(numColumns: 2)
-		label (style: "left", text: resAddressBook.getString("Dialog_find_what"))
+		label (resAddressBook.getString("Dialog_find_what"), style: "left")
 		searchText = text(style: "BORDER") {
 			gridData(widthHint: 200, style: "FILL_HORIZONTAL")
 			onEvent(type: "Modify", closure: {
@@ -67,24 +67,24 @@ public SearchDialog(Shell parentShell) {
 		searchArea = combo(style: "DROP_DOWN, READ_ONLY") {
 			gridData(widthHint:200, style: "FILL_HORIZONTAL")
 		}
-		matchCaseWidget = button(style: "Check", text: resAddressBook.getString("Dialog_match_case")) {
+		matchCaseWidget = button(style: "Check", resAddressBook.getString("Dialog_match_case")) {
 			gridData(horizontalSpan: 2)
 		}
-		matchWordWidget = button(style: "Check", text: resAddressBook.getString("Dialog_match_word")) {
+		matchWordWidget = button(style: "Check", resAddressBook.getString("Dialog_match_word")) {
 			gridData(horizontalSpan: 2)
 		}
 		
-		group (style: "none", text:resAddressBook.getString("Dialog_direction")) {
+		group (style: "none", resAddressBook.getString("Dialog_direction")) {
 			gridData(horizontalSpan: 2)
 			fillLayout()
-			button (style: "Radio", text: resAddressBook.getString("Dialog_dir_up"), selection: false)
-			down = button (style: "Radio", text: resAddressBook.getString("Dialog_dir_down"), selection: true)
+			button (style: "Radio", resAddressBook.getString("Dialog_dir_up"), selection: false)
+			down = button (style: "Radio", resAddressBook.getString("Dialog_dir_down"), selection: true)
 		}
 		
 		composite (style: "none") {
 			gridData(horizontalSpan: 2, style:"HORIZONTAL_ALIGN_FILL")
 			gridLayout(numColumns: 2, makeColumnsEqualWidth: true)
-			findButton = button(style:"push", text: resAddressBook.getString("Dialog_find"), enabled: false) {
+			findButton = button(style:"push", resAddressBook.getString("Dialog_find"), enabled: false) {
 				gridData(style: "HORIZONTAL_ALIGN_END")
 				onEvent(type: "Selection", closure: {
 					if (!findHandler.call()){
@@ -95,7 +95,7 @@ public SearchDialog(Shell parentShell) {
 					}		
 				})
 			}
-			button(style:"push", text: resAddressBook.getString("Cancel")) {
+			button(resAddressBook.getString("Cancel")) {
 				gridData(style: "HORIZONTAL_ALIGN_BEGINNING")
 				onEvent(type: "Selection", closure: { shell.setVisible(false) })
 			}

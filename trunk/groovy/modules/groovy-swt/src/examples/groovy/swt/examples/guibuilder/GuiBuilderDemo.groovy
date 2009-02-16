@@ -15,33 +15,33 @@ class ApplicationGuiDemo {
 		mainapp = guiBuilder.applicationWindow( title:"The ApplicationGuiDemo", size:[700,400] ) { 
 			fillLayout( ) 
 			
-			menuManager( text:"Screens" ) {
-				action( text:"Screen1", closure:{ 
+			menuManager( "Screens" ) {
+				action( "Screen1", closure:{ 
 					guiBuilder.runScript( src:"Screen1.groovy", parent:mainapp, rebuild:true )
 				})
-				action( text:"Screen2", closure:{ 
+				action( "Screen2", closure:{ 
 					guiBuilder.runScript( src:"Screen2.groovy", parent:mainapp, rebuild:true )
 				})
 			}
 				
 			toolBar( style:"horizontal" ){
-				toolItem( text:"Blue" ) {
+				toolItem( "Blue" ) {
 					onEvent( type:"Selection", closure:{
 						guiBuilder.rebuild( parent:comp1, closure:{ 
 							guiBuilder.composite( it ) {
 								fillLayout()
-								label( text:"This is fresh new blue label ...", background:[0, 0, 255] )
+								label( "This is fresh new blue label ...", background:[0, 0, 255] )
 							}
 						})
 					})
 				}				
 				
-				toolItem( text:"Red" ) {
+				toolItem( "Red" ) {
 					onEvent( type:"Selection", closure:{
 						guiBuilder.rebuild( parent:comp1, closure:{ 
 							guiBuilder.composite( it ) {
 								fillLayout()
-								label( text:"This is fresh new red label ...", background:[255, 0, 0] )
+								label( "This is fresh new red label ...", background:[255, 0, 0] )
 							}
 						})
 					})
@@ -55,7 +55,7 @@ class ApplicationGuiDemo {
 				
 				comp1 = composite() {
 					fillLayout()
-					label( text:"This is green label", background:[0, 255, 0]  )
+					label( "This is green label", background:[0, 255, 0]  )
 				}
 			}
 			

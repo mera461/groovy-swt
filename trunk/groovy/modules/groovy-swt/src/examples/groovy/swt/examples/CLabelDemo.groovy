@@ -17,9 +17,9 @@ class CLabelDemo {
 	
 	void run(){
 		
-		def shell = swt.shell(text:"cLabel Demo", location:[100,100], size:[300,150]) {
+		def shell = swt.shell("cLabel Demo", location:[100,100], size:[300,150]) {
 			gridLayout(numColumns:1)
-			cLabel(background: "#fff777" ,text:"the quick brown fox jumps over the lazy dog the quick brown fox jumps over the lazy dog ", layoutData:gridData(horizontalAlignment:GridData.FILL , grabExcessHorizontalSpace:true))
+			cLabel(background: "#fff777", "the quick brown fox jumps over the lazy dog the quick brown fox jumps over the lazy dog ", layoutData:gridData(horizontalAlignment:GridData.FILL , grabExcessHorizontalSpace:true))
 		}
 		
 		shell.open()

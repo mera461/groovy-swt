@@ -47,7 +47,7 @@ public String[] open() {
 			gridData(style: "fill_horizontal")
 			gridLayout(numColumns: 2)
 			for (int i = 0; i < labels.length; i++) {
-				label(style: "right", text: labels[i])
+				label(labels[i], style: "right")
 				text(style: "border",
 					 text: (values[i]!=null)?values[i]:"",
 					 data: new Integer(i) ) {
@@ -61,12 +61,12 @@ public String[] open() {
 		composite(style: "none") {
 			gridData(style: "HORIZONTAL_ALIGN_CENTER")
 			gridLayout(numColumns: 2)
-			button(style: "push", text: resAddressBook.getString("OK")) {
+			button(resAddressBook.getString("OK")) {
 				onEvent(type:"Selection", closure: {
 					dialog.close()
 				})
 			}
-			button(style: "push", text: resAddressBook.getString("Cancel")) {
+			button(resAddressBook.getString("Cancel")) {
 				onEvent(type:"Selection", closure: { values = null; dialog.close() })
 			}
 		}		
