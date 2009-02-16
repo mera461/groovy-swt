@@ -17,10 +17,10 @@ import groovy.swt.factory.LayoutDataFactory;
 import groovy.swt.factory.LayoutFactory;
 import groovy.swt.factory.ListenerFactory;
 import groovy.swt.factory.SwtContainer;
+import groovy.swt.factory.TableItemFactory;
 import groovy.swt.factory.TrayFactory;
 import groovy.swt.factory.WidgetFactory;
 import groovy.util.FactoryBuilderSupport;
-
 import net.miginfocom.swt.MigLayout;
 
 import org.eclipse.swt.SWT;
@@ -81,7 +81,6 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
@@ -165,7 +164,7 @@ public class SwtBuilder extends FactoryBuilderSupport {
         registerWidgetFactory("check_table", Table.class, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION | SWT.CHECK);
         registerWidgetFactory("tableColumn", TableColumn.class);
 
-        registerWidgetFactory("tableItem", TableItem.class);
+        registerFactory("tableItem", new TableItemFactory());
         registerWidgetFactory("text", Text.class, SWT.BORDER);
         //textArea 
         registerWidgetFactory("textArea", Text.class, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
