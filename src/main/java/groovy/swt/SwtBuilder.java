@@ -103,8 +103,7 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 public class SwtBuilder extends FactoryBuilderSupport {
 
     public SwtBuilder() {
-    	// automatically done in groovy 1.6, but not in 1.5
-    	registerWidgets();
+    	super(true);
     }
 
     protected void registerWidgetFactory(String name, final Class beanClass) {
@@ -114,87 +113,28 @@ public class SwtBuilder extends FactoryBuilderSupport {
     protected void registerWidgetFactory(String name, final Class beanClass, final int style) {
         registerFactory(name, new WidgetFactory(beanClass, style));
     }
-
-    protected void registerWidgets() {
-        // widgets
-        registerFactory("awtFrame", new AwtSwtFactory());
+    
+    protected void registerButtons() {
         registerWidgetFactory("button", Button.class, SWT.PUSH | SWT.CENTER);
-        // Radiobutton
         registerWidgetFactory("radioButton", Button.class, SWT.RADIO);
-        //CheckBox
         registerWidgetFactory("checkBox", Button.class, SWT.CHECK);
-        registerWidgetFactory("canvas", Canvas.class);
-        registerWidgetFactory("caret", Caret.class);
-        registerWidgetFactory("combo", Combo.class, SWT.DROP_DOWN);
-        registerWidgetFactory("composite", Composite.class);
-        registerWidgetFactory("scrolledComposite", ScrolledComposite.class, SWT.H_SCROLL
-                | SWT.V_SCROLL);
+    }    
+
+    protected void registerMenuWidgets() {
         registerWidgetFactory("coolBar", CoolBar.class, SWT.VERTICAL);
         registerWidgetFactory("coolItem", CoolItem.class);
-        registerWidgetFactory("dateTime", DateTime.class);
-        registerWidgetFactory("decorations", Decorations.class);
-        registerWidgetFactory("expandBar", ExpandBar.class);
-        registerFactory("font", new Fontfactory());
-        registerWidgetFactory("group", Group.class);
-        registerWidgetFactory("label", Label.class, SWT.HORIZONTAL | SWT.SHADOW_IN);
-        // line label
-        registerWidgetFactory("line", Label.class, SWT.SEPARATOR| SWT.HORIZONTAL|SWT.BOLD );
-       
-        registerWidgetFactory("link", Link.class);
-        registerWidgetFactory("list", List.class);
-        registerWidgetFactory("multi_list", List.class, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
-
-        registerWidgetFactory("menu", Menu.class, SWT.DEFAULT);
-        //        registerMenuTag("menuBar", SWT.BAR);
-
-        registerWidgetFactory("menuSeparator", MenuItem.class, SWT.SEPARATOR);
-        registerWidgetFactory("menuItem", MenuItem.class);
-        registerWidgetFactory("messageBox", MessageBox.class);
-        registerWidgetFactory("progressBar", ProgressBar.class, SWT.HORIZONTAL);
-        registerWidgetFactory("sash", Sash.class);
-        registerWidgetFactory("scale", Scale.class);
-        registerWidgetFactory("shell", Shell.class, SWT.BORDER | SWT.CLOSE | SWT.MIN | SWT.MAX
-                | SWT.RESIZE | SWT.TITLE);
-        registerWidgetFactory("slider", Slider.class);
-        registerWidgetFactory("spinner", Spinner.class);
-        registerWidgetFactory("tabFolder", TabFolder.class);
-        registerWidgetFactory("tabItem", TabItem.class);
-        registerWidgetFactory("table", Table.class, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
-        // Table with checkbox
-        registerWidgetFactory("check_table", Table.class, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION | SWT.CHECK);
-        registerWidgetFactory("tableColumn", TableColumn.class);
-
-        registerFactory("tableItem", new TableItemFactory());
-        registerWidgetFactory("text", Text.class, SWT.BORDER);
-        //textArea 
-        registerWidgetFactory("textArea", Text.class, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
-
-        registerWidgetFactory("toolBar", ToolBar.class, SWT.VERTICAL);
-        registerWidgetFactory("toolItem", ToolItem.class);
-        registerWidgetFactory("toolTip", ToolTip.class, SWT.VERTICAL);
-        registerWidgetFactory("tracker", Tracker.class);
-        registerFactory("tray", new TrayFactory());
-        registerWidgetFactory("trayItem", TrayItem.class);
-        registerWidgetFactory("tree", Tree.class, SWT.MULTI);
-        registerWidgetFactory("treeItem", TreeItem.class);
-
-        // custom widgets
-        registerWidgetFactory("cBanner", CBanner.class);
-        registerWidgetFactory("cCombo", CCombo.class);
-        registerWidgetFactory("cLabel", CLabel.class);
-        registerWidgetFactory("cTabFolder", CTabFolder.class);
-        registerWidgetFactory("cTabItem", CTabItem.class);
-        registerWidgetFactory("sashForm", SashForm.class);
-        registerWidgetFactory("styledText", StyledText.class);
-        registerWidgetFactory("tableTree", TableTree.class);
-        registerWidgetFactory("tableTreeItem", TableTreeItem.class);
-        registerWidgetFactory("styleRange", StyleRange.class);
-        registerWidgetFactory("popupList", PopupList.class);
-        registerWidgetFactory("treeEditor", TreeEditor.class);
-        // ExpandBar
         registerWidgetFactory("expandBar", ExpandBar.class);
         registerWidgetFactory("expandItem", ExpandItem.class);
+        registerWidgetFactory("menu", Menu.class, SWT.DEFAULT);
+        //        registerMenuTag("menuBar", SWT.BAR);
+        registerWidgetFactory("menuSeparator", MenuItem.class, SWT.SEPARATOR);
+        registerWidgetFactory("menuItem", MenuItem.class);
+        registerWidgetFactory("toolBar", ToolBar.class, SWT.VERTICAL);
+        registerWidgetFactory("toolItem", ToolItem.class);
 
+    }    
+
+    protected void registerLayoutWidgets() {
         // layouts
         registerFactory("fillLayout", new LayoutFactory(FillLayout.class));
         registerFactory("gridLayout", new LayoutFactory(GridLayout.class));
@@ -206,25 +146,53 @@ public class SwtBuilder extends FactoryBuilderSupport {
         registerFactory("gridData", new LayoutDataFactory(GridData.class));
         registerFactory("rowData", new LayoutDataFactory(RowData.class));
         registerFactory("formData", new FormLayoutDataFactory());
-
+    }
+    
+    protected void registerWindows() {
         // dialogs
         registerWidgetFactory("colorDialog", ColorDialog.class);
         registerWidgetFactory("directoryDialog", DirectoryDialog.class);
         registerWidgetFactory("fileDialog", FileDialog.class);
         registerWidgetFactory("fontDialog", FontDialog.class);
+        registerWidgetFactory("messageBox", MessageBox.class);
+        registerWidgetFactory("shell", Shell.class, SWT.BORDER | SWT.CLOSE | SWT.MIN | SWT.MAX
+                | SWT.RESIZE | SWT.TITLE);
+    }
+    
+    protected void registerBasicWidgets() {
+        registerWidgetFactory("cCombo", CCombo.class);
+        registerWidgetFactory("combo", Combo.class, SWT.DROP_DOWN);
+        registerWidgetFactory("line", Label.class, SWT.SEPARATOR| SWT.HORIZONTAL|SWT.BOLD );
+        registerWidgetFactory("link", Link.class);
+        registerWidgetFactory("list", List.class);
+        registerWidgetFactory("multi_list", List.class, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
+        registerWidgetFactory("popupList", PopupList.class);
+        registerWidgetFactory("progressBar", ProgressBar.class, SWT.HORIZONTAL);
+        registerWidgetFactory("scale", Scale.class);
+        registerWidgetFactory("slider", Slider.class);
+        registerWidgetFactory("spinner", Spinner.class);
+    }
 
-        // events
-        registerFactory("onEvent", new ListenerFactory(Listener.class));
+    protected void registerTextWidgets() {
+        registerWidgetFactory("cLabel", CLabel.class);
+        registerWidgetFactory("label", Label.class, SWT.HORIZONTAL | SWT.SHADOW_IN);
+        registerWidgetFactory("styledText", StyledText.class);
+        registerWidgetFactory("styleRange", StyleRange.class);
+        registerWidgetFactory("text", Text.class, SWT.BORDER);
+        registerWidgetFactory("textArea", Text.class, SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
+        registerWidgetFactory("toolTip", ToolTip.class, SWT.VERTICAL);
+    }
+    
 
-        // other tags
-        registerFactory("image", new ImageFactory());
-
-        // browser tags
-        registerWidgetFactory("browser", Browser.class, SWT.NONE);
-        registerFactory("locationListener", new ListenerFactory(LocationListener.class));
-        registerFactory("progressListener", new ListenerFactory(ProgressListener.class));
-        registerFactory("statusTextListener", new ListenerFactory(StatusTextListener.class));
-
+    // browser tags
+    protected void registerBrowserWidgets() {
+    	registerWidgetFactory("browser", Browser.class, SWT.NONE);
+    	registerFactory("locationListener", new ListenerFactory(LocationListener.class));
+    	registerFactory("progressListener", new ListenerFactory(ProgressListener.class));
+    	registerFactory("statusTextListener", new ListenerFactory(StatusTextListener.class));
+    }
+    
+    protected void registerFormWidgets() {
         // forms api
         registerFactory("form", new FormFactory("form"));
         registerFactory("scrolledForm", new FormFactory("scrolledForm"));
@@ -255,21 +223,76 @@ public class SwtBuilder extends FactoryBuilderSupport {
         // forms listeners
         registerFactory("hyperlinkListener", new ListenerFactory(IHyperlinkListener.class));
         registerFactory("expansionListener", new ListenerFactory(IExpansionListener.class));
-
-        // Array Table
-        registerFactory("arrayTable", new ArrayTableFactory());
+    }
+    
+    protected void registerContainers() {
+        registerFactory("awtFrame", new AwtSwtFactory());
+        registerWidgetFactory("cBanner", CBanner.class);
+        registerWidgetFactory("canvas", Canvas.class);
+        registerWidgetFactory("composite", Composite.class);
+        registerWidgetFactory("scrolledComposite", ScrolledComposite.class, SWT.H_SCROLL
+                | SWT.V_SCROLL);
+        registerWidgetFactory("group", Group.class);
+        registerWidgetFactory("sash", Sash.class);
+        registerWidgetFactory("sashForm", SashForm.class);
         
+        // tabs
+        registerWidgetFactory("tabFolder", TabFolder.class);
+        registerWidgetFactory("tabItem", TabItem.class);
+        registerWidgetFactory("cTabFolder", CTabFolder.class);
+        registerWidgetFactory("cTabItem", CTabItem.class);
+        registerWidgetFactory("tracker", Tracker.class);
+    }
+
+    protected void registerTreeAndTableWidgets() {
+        registerWidgetFactory("table", Table.class, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
+        registerWidgetFactory("check_table", Table.class, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION | SWT.CHECK);
+        registerWidgetFactory("tableColumn", TableColumn.class);
+        registerFactory("arrayTable", new ArrayTableFactory());
+
+        registerFactory("tableItem", new TableItemFactory());
+        registerWidgetFactory("tree", Tree.class, SWT.MULTI);
+        registerWidgetFactory("treeItem", TreeItem.class);
+        registerWidgetFactory("tableTree", TableTree.class);
+        registerWidgetFactory("tableTreeItem", TableTreeItem.class);
+        registerWidgetFactory("treeEditor", TreeEditor.class);
+    }
+
+    protected void registerSupportWidgets() {
+        registerWidgetFactory("caret", Caret.class);
+        registerWidgetFactory("dateTime", DateTime.class);
+        registerWidgetFactory("decorations", Decorations.class);
+        registerFactory("font", new Fontfactory());
+        // system tray icons
+        registerFactory("tray", new TrayFactory());
+        registerWidgetFactory("trayItem", TrayItem.class);
+        // events
+        registerFactory("onEvent", new ListenerFactory(Listener.class));
+        registerFactory("image", new ImageFactory());
         // SWT Container
         registerFactory("swt", new SwtContainer());
-
-        // none eclipse widgets
-        // registerBeanFactory("tDateText", TDateText.class);
-        // registerBeanFactory("tCalendar", TCalendar.class);
-        // registerBeanFactory("textEditor", TextEditor.class);
         // Drag and drop support
         registerFactory("dragSource", new DragSourceFactory());
         registerFactory("dropTarget", new DropTargetFactory());
     }
+    
+/* Automatically done in 1.6    
+    protected void registerWidgets() {
+        // register all widgets
+    	registerBasicWidgets();
+    	registerBrowserWidgets();
+    	registerButtons();
+    	registerContainers();
+    	registerFormWidgets();
+    	registerFormWidgets();
+    	registerLayoutWidgets();
+    	registerMenuWidgets();
+    	registerSupportWidgets();
+    	registerTextWidgets();
+    	registerTreeAndTableWidgets();
+    	registerWindows();
+    }
+*/    
     
     /* 
      * Shortcuts

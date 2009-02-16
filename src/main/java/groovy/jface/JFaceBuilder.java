@@ -42,39 +42,7 @@ import org.eclipse.jface.viewers.TreeViewer;
  */
 public class JFaceBuilder extends SwtBuilder {
 
-    protected void registerWidgets() {
-        super.registerWidgets();
-
-        // Viewer
-        registerFactory("tableViewer", new ViewerFactory(TableViewer.class));
-        registerFactory("tableTreeViewer", new ViewerFactory(TableTreeViewer.class));
-        registerFactory("treeViewer", new ViewerFactory(TreeViewer.class));
-        registerFactory("checkboxTreeViewer", new ViewerFactory(CheckboxTreeViewer.class));
-
-        // Event
-        registerFactory("doubleClickListener", new DoubleClickListenerFactory());
-        registerFactory("selectionChangedListener", new SelectionChangedListenerFactory());
-
-        // Window
-        registerFactory("applicationWindow", new WindowFactory(ApplicationWindowImpl.class));
-        // Simple window
-        registerFactory("window", new WindowFactory(WindowImpl.class));
-
-        // ContributionManager
-        registerFactory("menuManager", new MenuManagerFactory());
-        registerFactory("toolBarManager", new ToolBarManagerFactory());
-
-        // Action tags
-        registerFactory("action", new ContributionManagerFactory(ActionImpl.class));
-
-        // ContributionItem
-        registerFactory("separator", new ContributionManagerFactory(Separator.class));
-
-        // Wizard
-        registerFactory("wizardDialog", new WizardDialogFactory());
-        registerFactory("wizardPage", new WizardPageFactory());
-
-        // Preference
+    protected void registerPreferenceWidgets() {
         registerFactory("preferenceDialog", new PreferencesDialogFactory());
         registerFactory("preferencePage", new PreferencesPageFactory());
         registerFactory("booleanFieldEditor", new PreferencesFieldEditorFactory(
@@ -88,12 +56,38 @@ public class JFaceBuilder extends SwtBuilder {
         registerFactory("integerFieldEditor", new PreferencesFieldEditorFactory(
                 IntegerFieldEditor.class));
         registerFactory("radioGroupFieldEditor", new PreferencesFieldEditorFactory(RadioGroupFieldEditor.class));
-        //registerBeanFactory("stringButtonFieldEditor",
-        // StringButtonFieldEditor.class);
         registerFactory("stringFieldEditor", new PreferencesFieldEditorFactory(
                 StringFieldEditor.class));
+    }
+    
+    protected void registerWindows() {
+    	super.registerWindows();
+        registerFactory("applicationWindow", new WindowFactory(ApplicationWindowImpl.class));
+        registerFactory("window", new WindowFactory(WindowImpl.class));
+        registerFactory("wizardDialog", new WizardDialogFactory());
+        registerFactory("wizardPage", new WizardPageFactory());
+    }
 
-        // other
+    protected void registerMenuWidgets() {
+    	super.registerMenuWidgets();
+        // ContributionManager
+        registerFactory("menuManager", new MenuManagerFactory());
+        registerFactory("toolBarManager", new ToolBarManagerFactory());
+    }
+    
+    protected void registerSupportWidgets() {
+    	super.registerSupportWidgets();
+        registerFactory("doubleClickListener", new DoubleClickListenerFactory());
+        registerFactory("selectionChangedListener", new SelectionChangedListenerFactory());
+        registerFactory("action", new ContributionManagerFactory(ActionImpl.class));
+        registerFactory("separator", new ContributionManagerFactory(Separator.class));
         registerFactory("image", new JFaceImageFactory());
+    }
+    
+    protected void registerViewers() {
+        registerFactory("tableViewer", new ViewerFactory(TableViewer.class));
+        registerFactory("tableTreeViewer", new ViewerFactory(TableTreeViewer.class));
+        registerFactory("treeViewer", new ViewerFactory(TreeViewer.class));
+        registerFactory("checkboxTreeViewer", new ViewerFactory(CheckboxTreeViewer.class));
     }
 }
