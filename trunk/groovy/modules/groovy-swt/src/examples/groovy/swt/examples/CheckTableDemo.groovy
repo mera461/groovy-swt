@@ -30,8 +30,9 @@ class CheckTableDemo {
 				// TODO: has this ever been working?
 				def row = ["1","2","3","4"]
 				tableItem(text:row)
+				tableItem(["row 2", "3", "4", "5"])
 				(0..24).each{
-					tableItem(text:["Item $it", "Cont", "ent", "#$it"])	
+					tableItem(["Item $it", "Cont", "ent", "#$it"])	
 				}
 				
 				onEvent(type:"Selection", closure:{
