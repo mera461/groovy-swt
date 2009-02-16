@@ -114,13 +114,13 @@ public class SwtBuilder extends FactoryBuilderSupport {
         registerFactory(name, new WidgetFactory(beanClass, style));
     }
     
-    protected void registerButtons() {
+    public void registerButtons() {
         registerWidgetFactory("button", Button.class, SWT.PUSH | SWT.CENTER);
         registerWidgetFactory("radioButton", Button.class, SWT.RADIO);
         registerWidgetFactory("checkBox", Button.class, SWT.CHECK);
     }    
 
-    protected void registerMenuWidgets() {
+    public void registerMenuWidgets() {
         registerWidgetFactory("coolBar", CoolBar.class, SWT.VERTICAL);
         registerWidgetFactory("coolItem", CoolItem.class);
         registerWidgetFactory("expandBar", ExpandBar.class);
@@ -134,7 +134,7 @@ public class SwtBuilder extends FactoryBuilderSupport {
 
     }    
 
-    protected void registerLayoutWidgets() {
+    public void registerLayoutWidgets() {
         // layouts
         registerFactory("fillLayout", new LayoutFactory(FillLayout.class));
         registerFactory("gridLayout", new LayoutFactory(GridLayout.class));
@@ -148,7 +148,7 @@ public class SwtBuilder extends FactoryBuilderSupport {
         registerFactory("formData", new FormLayoutDataFactory());
     }
     
-    protected void registerWindows() {
+    public void registerWindows() {
         // dialogs
         registerWidgetFactory("colorDialog", ColorDialog.class);
         registerWidgetFactory("directoryDialog", DirectoryDialog.class);
@@ -159,7 +159,7 @@ public class SwtBuilder extends FactoryBuilderSupport {
                 | SWT.RESIZE | SWT.TITLE);
     }
     
-    protected void registerBasicWidgets() {
+    public void registerBasicWidgets() {
         registerWidgetFactory("cCombo", CCombo.class);
         registerWidgetFactory("combo", Combo.class, SWT.DROP_DOWN);
         registerWidgetFactory("line", Label.class, SWT.SEPARATOR| SWT.HORIZONTAL|SWT.BOLD );
@@ -173,7 +173,7 @@ public class SwtBuilder extends FactoryBuilderSupport {
         registerWidgetFactory("spinner", Spinner.class);
     }
 
-    protected void registerTextWidgets() {
+    public void registerTextWidgets() {
         registerWidgetFactory("cLabel", CLabel.class);
         registerWidgetFactory("label", Label.class, SWT.HORIZONTAL | SWT.SHADOW_IN);
         registerWidgetFactory("styledText", StyledText.class);
@@ -185,14 +185,14 @@ public class SwtBuilder extends FactoryBuilderSupport {
     
 
     // browser tags
-    protected void registerBrowserWidgets() {
+    public void registerBrowserWidgets() {
     	registerWidgetFactory("browser", Browser.class, SWT.NONE);
     	registerFactory("locationListener", new ListenerFactory(LocationListener.class));
     	registerFactory("progressListener", new ListenerFactory(ProgressListener.class));
     	registerFactory("statusTextListener", new ListenerFactory(StatusTextListener.class));
     }
     
-    protected void registerFormWidgets() {
+    public void registerFormWidgets() {
         // forms api
         registerFactory("form", new FormFactory("form"));
         registerFactory("scrolledForm", new FormFactory("scrolledForm"));
@@ -225,7 +225,7 @@ public class SwtBuilder extends FactoryBuilderSupport {
         registerFactory("expansionListener", new ListenerFactory(IExpansionListener.class));
     }
     
-    protected void registerContainers() {
+    public void registerContainers() {
         registerFactory("awtFrame", new AwtSwtFactory());
         registerWidgetFactory("cBanner", CBanner.class);
         registerWidgetFactory("canvas", Canvas.class);
@@ -244,7 +244,7 @@ public class SwtBuilder extends FactoryBuilderSupport {
         registerWidgetFactory("tracker", Tracker.class);
     }
 
-    protected void registerTreeAndTableWidgets() {
+    public void registerTreeAndTableWidgets() {
         registerWidgetFactory("table", Table.class, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION);
         registerWidgetFactory("check_table", Table.class, SWT.MULTI | SWT.BORDER | SWT.FULL_SELECTION | SWT.CHECK);
         registerWidgetFactory("tableColumn", TableColumn.class);
@@ -258,7 +258,7 @@ public class SwtBuilder extends FactoryBuilderSupport {
         registerWidgetFactory("treeEditor", TreeEditor.class);
     }
 
-    protected void registerSupportWidgets() {
+    public void registerSupportWidgets() {
         registerWidgetFactory("caret", Caret.class);
         registerWidgetFactory("dateTime", DateTime.class);
         registerWidgetFactory("decorations", Decorations.class);

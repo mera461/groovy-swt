@@ -42,7 +42,7 @@ import org.eclipse.jface.viewers.TreeViewer;
  */
 public class JFaceBuilder extends SwtBuilder {
 
-    protected void registerPreferenceWidgets() {
+	public void registerPreferenceWidgets() {
         registerFactory("preferenceDialog", new PreferencesDialogFactory());
         registerFactory("preferencePage", new PreferencesPageFactory());
         registerFactory("booleanFieldEditor", new PreferencesFieldEditorFactory(
@@ -60,7 +60,7 @@ public class JFaceBuilder extends SwtBuilder {
                 StringFieldEditor.class));
     }
     
-    protected void registerWindows() {
+	public void registerWindows() {
     	super.registerWindows();
         registerFactory("applicationWindow", new WindowFactory(ApplicationWindowImpl.class));
         registerFactory("window", new WindowFactory(WindowImpl.class));
@@ -68,14 +68,14 @@ public class JFaceBuilder extends SwtBuilder {
         registerFactory("wizardPage", new WizardPageFactory());
     }
 
-    protected void registerMenuWidgets() {
+	public void registerMenuWidgets() {
     	super.registerMenuWidgets();
         // ContributionManager
         registerFactory("menuManager", new MenuManagerFactory());
         registerFactory("toolBarManager", new ToolBarManagerFactory());
     }
     
-    protected void registerSupportWidgets() {
+	public void registerSupportWidgets() {
     	super.registerSupportWidgets();
         registerFactory("doubleClickListener", new DoubleClickListenerFactory());
         registerFactory("selectionChangedListener", new SelectionChangedListenerFactory());
@@ -84,7 +84,7 @@ public class JFaceBuilder extends SwtBuilder {
         registerFactory("image", new JFaceImageFactory());
     }
     
-    protected void registerViewers() {
+	public void registerViewers() {
         registerFactory("tableViewer", new ViewerFactory(TableViewer.class));
         registerFactory("tableTreeViewer", new ViewerFactory(TableTreeViewer.class));
         registerFactory("treeViewer", new ViewerFactory(TreeViewer.class));
