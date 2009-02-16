@@ -164,7 +164,7 @@ public class WidgetFactory extends AbstractSwtFactory {
         } else if (child instanceof Menu && parent instanceof Shell) {
             Menu menu = (Menu) child;
             Shell shell = (Shell) parent;
-            if (defaultStyle == SWT.BAR) {
+            if (0 != (menu.getStyle() & SWT.BAR)) {
                 shell.setMenuBar(menu);
             } else {
                 shell.setMenu(menu);
