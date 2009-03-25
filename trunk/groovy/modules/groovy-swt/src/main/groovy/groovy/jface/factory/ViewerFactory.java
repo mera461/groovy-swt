@@ -10,13 +10,16 @@ import groovy.util.FactoryBuilderSupport;
 
 import java.util.Map;
 
-import org.codehaus.groovy.GroovyException;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.TableTreeViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableTree;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Tree;
 
@@ -63,6 +66,12 @@ public class ViewerFactory extends WidgetFactory {
 
         } else if (beanClass.equals(CheckboxTreeViewer.class) && (parent instanceof Tree)) {
             bean = new CheckboxTreeViewer((Tree) parent, defaultStyle);
+
+        } else if (beanClass.equals(ComboViewer.class) && (parent instanceof Combo)) {
+            bean = new ComboViewer((Combo) parent, defaultStyle);
+
+        } else if (beanClass.equals(ListViewer.class) && (parent instanceof List)) {
+            bean = new ListViewer((List)parent);
 
         } else {
             Object parentWidget = SwtUtils.getParentWidget(parent, attributes);
