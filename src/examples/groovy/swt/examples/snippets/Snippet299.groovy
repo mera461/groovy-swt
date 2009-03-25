@@ -36,13 +36,7 @@ public class Snippet299{
 			button("Button 3")
 		}
 		
-		shell.open()
-		while(! shell.isDisposed()) { 
-			if (! shell.display.readAndDispatch()) {
-				shell.display.sleep();
-			}
-		}
-		
+		shell.doMainloop()
 	}
 
 }
