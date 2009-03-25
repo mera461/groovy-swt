@@ -36,13 +36,7 @@ class TreeDemo {
 			}		
         }
         
-		shell.open()
-	
-		while(! shell.isDisposed()) { 
-			if (! shell.display.readAndDispatch()) {
-				shell.display.sleep();
-			}
-		}
+		shell.doMainloop()
 	}
     
     public static void main(String[] args) {

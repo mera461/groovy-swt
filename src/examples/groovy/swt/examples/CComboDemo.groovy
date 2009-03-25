@@ -33,12 +33,7 @@ class CComboDemo {
 		  	        println "event"
 			})
   		}
-		shell.open()
-		while(! shell.isDisposed()) { 
-			if (! shell.display.readAndDispatch()) {
-				shell.display.sleep();
-			}
-		}
+		shell.doMainloop()
   }
 
 }

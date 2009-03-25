@@ -39,12 +39,6 @@ public class ArrayTableDemo extends DemoLauncher {
 
            
 		}
-		shell.open()
-	
-		while(! shell.isDisposed()) { 
-			if (! shell.display.readAndDispatch()) {
-				shell.display.sleep();
-			}
-		}
+		shell.doMainloop()
     }
 }

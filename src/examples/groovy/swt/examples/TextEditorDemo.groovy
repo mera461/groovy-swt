@@ -93,10 +93,7 @@ class TextEditorDemo {
 		    }
 		    
 		}
-		shell.open()
-		while (!shell.disposed) {
-		    if (!shell.display.readAndDispatch()) shell.display.sleep()
-		}
+		shell.doMainloop()
 	}
 	
 	void doExit(context) {

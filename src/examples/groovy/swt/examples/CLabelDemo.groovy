@@ -22,13 +22,7 @@ class CLabelDemo {
 			cLabel(background: "#fff777", "the quick brown fox jumps over the lazy dog the quick brown fox jumps over the lazy dog ", layoutData:gridData(horizontalAlignment:GridData.FILL , grabExcessHorizontalSpace:true))
 		}
 		
-		shell.open()
-		while(! shell.isDisposed()) { 
-			if (! shell.display.readAndDispatch()) {
-				shell.display.sleep();
-			}
-		}
-		
+		shell.doMainloop()
 	}
 
 }

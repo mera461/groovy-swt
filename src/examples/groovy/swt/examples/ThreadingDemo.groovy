@@ -33,11 +33,6 @@ public class ThreadingDemo{
         	}
         }
     	
-		shell.open()
-		while(! shell.isDisposed()) { 
-			if (! shell.display.readAndDispatch()) {
-				shell.display.sleep();
-			}
-		}
+		shell.doMainloop()
     }
 }

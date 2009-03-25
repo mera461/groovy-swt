@@ -44,13 +44,7 @@ class CheckTableDemo {
 			table1.setBounds(30, 30, 215, 200)
 		}
 		 
-		shell.open()
-		while(! shell.isDisposed()) { 
-			if (! shell.display.readAndDispatch()) {
-				shell.display.sleep();
-			}
-		}
-
+		shell.doMainloop()
   }
 
 }
