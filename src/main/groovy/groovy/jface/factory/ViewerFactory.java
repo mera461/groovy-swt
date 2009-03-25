@@ -50,25 +50,20 @@ public class ViewerFactory extends WidgetFactory {
 		Object parent = builder.getCurrent();
         Object bean;
 
-        String styleProperty = (String) attributes.remove("style");
-        if (styleProperty != null) {
-            defaultStyle = SwtUtils.parseStyle(SWT.class, styleProperty);
-        }
-
         if (beanClass.equals(TableViewer.class) && (parent instanceof Table)) {
-            bean = new TableViewer((Table) parent, defaultStyle);
+            bean = new TableViewer((Table) parent);
 
         } else if (beanClass.equals(TableTreeViewer.class) && (parent instanceof TableTree)) {
-            bean = new TableTreeViewer((TableTree) parent, defaultStyle);
+            bean = new TableTreeViewer((TableTree) parent);
 
         } else if (beanClass.equals(TreeViewer.class) && (parent instanceof Tree)) {
-            bean = new TreeViewer((Tree) parent, defaultStyle);
+            bean = new TreeViewer((Tree) parent);
 
         } else if (beanClass.equals(CheckboxTreeViewer.class) && (parent instanceof Tree)) {
-            bean = new CheckboxTreeViewer((Tree) parent, defaultStyle);
+            bean = new CheckboxTreeViewer((Tree) parent);
 
         } else if (beanClass.equals(ComboViewer.class) && (parent instanceof Combo)) {
-            bean = new ComboViewer((Combo) parent, defaultStyle);
+            bean = new ComboViewer((Combo) parent);
 
         } else if (beanClass.equals(ListViewer.class) && (parent instanceof List)) {
             bean = new ListViewer((List)parent);
