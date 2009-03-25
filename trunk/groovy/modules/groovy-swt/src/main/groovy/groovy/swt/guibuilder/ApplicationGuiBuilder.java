@@ -28,12 +28,13 @@ public class ApplicationGuiBuilder extends JFaceBuilder {
     private GroovyScriptEngine scriptEngine;
 
     /**
-     * tha constructor
+     * the constructor
      * 
      * @param rootUrl
      * @throws IOException
      */
     public ApplicationGuiBuilder(String rootUrl) throws IOException {
+    	super(true);
         scriptEngine = new GroovyScriptEngine(rootUrl);
     }
 
