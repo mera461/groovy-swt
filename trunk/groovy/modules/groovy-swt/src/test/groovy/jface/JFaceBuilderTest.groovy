@@ -1,10 +1,12 @@
 package groovy.jface
 
 import groovy.jface.JFaceBuilder
+import junit.framework.TestCase;
 
-class JFaceBuilderTest1 {
-    def jface    
-    void run() {
+class JFaceBuilderTest extends TestCase {
+    def jface
+    
+    void testAllWidgets() {
         jface = new JFaceBuilder()
                
         jface.applicationWindow() {
