@@ -42,13 +42,7 @@ class SashFormDemo {
        		sashForm1.weights = [30,40,30]
        	}	
 
-		shell.open()
-	
-		while(! shell.isDisposed()) { 
-			if (! shell.display.readAndDispatch()) {
-				shell.display.sleep();
-			}
-		}
+		shell.doMainloop()
 	}
 
     public static void main(String[] args) {
