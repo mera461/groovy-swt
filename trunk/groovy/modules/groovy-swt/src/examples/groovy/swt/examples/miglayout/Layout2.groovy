@@ -49,13 +49,7 @@ public class Layout2 {
 			text()
 		}
 		
-		shell.open()
-		while(! shell.isDisposed()) { 
-			if (! shell.display.readAndDispatch()) {
-				shell.display.sleep();
-			}
-		}
-		
+		shell.doMainloop()
 	}
 
 }

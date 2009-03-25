@@ -45,13 +45,7 @@ public class Layout1 {
 			text(layoutData:"width 200!, wrap")
 		}
 		
-		shell.open()
-		while(! shell.isDisposed()) { 
-			if (! shell.display.readAndDispatch()) {
-				shell.display.sleep();
-			}
-		}
-		
+		shell.doMainloop()
 	}
 
 }
