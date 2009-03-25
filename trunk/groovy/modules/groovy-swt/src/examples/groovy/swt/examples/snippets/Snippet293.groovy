@@ -32,13 +32,7 @@ public class Snippet293{
 			button("State 4", style:'check', selection: true, enabled: false)
 		}
 		
-		shell.open()
-		while(! shell.isDisposed()) { 
-			if (! shell.display.readAndDispatch()) {
-				shell.display.sleep();
-			}
-		}
-		
+		shell.doMainloop()
 	}
 
 }
