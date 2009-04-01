@@ -344,4 +344,21 @@ public class SwtBuilder extends FactoryBuilderSupport {
             builder.setVariable(theID, node)
         }
     }
+    
+    /*
+     * Look upward in the node hiearachy and find a DataBindingContext
+     * to use for the bindings.
+     */
+    def getDataBindingContext() {
+    	def context = this.context
+        def dbc = null
+        while (dbc == null && context!=null) {
+            dbc = context[SwtBuilder.DATA_BINDING_CONTEXT]
+        	context = context[FactoryBuilderSupport.PARENT_CONTEXT]
+        }
+    	return dbc
+    }
+    
+    
+    
 }
