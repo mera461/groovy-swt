@@ -20,7 +20,7 @@ public class PreferencesDialogFactory extends AbstractSwtFactory {
 	public Object newInstance(FactoryBuilderSupport builder, Object name,
 			Object value, Map attributes) throws InstantiationException,
 			IllegalAccessException {
-		Object parent = builder.getCurrent();
+		Object parent = value!=null ? value : builder.getCurrent();
 
 		Shell parentShell = SwtUtils.getParentShell(parent);
         if (parent != null) {
