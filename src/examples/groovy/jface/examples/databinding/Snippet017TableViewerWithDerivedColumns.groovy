@@ -50,7 +50,7 @@ class View017 {
 		
 		def jface = new JFaceBuilder()
 		def shell = jface.shell('Snippet017TableViewerWithDerivedColumns') {
-			migLayout(layoutConstraints:"wrap 2", columnConstraints: "[grow, fill]")
+			migLayout(layoutConstraints:"wrap 2", columnConstraints: "[right][grow, fill]")
 			table(style:'FULL_SELECTION, BORDER', headerVisible: true, linesVisible: true, layoutData:'span 2') {
 				tableColumn('Name', width: 100)
 				tableColumn('Mother', width: 100)
