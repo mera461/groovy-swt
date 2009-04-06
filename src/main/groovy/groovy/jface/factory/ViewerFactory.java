@@ -10,17 +10,20 @@ import groovy.util.FactoryBuilderSupport;
 
 import java.util.Map;
 
+import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.TableTreeViewer;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableTree;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Tree;
 
 /**
@@ -49,9 +52,28 @@ public class ViewerFactory extends WidgetFactory {
 			IllegalAccessException {
 		Object parent = builder.getCurrent();
         Object bean;
+        
+        String styleProperty = (String) attributes.remove("style");
+        int style = 0;
+        if (styleProperty != null) {
+        	style = SwtUtils.parseStyle(SWT.class, styleProperty);
+        }
 
         if (beanClass.equals(TableViewer.class) && (parent instanceof Table)) {
             bean = new TableViewer((Table) parent);
+
+        } else if (beanClass.equals(CheckboxTableViewer.class) && (parent instanceof Table)) {
+                bean = new CheckboxTableViewer((Table) parent);
+
+        } else if (beanClass.equals(TableViewerColumn.class) && (parent instanceof TableViewer)) {
+            String index = (String) attributes.remove("index");
+            if (value != null && value instanceof TableColumn) {
+            	bean = new TableViewerColumn((TableViewer) parent, (TableColumn) value);
+            } else if (index != null) {
+                bean = new TableViewerColumn((TableViewer) parent, style, Integer.parseInt(index));
+            } else {
+                bean = new TableViewerColumn((TableViewer) parent, style);
+            }
 
         } else if (beanClass.equals(TableTreeViewer.class) && (parent instanceof TableTree)) {
             bean = new TableTreeViewer((TableTree) parent);
