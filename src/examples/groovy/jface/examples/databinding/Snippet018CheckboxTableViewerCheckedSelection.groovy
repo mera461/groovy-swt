@@ -10,30 +10,14 @@ package groovy.jface.examples.databinding
 import groovy.beans.Bindable
 import groovy.jface.JFaceBuilder
 
-import org.eclipse.core.databinding.beans.BeansObservables
-import org.eclipse.core.databinding.beans.BeanProperties
 import org.eclipse.core.databinding.observable.Realm
 import org.eclipse.core.databinding.observable.list.WritableList
-import org.eclipse.core.databinding.observable.map.IObservableMap
-import org.eclipse.core.databinding.observable.value.ComputedValue
  
 import org.eclipse.jface.databinding.swt.SWTObservables
-import org.eclipse.jface.viewers.ArrayContentProvider
-import org.eclipse.jface.viewers.ITableColorProvider
 import org.eclipse.jface.viewers.StructuredSelection
 import org.eclipse.jface.window.Window
 
-import org.eclipse.swt.SWT
-import org.eclipse.swt.graphics.Color
 import org.eclipse.swt.widgets.Display
-
-//TODO: Should be deleted:
-import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider
-import org.eclipse.core.databinding.beans.BeansObservables
-import org.eclipse.core.databinding.observable.Observables
-import org.eclipse.jface.databinding.viewers.ViewerProperties
-import org.eclipse.jface.databinding.viewers.ViewersObservables
-
 
 // The data model class. This is normally a persistent class of some sort.
 @Bindable
