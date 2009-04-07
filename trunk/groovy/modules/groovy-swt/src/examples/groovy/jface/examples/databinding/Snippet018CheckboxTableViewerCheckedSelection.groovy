@@ -1,9 +1,8 @@
 /**
- * See http://dev.eclipse.org/viewcvs/index.cgi/org.eclipse.jface.examples.databinding/src/org/eclipse/jface/examples/databinding/snippets/Snippet009TableViewer.java?view=markup
+ * See http://dev.eclipse.org/viewcvs/index.cgi/org.eclipse.jface.examples.databinding/src/org/eclipse/jface/examples/databinding/snippets/Snippet018CheckboxTableViewerCheckedSelection.java?view=markup
  * for the example in java.
  *
- * An example showing how to create a {@link ILabelProvider label provider} that
- * to provide colors.
+ * Snippet 018: Binding to the checked elements in a CheckboxTableViewer.
  */
 package groovy.jface.examples.databinding
 
@@ -123,7 +122,7 @@ class View018 {
  * @author Frank
  *
  */
-public class Snippet018TableViewer {
+public class Snippet018CheckboxTableViewerCheckedSelection {
 	public static void main(String[] args){
 		def display = Display.default ?: new Display()
 		Realm.default = SWTObservables.getRealm(display)
