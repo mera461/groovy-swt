@@ -1,0 +1,42 @@
+<assembly>
+	<!-- TODO: a jarjar format would be better -->
+	<id>windows-all</id>
+	<formats>
+		<format>jar</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<!-- 
+	<fileSets>
+		<fileSet>
+			<outputDirectory>/</outputDirectory>
+		</fileSet>
+	</fileSets>
+	-->
+	<dependencySets>
+		<dependencySet>
+			<excludes>
+				<exclude>*groovy-all</exclude>
+				<exclude>*gmaven-mojo</exclude>
+				<exclude>*gmaven-runtime-1.6</exclude>
+				<exclude>*groovy-all</exclude>
+				<exclude>junit:junit</exclude>
+				<exclude>commons-logging:commons-logging:*</exclude>
+			</excludes>
+			<outputDirectory>/</outputDirectory>
+			<unpack>true</unpack>
+			<scope>runtime</scope>
+			<useProjectArtifact>true</useProjectArtifact>
+			<unpackOptions>
+				<excludes>
+					<exclude>about_files/**</exclude>
+					<exclude>META-INF/**</exclude>
+					<exclude>licenses/**</exclude>
+					<exclude>*.properties</exclude>
+					<exclude>*.profile</exclude>
+					<exclude>about.html</exclude>
+					<exclude>.api_description</exclude>
+				</excludes>
+			</unpackOptions>
+		</dependencySet>
+	</dependencySets>
+</assembly>
