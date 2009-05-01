@@ -1,13 +1,14 @@
 package groovy.jface
 
 import groovy.jface.JFaceBuilder
-import junit.framework.TestCase;
+import junit.framework.TestCase
+import org.eclipse.core.runtime.IStatus 
+import org.eclipse.core.runtime.Status
 
 class JFaceBuilderTest extends TestCase {
-    def jface
+    def jface = new JFaceBuilder()
     
     void testAllWidgets() {
-        jface = new JFaceBuilder()
                
         jface.applicationWindow() {
         	toolBarManager()
@@ -23,7 +24,7 @@ class JFaceBuilderTest extends TestCase {
         	}
         	
         	tableTreeViewer()
-        	tabletree {
+        	tableTree {
         		tableTreeViewer()
         	}
         	
@@ -68,6 +69,30 @@ class JFaceBuilderTest extends TestCase {
         	image( src:"src/test/groovy/swt/groovy-logo.png" )
         }
 	}
+    
+    void testDialogs() {
+    	def shell = jface.shell()
+    	jface.inputDialog(shell, title:'test')
+    	jface.inputDialog(shell, title:'test', message:'Enter at least 5 chars', value: 'XXXXX',
+    				      validator: {(it.size()>5) ? null : "At least 5 chars."})
+    	def i1=jface.inputDialog(shell, title:"test${2+2}")
+    	// FAILS: jface.errorDialog(shell, title:'test', message:'no message')
+    	jface.errorDialog(shell, title:'test', message:'no message', status: new Status(IStatus.ERROR, 'org.eclipse', 'Something went wrong'))
+    	jface.messageDialog(shell, title:'test', message:'some message')
+    	jface.messageDialog(shell, title:'test', message:'some message', imageType: 1)
+    	jface.messageDialog(shell, title:'test', message:'some message', imageType: 'ERROR')
+    	jface.messageDialog(shell, title:'test', message:'some message', imageType: 'information')
+    	jface.messageDialog(shell, title:'test', message:'some message', imageType: 'information',
+    						buttonLabels: [])
+    	jface.messageDialog(shell, title:'test', message:'some message', imageType: 'information',
+    	    				buttonLabels: ['OK', 'CANCEL', "test${2+2}"], defaultIndex: 1)
+    	jface.messageDialogWithToggle(shell, title:'test', message:'some message', imageType: 'information',
+    	    	    				  buttonLabels: ['OK', 'CANCEL', "test${2+2}"], defaultIndex: 1,
+    	    	    				  toggleMessage: 'message', toggleState: true)
+    	jface.messageDialogWithToggle(shell, title:'test', message:'some message', imageType: 'information',
+    	      	    	    				  buttonLabels: ['OK', 'CANCEL', "test${2+2}"], defaultIndex: 1,
+    	      	    	    				  toggleMessage: 'message')
+    }
 }
 
 
