@@ -6,6 +6,7 @@ import groovy.util.FactoryBuilderSupport
 import java.util.Map
 
 import org.eclipse.core.runtime.IStatus
+import org.eclipse.core.runtime.Status
 import org.eclipse.jface.dialogs.ErrorDialog
 import org.eclipse.swt.widgets.Shell
 /**
@@ -24,7 +25,7 @@ public class ErrorDialogFactory extends AbstractSwtFactory {
 		
         String title = attributes.remove("title")?.toString()
         String msg = attributes.remove("message")?.toString()
-        IStatus status = attributes.remove("status")
+        IStatus status = attributes.remove("status") ?: new Status(Status.ERROR, 'pluginid', msg)
         int displayMask = attributes.remove("displayMask") ?: 0
         
         ErrorDialog dialog = new ErrorDialog((Shell)parent, title, msg, status, displayMask)
