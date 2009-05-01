@@ -6,8 +6,8 @@ package groovy.swt.factory
 import groovy.swt.SwtBuilder
 import groovy.swt.databinding.Binding
 import java.util.Map.Entry
-import org.codehaus.groovy.binding.*
 
+import org.codehaus.groovy.binding.*
 import org.eclipse.core.databinding.beans.BeansObservables
 import org.eclipse.core.databinding.beans.BeanProperties
 import org.eclipse.core.databinding.conversion.IConverter
@@ -21,13 +21,14 @@ import org.eclipse.core.databinding.observable.Realm
 import org.eclipse.core.databinding.property.Properties
 import org.eclipse.core.databinding.UpdateValueStrategy
 import org.eclipse.core.databinding.validation.IValidator
-
 import org.eclipse.jface.databinding.swt.ISWTObservableValue
 import org.eclipse.jface.databinding.swt.SWTObservables
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider
 import org.eclipse.jface.databinding.viewers.ViewerSupport
+import org.eclipse.jface.databinding.viewers.ViewerProperties
 import org.eclipse.jface.databinding.viewers.ViewersObservables
+import org.eclipse.jface.viewers.AbstractTreeViewer
 import org.eclipse.jface.viewers.StructuredViewer
 import org.eclipse.jface.viewers.TableViewer
 import org.eclipse.swt.SWT
@@ -65,12 +66,21 @@ public class BindFactory extends AbstractFactory {
             builder.context.put(CONTEXT_DATA_KEY, bindContext)
         }
 
-        Object model = attributes.remove("model") ?: value
-        Object modelProperty = attributes.remove("modelProperty")
-        
-        Binding binding = new Binding(model:model, modelProperty:modelProperty)
+        Binding binding = new Binding()
+        binding.model = attributes.remove("model") ?: value
+        binding.modelProperty = attributes.remove("modelProperty")
+        binding.target = attributes.remove("target")
+        binding.targetProperty = attributes.remove("targetProperty")
+        binding.childrenProperty = attributes.remove("childrenProperty")
         
         extractUpdateValueStrategy(attributes, binding)
+        
+        // if the target && targetProperty is given then do the bind right away
+        if (binding.target!=null
+        	&& (binding.targetProperty!= null
+        		|| binding.target instanceof IObservable)) {
+        	doBind(builder, binding)
+        }
         
         return binding
     }
@@ -88,7 +98,7 @@ public class BindFactory extends AbstractFactory {
             String property = entry.key.toString()
             Object value = entry.value
 
-            def bindAttrs = bindContext.get(value) ?: [:]
+            def bindAttrs = /*bindContext.get(value) ?: */ [:]
             def idAttr = builder.getAt(SwtBuilder.DELEGATE_PROPERTY_OBJECT_ID) ?: SwtBuilder.DEFAULT_DELEGATE_PROPERTY_OBJECT_ID
             def id = bindAttrs.remove(idAttr)
             if (bindAttrs.containsKey("value")) {
@@ -100,77 +110,112 @@ public class BindFactory extends AbstractFactory {
             	continue
             }
             
-            // viewer or simple widget?
-            if (node instanceof StructuredViewer && property.toLowerCase()=='input') {
-            	bindViewerInput(builder, node, property, (Binding) value)
-            } else {
-            	bindSimpleWidget(builder, node, property, (Binding) value)
-            }
+            // update the binding with the target
+            value.target = node
+            value.targetProperty = property
+            
+            doBind(builder, (Binding) value)
             
             // this is why we cannot use entrySet().each { }
             iter.remove()
         }
     }
+    
+    def doBind(FactoryBuilderSupport builder, Binding binding) {
+        // binding the input of a viewer
+        if (binding.target instanceof StructuredViewer && binding.targetProperty.toLowerCase()=='input') {
+        	bindViewerInput(builder, binding)
+        } else {
+        	bindSimpleWidget(builder, binding)
+        }
+    }
 
-    def bindViewerInput(FactoryBuilderSupport builder, StructuredViewer node, def property, Binding binding) {
+    def bindViewerInput(FactoryBuilderSupport builder, Binding binding) {
     	
         Object columnProperties = binding.modelProperty
         if (columnProperties instanceof GString) columnProperties = columnProperties.toString()
         
+        if (binding.model instanceof ArrayList) {
+        	println "WARNING: Wrapping an ArrayList in a WritableList. Updating is not possible"
+        	def l = new WritableList(Realm.default)
+    		l.addAll(binding.model)
+    		binding.model = l
+        }
+
+        def observableModel
+        def labelProperties
+        if (binding.model instanceof WritableList
+        	|| binding.model instanceof IObservableList
+        	|| binding.model instanceof IObservableSet) {
+        	observableModel = binding.model
+        
+        	if (columnProperties instanceof String) columnProperties = [columnProperties]
+        	labelProperties = BeanProperties.values(columnProperties as String[])
+        } else {
+        	observableModel = BeansObservables.observeList(binding.model, columnProperties, String.class)
+        	labelProperties = Properties.selfValue(String.class)
+        }
+        
+        if (binding.target instanceof AbstractTreeViewer) {
+        	if (! binding.childrenProperty) throw new RuntimeException("Binding input on a tree you need to specify the childrenProperty")
+        	if (columnProperties instanceof String) columnProperties = [columnProperties]
+        	ViewerSupport.bind(
+        			binding.target,
+        			binding.model,
+        			BeanProperties.list(binding.childrenProperty),
+        			BeanProperties.values(columnProperties as String[]))
+        } else {
+        	ViewerSupport.bind(
+        			binding.target,
+        			observableModel,
+        			labelProperties)
+        }
+        
+
+/*        
         // if the model is a writable list of objects, then the columnProperty is a property
         // of that object.
         if (binding.model instanceof WritableList) {
-            if (columnProperties instanceof String) columnProperties = [columnProperties]
         	// NOTE: If I do a BeansObservables.observeList(binding.model, binding.modelProperty)
         	// then it will not monitor changes in the list, but only new assignments to the variable
         	ViewerSupport.bind(
-            	    node,
+            	    binding.target,
             	    binding.model,
             	    BeanProperties.values(columnProperties as String[]) );
         } else if (binding.model instanceof IObservableList
         	|| binding.model instanceof IObservableSet) {
             if (columnProperties instanceof String) columnProperties = [columnProperties]
         	ViewerSupport.bind(
-            	    node,
-            	    binding.model,
-            	    BeanProperties.values(columnProperties as String[]) );
-        } else if (binding.model instanceof ArrayList) {
-        	println "WARNING: Wrapping an ArrayList in a WritableList. Updating is not possible"
-        	def l = new WritableList(Realm.default)
-        	l.addAll(binding.model)
-        	binding.model = l
-        	println l[1]
-        	ViewerSupport.bind(
-            	    node,
+            	    binding.target,
             	    binding.model,
             	    BeanProperties.values(columnProperties as String[]) );
         } else {
-			ViewerSupport.bind(node,
+			ViewerSupport.bind(binding.target,
 							   BeansObservables.observeList(binding.model, columnProperties, String.class),
 							   Properties.selfValue(String.class));
         }
-    	
+*/    	
     	
     	// It it is a TableViewer and no tablecolumns defined then provide some
     	// reasonably defaults with the given properties
-    	if (node instanceof TableViewer
-    		&& node.table.columnCount == 0) {
+    	if (binding.target instanceof TableViewer
+    		&& binding.target.table.columnCount == 0) {
     		// create some table columns
     		// TODO: TableViewerColumn
     		columnProperties.each {
-    			def col = new TableColumn(node.table, SWT.LEFT)
+    			def col = new TableColumn(binding.target.table, SWT.LEFT)
     			col.text = it
     			col.width = 100
     			col.pack()
     		}
-    		node.table.headerVisible = true
-    		node.table.linesVisible = true 
+    		binding.target.table.headerVisible = true
+    		binding.target.table.linesVisible = true 
     	}
     }    
     
-    def bindSimpleWidget(FactoryBuilderSupport builder, def node, def property, Binding binding) {
+    def bindSimpleWidget(FactoryBuilderSupport builder, Binding binding) {
         // target observable
-        def targetObservable = createTargetObservable(builder, node, property)
+        def targetObservable = createTargetObservable(builder, binding)
         
         // model observable
         Object properties = binding.modelProperty
@@ -181,23 +226,35 @@ public class BindFactory extends AbstractFactory {
         	println "WARNING: Wrapping an ArrayList in a WritableList. Updating is not possible"
         	def l = new WritableList(Realm.default)
         	l.addAll(binding.model)
-        	model.bidnding = l
+        	binding.model = l
         }
 
-        def modelObservable = createBeanObservable(builder, binding.model, properties)
+        def modelObservable = createBeanObservable(builder, binding)
 
         // create the binding
         def dbc = builder.dataBindingContext
-        dbc.bindValue(targetObservable, modelObservable, binding.target2model, binding.model2target)
+        dbc."bind${binding.bindType}"(targetObservable, modelObservable, binding.target2model, binding.model2target)
     }
 
-    ISWTObservableValue createTargetObservable(FactoryBuilderSupport builder, def node, def attribute) {
-    	if (! attribute) throw new RuntimeException("Attribute can not be empty.")
+    def createTargetObservable(FactoryBuilderSupport builder, Binding binding) {
+    	// if the target is an observable then just return it
+    	if (binding.target instanceof IObservable) return binding.target 
  
-    	ISWTObservableValue targetObservable = null
-    	switch (attribute.toLowerCase()) {
+    	if (binding.targetProperty.equalsIgnoreCase('checkedelements')) {
+    		binding.bindType = 'Set'
+    	}
+    	
+    	return createWidgetObservable(builder, binding.target, binding.targetProperty)
+    }
+    
+    def createWidgetObservable(FactoryBuilderSupport builder, def node, String property) {
+    	def targetObservable = null
+    	switch (property.toLowerCase()) {
     	case 'background':
     		targetObservable = SWTObservables.observeBackground(node)
+    		break;
+    	case 'checkedelements':
+    		targetObservable = ViewerProperties.checkedElements(null).observe(node)
     		break;
     	case 'editable':
     		targetObservable = SWTObservables.observeEditable(node)
@@ -237,20 +294,23 @@ public class BindFactory extends AbstractFactory {
     		targetObservable = SWTObservables.observeVisible(node)
     		break;
     	default:
-    		throw new RuntimeException("Unknown target attribute: $attribute")
+    		throw new RuntimeException("Unknown target attribute: ${property}")
     	}
     	return targetObservable
     }
     
-    IObservable createBeanObservable(FactoryBuilderSupport builder, def bean, def propertyName) {
+    IObservable createBeanObservable(FactoryBuilderSupport builder, Binding binding) {
     	IObservable observable
-    	if (bean instanceof IObservable) {
-    		observable = bean
-    	} else if (bean instanceof StructuredViewer) {
-    		def selectedItem = ViewersObservables.observeSingleSelection(bean)
-    		observable = BeansObservables.observeDetailValue(selectedItem, propertyName)
+    	def bindtype = binding.bindType.toLowerCase()
+    	if (binding.model instanceof IObservable) {
+    		observable = binding.model
+    	} else if (binding.model instanceof StructuredViewer) {
+    		def selectedItem = ViewerProperties.singleSelection().observe(binding.model)
+    		observable = BeanProperties."$bindtype"(binding.modelProperty).observeDetail(selectedItem)
+    	} else if (binding.model instanceof org.eclipse.swt.widgets.Widget) {
+    		observable = createWidgetObservable(builder, binding.model, binding.modelProperty)
     	} else {
-    		observable = BeansObservables.observeValue(bean, propertyName) 
+    		observable = BeanProperties."$bindtype"(binding.modelProperty).observe(binding.model)
     	}
     	return observable
     }
