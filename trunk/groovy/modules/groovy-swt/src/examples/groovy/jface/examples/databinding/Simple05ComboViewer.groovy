@@ -65,7 +65,7 @@ class View05 {
 				button("Add person") {
 					onEvent(type:'Selection', closure: { 
 						// Here you MUST add to the list and reassigning the variable will not work
-						viewModel.people.add(new Person04(name: "John${(int) (Math.random()*1000) }"))
+						viewModel.people.add(new Person05(name: "John${(int) (Math.random()*1000) }"))
 					})
 				}
 				button("Empty person list") {
