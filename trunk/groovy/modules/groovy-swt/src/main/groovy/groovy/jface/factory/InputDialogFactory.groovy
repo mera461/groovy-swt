@@ -26,9 +26,9 @@ public class InputDialogFactory extends AbstractSwtFactory {
         String title = attributes.remove("title")?.toString()
         String msg = attributes.remove("message")?.toString()
         String initialValue = attributes.remove("value")?.toString()
-        IInputValidator validator = (IInputValidator) attributes.remove("validator")
+        def validator = attributes.remove("validator")
         
-        InputDialog dialog = new InputDialog((Shell)parent, title, msg, initialValue, validator)
+        InputDialog dialog = new InputDialog((Shell)parent, title, msg, initialValue, validator as IInputValidator)
         
         return dialog
     }
