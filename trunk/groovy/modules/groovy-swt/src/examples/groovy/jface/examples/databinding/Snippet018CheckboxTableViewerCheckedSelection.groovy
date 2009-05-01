@@ -124,8 +124,7 @@ class View018 {
  */
 public class Snippet018CheckboxTableViewerCheckedSelection {
 	public static void main(String[] args){
-		def display = Display.default ?: new Display()
-		Realm.default = SWTObservables.getRealm(display)
+		Realm.default = SWTObservables.getRealm(Display.default ?: new Display())
 		
 		def model = new ViewModel018()
 		def shell = new View018(viewModel: model).open()
