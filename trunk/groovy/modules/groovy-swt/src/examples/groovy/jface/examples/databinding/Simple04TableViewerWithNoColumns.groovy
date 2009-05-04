@@ -46,10 +46,10 @@ class View04 {
 				tableViewer(input: bind(model:viewModel.people, modelProperty:['name', 'city']))
 			}
 			button("Add another one") {
-				onEvent(type:'Selection', closure: { viewModel.people.add(new Person04(name: "John${(int) (Math.random()*1000) }"))	})
+				onEvent('Selection'){ viewModel.people.add(new Person04(name: "John${(int) (Math.random()*1000) }"))	}
 			}
 			button("Change city") {
-				onEvent(type:'Selection', closure: { viewModel.people.each {it.city = "Changed: "+ (new Date()).getTime()} })
+				onEvent('Selection'){ viewModel.people.each {it.city = "Changed: "+ (new Date()).getTime()} }
 			}
 		}
 		return shell

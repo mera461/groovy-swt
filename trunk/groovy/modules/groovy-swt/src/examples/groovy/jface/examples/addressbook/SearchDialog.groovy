@@ -49,19 +49,19 @@ public class SearchDialog {
 public SearchDialog(Shell parentShell) {
 	shell = jface.shell(/*parent: parentShell, */style:"CLOSE, BORDER, TITLE",
 						text: resAddressBook.getString("Search_dialog_title")) {
-		onEvent(type:"Close", closure: { e -> 
+		onEvent('Close') { e -> 
 			// don't dispose of the shell, just hide it for later use
 			e.doit = false
 			shell.setVisible(false);
-		})
+		}
 		gridLayout(numColumns: 2)
 		label (resAddressBook.getString("Dialog_find_what"), style: "left")
 		searchText = text(style: "BORDER") {
 			gridData(widthHint: 200, style: "FILL_HORIZONTAL")
-			onEvent(type: "Modify", closure: {
+			onEvent('Modify') {
 				boolean enableFind = (searchText.getCharCount() != 0);
 				findButton.setEnabled(enableFind);
-			} )
+			}
 		}
 		searchAreaLabelWidget = label (style: "left")
 		searchArea = combo(style: "DROP_DOWN, READ_ONLY") {
@@ -86,18 +86,18 @@ public SearchDialog(Shell parentShell) {
 			gridLayout(numColumns: 2, makeColumnsEqualWidth: true)
 			findButton = button(style:"push", resAddressBook.getString("Dialog_find"), enabled: false) {
 				gridData(style: "HORIZONTAL_ALIGN_END")
-				onEvent(type: "Selection", closure: {
+				onEvent('Selection') {
 					if (!findHandler.call()){
 						MessageBox box = new MessageBox(shell, SWT.ICON_INFORMATION | SWT.OK | SWT.PRIMARY_MODAL);
 						box.setText(shell.getText());
 						box.setMessage(resAddressBook.getString("Cannot_find") + "\"" + searchText.getText() + "\"");
 						box.open();	
 					}		
-				})
+				}
 			}
 			button(resAddressBook.getString("Cancel")) {
 				gridData(style: "HORIZONTAL_ALIGN_BEGINNING")
-				onEvent(type: "Selection", closure: { shell.setVisible(false) })
+				onEvent('Selection'){ shell.setVisible(false) }
 			}
 		}
 		

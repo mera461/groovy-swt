@@ -25,13 +25,13 @@ class CComboDemo {
   			cCombo(style:"BORDER", items:["1 Item one", "2 Item two", "3 Item three"])
   			combo(  items:["1 Item one", "2 Item two", "3 Item three"], visibleItemCount:10)
   	  		button1 = button('Open') {
-  		        onEvent(type:"Selection", closure:{ 
+  		        onEvent('Selection'){ 
   		        	println "button"
-  		        })
+  		        }
   		    }
-			onEvent(type:"MouseDown", closure:{event->
+			onEvent('MouseDown') {event->
 		  	        println "event"
-			})
+			}
   		}
 		shell.doMainloop()
   }

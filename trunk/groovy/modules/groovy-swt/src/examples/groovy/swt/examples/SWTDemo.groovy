@@ -24,20 +24,20 @@ class SWTDemo {
 		gridLayout(numColumns:2)
 		label("Swt Demo", layoutData:gridData(horizontalSpan:2))
 		def wizardButton = button("Start wizard") {
-			onEvent(type:"Selection", closure:{ 
+			onEvent('Selection') { 
 				showWizard() 
-			})
+			}
 		}
 		def simpleWizardButton = button("Start simple wizard") {
-			onEvent(type:"Selection", closure:{ 
+			onEvent('Selection') { 
 				showSimpleWizard() 
-			})
+			}
 		}
 		
 		def textEditorDemoButton = button("Start TextEditorDemo") {
-			onEvent(type:"Selection", closure:{ 
+			onEvent('Selection'){ 
 				showTextEditorDemo() 
-			})
+			}
 		}
 		button("Button with border", style:"BORDER", layoutData:gridData(horizontalSpan:2))
 		

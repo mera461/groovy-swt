@@ -31,16 +31,16 @@ class TextEditorDemo {
 		    def gridLayout2 = gridLayout(numColumns:3, makeColumnsEqualWidth:false)
 		    
 		    	textarea = textArea(layoutData:gridData(horizontalSpan:3, horizontalAlignment:GridData.FILL, verticalAlignment:GridData.FILL, grabExcessHorizontalSpace:true, grabExcessVerticalSpace:true)) {
-		    	onEvent(type:"Modify", closure:{
+		    	onEvent('Modify') {
 		    		if (!haschanged){
 		    			//println "changed"
 		    			shell.text = "$shell.text *"   			
 		    			haschanged = true;
 		    		}
-		    	})
+		    	}
 		    } 
 		    def button1 = button(style:"push", 'Load', layoutData:gridData(horizontalAlignment:GridData.END, verticalAlignment:GridData.CENTER, grabExcessHorizontalSpace:true)) {
-		        onEvent(type:"Selection", closure:{ 
+		        onEvent('Selection'){ 
 		        	def result = ""
 		        	def fileshell = swt.shell(){
 		        		def dialog = fileDialog( style:"OPEN")
@@ -54,10 +54,10 @@ class TextEditorDemo {
 							haschanged = false;
 					    }		        		
 		        	}
-		        })
+		        }
 		    }
 		    def button2 = button(style:"push", 'Save', layoutData:gridData(horizontalAlignment:GridData.CENTER, verticalAlignment:GridData.CENTER)) {
-		        onEvent(type:"Selection", closure:{ 
+		        onEvent('Selection') { 
 		        	def result = ""
 		        	def fileshell = swt.shell(){
 		        		def dialog = fileDialog( style:"SAVE")
@@ -84,12 +84,12 @@ class TextEditorDemo {
 							} 
 						}
 		        	}
-		        })
+		        }
 		    }
 		    def button3 = button('Exit', layoutData:gridData(grabExcessHorizontalSpace:true)) {
-		        onEvent(type:"Selection", closure:{ 
+		        onEvent('Selection'){ 
 		        	doExit(shell)
-		        })
+		        }
 		    }
 		    
 		}

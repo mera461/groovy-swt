@@ -227,7 +227,7 @@ public void open() {
         	for(int i = 0; i < columnNames.length; i++) {
         		final int columnIndex = i;
         		def column = tableColumn(style: "none",  columnNames[i], width: 150 ) {
-        			onEvent (type: "Selection", closure: {sort(columnIndex)})
+        			onEvent ("Selection"){sort(columnIndex)}
         		}
         	}
     	}

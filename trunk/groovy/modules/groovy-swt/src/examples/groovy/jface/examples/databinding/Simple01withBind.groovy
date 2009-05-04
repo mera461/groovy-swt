@@ -45,22 +45,22 @@ public class Simple01withBind{
 			genderCombo.add("Male");
 			genderCombo.add("Female");
 			button('Write model') {
-				onEvent(type:'Selection', closure:{
+				onEvent('Selection') {
 					println person.firstName
 					println person.age
 					println person.married
 					println person.gender
-				})
+				}
 			}
 			button('Change model') {
-				onEvent(type:'Selection', closure:{
+				onEvent('Selection') {
 					person.with {
 						firstName = 'Lars'
 						age++
 						married = ! married
 						gender = (gender == 'Male') ? 'Female' : 'Male'
 					}
-				})
+				}
 			}
 		}
 		return shell

@@ -64,7 +64,7 @@ class View018 {
 			migLayout(layoutConstraints:"wrap 2", columnConstraints: "[right][grow, fill]")
 			label('People')
 			button('Add', layoutData:'split 2') {
-				onEvent(type:'Selection', closure:{
+				onEvent('Selection'){
 					def dlg = jface.inputDialog(shell, title:'Add Person',
 											    message: 'Enter name:',
 									 		    value:'<Name>',
@@ -74,10 +74,10 @@ class View018 {
 						viewModel.people << person
 						peopleViewer.selection = new StructuredSelection(person)	
 					}
-				})
+				}
 			}
 			button('Remove', id:'removeButton', layoutData:'wrap') {
-				onEvent(type:'Selection', closure: {
+				onEvent('Selection') {
 					def selected = peopleViewer.selection
 					if (selected != null && ! selected.isEmpty()) {
 						def person = selected.firstElement
@@ -85,7 +85,7 @@ class View018 {
 							viewModel.people.remove(person)
 						}
 					}
-				})
+				}
 			}
 			table(id:'t1', style:'FULL_SELECTION, BORDER', headerVisible: true, linesVisible: true, layoutData:'span 2,growx') {
 				tableColumn('Name', width: 100)

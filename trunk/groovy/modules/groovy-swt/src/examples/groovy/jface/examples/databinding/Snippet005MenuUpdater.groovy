@@ -40,7 +40,7 @@ class View005 {
 				submenu = jface.menu( style:"DROP_DOWN")	{
 					menuItem(style:"PUSH", "&Open file")
 					menuItem(style:"PUSH", "E&xit"){
-						onEvent(type:"Selection", closure:{ shell.dispose() })
+						onEvent('Selection'){ shell.dispose() }
 					}
 					menuSeparator()
 				}

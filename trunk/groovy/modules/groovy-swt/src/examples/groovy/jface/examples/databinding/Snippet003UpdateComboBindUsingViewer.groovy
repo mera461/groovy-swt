@@ -33,9 +33,9 @@ class View003 {
 				comboViewer(input: bind(model:viewModel, modelProperty:'choices'))
 			}
 			button('reset collection') {
-				onEvent(type:'Selection', closure: {
+				onEvent('Selection') {
 					viewModel.choices = ['Chocolate', 'Vanilla', 'Mango Parfait', 'beef', 'Cheesecake']
-				})
+				}
 			}
 		}
 		return shell

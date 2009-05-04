@@ -22,22 +22,22 @@ class TrayDemo {
          		trayItem( text:"trayItem1" ) {
 	         		image( src:"src/test/groovy/swt/groovy-logo.png" ) 
 	         		
-	         		onEvent( type:"Selection", closure:{
+	         		onEvent('Selection') {
 	         			println "Selection event ..."
-	         		})
-	         		onEvent( type:"Hide", closure:{
+	         		}
+	         		onEvent('Hide') {
 	         			println "Hide event ..."
-	         		})
-	         		onEvent( type:"DefaultSelection", closure:{
+	         		}
+	         		onEvent('DefaultSelection') {
 	         			println "DefaultSelection event ..."
-	         		})
-	         		onEvent( type:"Show", closure:{
+	         		}
+	         		onEvent('Show'){
 	         			println "Show event ..."
-	         		})
-	         		onEvent( type:"MenuDetect", closure:{
+	         		}
+	         		onEvent('MenuDetect'){
 	         			println "MenuDetect event ..."
 	         			trayMenu.visible = true
-	         		})
+	         		}
          		}
          	}
         }

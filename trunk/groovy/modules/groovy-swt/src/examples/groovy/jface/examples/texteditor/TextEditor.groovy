@@ -52,37 +52,37 @@ public class TextEditor implements ExtendedModifyListener {
 	     	toolBar( style:"none" ) {
         		boldButton = toolItem(style:"check", toolTipText:"Bold") {
         			image( src:"bold.png" ) 
-        			onEvent(type:"Selection", closure:{setStyle(it.widget)}) 
+        			onEvent('Selection') {setStyle(it.widget)} 
         		}
         		italicButton = toolItem(style:"check", toolTipText:"Italic") {
         			image( src:"italic.png" ) 
-        			onEvent(type:"Selection", closure:{setStyle(it.widget)}) 
+        			onEvent('Selection') {setStyle(it.widget)} 
         		}
         		underlineButton = toolItem(style:"check", toolTipText:"Underline") {
         			image( src:"underline.png" ) 
-        			onEvent(type:"Selection", closure:{setStyle(it.widget)}) 
+        			onEvent('Selection'){setStyle(it.widget)} 
         		}
         		strikeoutButton = toolItem(style:"check", toolTipText:"Strikeout") {
         			image( src:"strikeout.png" ) 
-        			onEvent(type:"Selection", closure:{setStyle(it.widget)}) 
+        			onEvent('Selection') {setStyle(it.widget)} 
         		}
         		toolItem(style:"separator")
         		toolItem(style:"push", toolTipText:"Red text") {
         			image( src:"red.png" ) 
-        			onEvent(type:"Selection", closure:{fgColor(RED)}) 
+        			onEvent('Selection') {fgColor(RED)} 
         		}
         		toolItem(style:"push", toolTipText:"Blue text") {
         			image( src:"blue.png" ) 
-        			onEvent(type:"Selection", closure:{fgColor(BLUE)}) 
+        			onEvent('Selection'){fgColor(BLUE)} 
         		}
         		toolItem(style:"push", toolTipText:"Green text") {
         			image( src:"green.png" ) 
-        			onEvent(type:"Selection", closure:{fgColor(GREEN)}) 
+        			onEvent('Selection'){fgColor(GREEN)} 
         		}
         		toolItem(style:"separator")
         		toolItem(style:"push", toolTipText:"Clear formatting") {
         			image( src:"erase.png" ) 
-        			onEvent(type:"Selection", closure:{clear()}) 
+        			onEvent('Selection') {clear()} 
         		}
 	     	}        		
 	     	

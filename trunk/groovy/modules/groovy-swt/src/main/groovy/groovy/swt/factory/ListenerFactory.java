@@ -3,6 +3,8 @@
  */
 package groovy.swt.factory;
 
+import groovy.lang.Closure;
+import groovy.swt.ClosureSupport;
 import groovy.swt.SwtUtils;
 import groovy.swt.impl.ExpansionListenerImpl;
 import groovy.swt.impl.HyperLinkListenerImpl;
@@ -48,7 +50,8 @@ public class ListenerFactory extends AbstractSwtFactory {
 			Object value, Map attributes) throws InstantiationException,
 			IllegalAccessException {
 		Object parent = builder.getCurrent();
-        final String type = (String) attributes.remove("type");
+        String type = (String) attributes.remove("type");
+        if (type==null && value!=null) type = value.toString();
         if (parent instanceof Browser) {
             Browser browser = (Browser) parent;
             if (beanClass.equals(LocationListener.class)) {
@@ -104,6 +107,21 @@ public class ListenerFactory extends AbstractSwtFactory {
         throw new InstantiationException("No factory found for class: " + beanClass.getName());
     }
     
+	
+    public boolean isHandlesNodeChildren() {
+        return true;
+    }
+
+    public boolean onNodeChildren(FactoryBuilderSupport builder, Object node, Closure childContent) {
+    	ClosureSupport cs = (ClosureSupport) node;
+    	cs.setClosure(childContent);
+    	return false;
+    }
+	
+	
+	
+	
+	
 	/**
      * Parses the given event type String and returns the SWT event type code
      * 

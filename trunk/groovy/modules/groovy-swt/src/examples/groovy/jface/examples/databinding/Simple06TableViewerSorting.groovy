@@ -70,10 +70,10 @@ class View06 {
 						    sortable: [0])
 			}
 			button("Add another one") {
-				onEvent(type:'Selection', closure: { viewModel.people.add(new Person06(name: "John${(int) (Math.random()*1000) }"))	})
+				onEvent('Selection') { viewModel.people.add(new Person06(name: "John${(int) (Math.random()*1000) }"))	}
 			}
 			button("Change city") {
-				onEvent(type:'Selection', closure: { viewModel.people.each {it.city = "Changed: "+ (new Date()).getTime()} })
+				onEvent('Selection') { viewModel.people.each {it.city = "Changed: "+ (new Date()).getTime()} }
 			}
 		}
 		return shell
