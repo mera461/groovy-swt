@@ -12,8 +12,9 @@ import java.io.File
 import junit.framework.TestCase
 
 import org.eclipse.jface.window.ApplicationWindow
+import org.eclipse.swt.SWT
+import org.eclipse.swt.widgets.Event
 import org.eclipse.swt.widgets.Shell
-
 
 /**
  * @author <a href="mailto:ckl@dacelo.nl">Christiaan ten Klooster </a>
@@ -50,4 +51,41 @@ public class SwtTest extends TestCase {
         ApplicationWindow window = new ApplicationWindow(shell)
         shell.dispose()
     }
+    
+    public void testOnEvent() {
+        def swt = new SwtBuilder()
+        def x = 1
+        def localVar = null
+        swt.shell('title') {
+        	rowLayout()
+        	button('text', id:'b1') {
+        		onEvent('Selection') {
+        			x = 2
+        		}
+        	}
+        	button('text', id:'b2') {
+        		onEvent(type:'Selection') {
+        			x = 3
+        		}
+        	}
+        	button('text', id:'b3') {
+        		onEvent(type:'Selection', closure: {
+        			x = 4
+        		})
+        	}
+        }
+    	
+        assert x == 1
+        pushButton(swt.b1)
+        assert x == 2
+        pushButton(swt.b2)
+        assert x == 3
+        pushButton(swt.b3)
+        assert x == 4
+    }
+    
+    void pushButton(def button) {
+    	button.notifyListeners(SWT.Selection, null)
+    }
+    
 }
