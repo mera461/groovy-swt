@@ -22,7 +22,9 @@ class AwtSwtDemo {
     
     def run() {
         swt = new SwtBuilder()
-   		swing = new SwingBuilder()        
+   		swing = new SwingBuilder()
+        def awtframe = null
+        def swingframe = null
    		
         shell = swt.shell ( 'The AwtSwt Demo', size:[200,100] ) {
          	fillLayout()
@@ -31,12 +33,21 @@ class AwtSwtDemo {
          	
          	composite ( style:"border, embedded" ) {
          		fillLayout()
-         		//label('Another swt label')
-	         	awtFrame() {
-        			swing.label('Swing label')
+	         	awtframe = awtFrame()
+			}
+         	composite ( style:"border, embedded" ) {
+         		fillLayout()
+	         	swingframe = awtFrame() {
+        			swing.label("This doesn't work")
          		}
 			}
         }
+        
+        // add a AWT label
+        awtframe.add(new java.awt.Label('AWT Label'))
+        
+        // add a SWING label
+        swingframe.add(swing.label('SWING Label'))
         
 		shell.doMainloop()
 	}
