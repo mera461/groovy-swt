@@ -89,9 +89,9 @@ class AnotherWizardDemo {
 							gridLayout( numColumns:"2" )
 							label( "Set PageComplete to true/false: " )
 							    def button2 = button("Change it") {
-        							onEvent(type:"Selection", closure:{ 
+        							onEvent('Selection'){ 
 							        	wizardPage2.setPageComplete(!wizardPage2.isPageComplete() )
-							        })
+							        }
 							    }
 						}
 				})

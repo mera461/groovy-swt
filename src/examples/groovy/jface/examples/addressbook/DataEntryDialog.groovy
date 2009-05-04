@@ -52,9 +52,9 @@ public String[] open() {
 					 text: (values[i]!=null)?values[i]:"",
 					 data: new Integer(i) ) {
 					gridData(widthHint: 400)
-					onEvent(type: "Modify", closure: {
+					onEvent('Modify') {
 						values[it.widget.getData().intValue()] = it.widget.getText()
-					})
+					}
 				}
 			}
 		}
@@ -62,12 +62,12 @@ public String[] open() {
 			gridData(style: "HORIZONTAL_ALIGN_CENTER")
 			gridLayout(numColumns: 2)
 			button(resAddressBook.getString("OK")) {
-				onEvent(type:"Selection", closure: {
+				onEvent('Selection') {
 					dialog.close()
-				})
+				}
 			}
 			button(resAddressBook.getString("Cancel")) {
-				onEvent(type:"Selection", closure: { values = null; dialog.close() })
+				onEvent('Selection') { values = null; dialog.close() }
 			}
 		}		
 	}

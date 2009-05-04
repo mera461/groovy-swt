@@ -35,10 +35,10 @@ class CheckTableDemo {
 					tableItem(["Item $it", "Cont", "ent", "#$it"])	
 				}
 				
-				onEvent(type:"Selection", closure:{
+				onEvent('Selection'){
 					if (it.detail == SWT.CHECK) 
 						label1.text="Selected item $it.item"	
-				})
+				}
 			}
 			label1.setBounds(15,5,250,20)
 			table1.setBounds(30, 30, 215, 200)

@@ -36,13 +36,13 @@ class FormDemo {
 					formButton ( "This is radiobutton2", style:"radio" ) 
 					
 					formButton ( "This is a ARROW button", style:"arrow" ) {
-						onEvent(type:"Selection", closure:{ println "stop selecting me !!!" }) 
+						onEvent('Selection'){ println "stop selecting me !!!" } 
 					}	
 					formButton ( "This is a PUSH button", style:"push" ) {
-	        			onEvent(type:"Selection", closure:{ println "stop pushing me !!!" }) 
+	        			onEvent('Selection'){ println "stop pushing me !!!" } 
 	        		}
 					formButton ( "This is a TOGGLE button", style:"TOGGLE" ) {
-						onEvent(type:"Selection", closure:{ println "TOGGLE" }) 
+						onEvent('Selection'){ println "TOGGLE" } 
 					}
 					
 				}

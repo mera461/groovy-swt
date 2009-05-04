@@ -63,30 +63,30 @@ class View05 {
 			composite(layoutData:"grow, span 2") {
 				migLayout(layoutConstraints:"wrap 2",columnConstraints:"")
 				button("Add person") {
-					onEvent(type:'Selection', closure: { 
+					onEvent('Selection') { 
 						// Here you MUST add to the list and reassigning the variable will not work
 						viewModel.people.add(new Person05(name: "John${(int) (Math.random()*1000) }"))
-					})
+					}
 				}
 				button("Empty person list") {
-					onEvent(type:'Selection', closure: { 
+					onEvent('Selection') { 
 						viewModel.people.clear()
-					})
+					}
 				}
 				button("Add city") {
-					onEvent(type:'Selection', closure: {
+					onEvent('Selection'){
 						def newList = []
 						newList.addAll(viewModel.cities)
 						newList << "A4" 
 						// Here you MUST reassign the variable, adding to the list is not enough
 						// as the list is not monitored for changes
 						viewModel.cities = newList
-					})
+					}
 				}
 				button("Empty city list") {
-					onEvent(type:'Selection', closure: {
+					onEvent('Selection') {
 						viewModel.cities = []
-					})
+					}
 				}
 			}
 		}

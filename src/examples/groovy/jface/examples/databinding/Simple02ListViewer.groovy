@@ -51,17 +51,17 @@ class View02 {
 				listViewer(input: bind(model:viewModel.people, modelProperty:'name'))
 			}
 			button("Add another one") {
-				onEvent(type:'Selection', closure: { viewModel.people.add(new Person02(name: "John${(int) (Math.random()*1000) }"))	})
+				onEvent('Selection') { viewModel.people.add(new Person02(name: "John${(int) (Math.random()*1000) }"))	}
 			}
 			button("New List") {
-				onEvent(type:'Selection', closure: {
+				onEvent('Selection'){
 					// You should NEVER re-assign the property. The binding tracks the list,
 					// not the property.
 					// See http://fire-change-event.blogspot.com/2009/02/bind-viewer-in-one-statement-with.html
 					// DO NOT : viewModel.people = new WritableList()
 					// Do this instead:
 					viewModel.people.clear()
-				})
+				}
 			}
 		}
 		return shell

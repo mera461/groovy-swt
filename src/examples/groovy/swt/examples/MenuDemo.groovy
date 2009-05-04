@@ -29,21 +29,21 @@ class MenuDemo {
 					menuItem(style:"PUSH", "&Open file")
 					menuSeparator()
 					menuItem(style:"PUSH", "E&xit"){
-						onEvent(type:"Selection", closure:{
+						onEvent('Selection'){
 							shell.dispose()						
-						})
+						}
 					}
 				}	
 				file.menu= filemenu
 				def m2
 				def menu2menu = menu(style:"DROP_DOWN"){
 						m2 = menuItem(style:"CHECK", "&Change text"){
-							onEvent(type:"Selection", closure:{
+							onEvent('Selection') {
 								if (!m2.getSelection())
 								label1.text="a text"
 								else
 									label1.text="this is the changed text"
-							})
+							}
 						}
 				}
 				menu2.menu = menu2menu

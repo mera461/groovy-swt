@@ -21,34 +21,34 @@ class BrowserSwtDemo extends Script {
         		gridData( horizontalSpan:3 )
         	
         		toolItem(style:"push", "Back") {
-        			onEvent(type:"Selection", closure:{ browser.back() }) 
+        			onEvent('Selection'){ browser.back() } 
         		}
         		
         		toolItem(style:"push", "Forward") {
-        			onEvent(type:"Selection", closure:{ browser.forward() } ) 
+        			onEvent('Selection') { browser.forward() }  
         		}
         		
         		toolItem(style:"push", "Stop") {	
-        			onEvent(type:"Selection", closure:{ browser.stop() } )
+        			onEvent('Selection') { browser.stop() }
         		}
         		
         		toolItem(style:"push", "Refresh") { 
-        			onEvent(type:"Selection", closure:{ browser.refresh() } )
+        			onEvent('Selection') { browser.refresh() }
         		}
         		
         		toolItem(style:"push", "Go") {
-        			onEvent(type:"Selection", closure:{ 
+        			onEvent('Selection'){ 
         				browser.setUrl( location.getText() ) 
-        			})
+        			}
         		}
         	}
 
         	label( style:"none", "Address" )
         	location = text( style:"border" ) {  
 	        	gridData( style:"fill_horizontal", horizontalSpan:2, grabExcessHorizontalSpace:true )
-	        	onEvent(type:"DefaultSelection", closure: {
+	        	onEvent('DefaultSelection') {
 	        		browser.setUrl( location.getText() ) 
-	        		})
+	        	}
         	}
 
 

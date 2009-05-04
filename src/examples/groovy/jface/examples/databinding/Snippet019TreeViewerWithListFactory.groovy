@@ -48,7 +48,7 @@ class View019 {
 			composite() {
 				rowLayout()
 				button('Add Root') {
-					onEvent(type:'Selection', closure:{
+					onEvent('Selection') {
 						def list = new ArrayList(viewModel.input.list)
 						def root = new Bean019(text:'root') 
 						list << root
@@ -56,10 +56,10 @@ class View019 {
 						beanViewer.selection = new StructuredSelection(root)
 						beanText.selectAll()
 						beanText.setFocus()
-					})
+					}
 				}
 				button('Add Child', id:'addchildButton') {
-					onEvent(type:'Selection', closure:{
+					onEvent('Selection') {
 						def parent = beanViewer.selection?.firstElement
 						def list = new ArrayList(parent.list)
 						def child = new Bean019(text:'child')
@@ -69,10 +69,10 @@ class View019 {
 						beanViewer.selection = new StructuredSelection(child)
 						beanText.selectAll()
 						beanText.setFocus()
-					})
+					}
 				}
 				button('Remove', id:'removeButton') {
-					onEvent(type:'Selection', closure:{
+					onEvent('Selection'){
 						def selectedItem = beanViewer.tree.selection[0]
 						def parentItem = selectedItem.parentItem
 						def parent, index
@@ -86,15 +86,15 @@ class View019 {
 						def list = new ArrayList(parent.list)
 						list.remove(index)
 						parent.list = list
-					})
+					}
 				}
 				button('Copy', id:'copyButton') {
-					onEvent(type:'Selection', closure:{
+					onEvent('Selection'){
 						clipboard.value = beanViewer.selection?.firstElement
-					})
+					}
 				}
 				button('Paste', id:'pasteButton') {
-					onEvent(type:'Selection', closure:{
+					onEvent('Selection') {
 						def copy = clipboard.value
 						if (copy == null) return
 						def parent = beanViewer.selection?.firstElement
@@ -106,12 +106,12 @@ class View019 {
 						beanViewer.selection = new StructuredSelection(copy)
 						beanText.selectAll()
 						beanText.setFocus()
-					})
+					}
 				}
 				button('Refresh') {
-					onEvent(type:'Selection', closure:{
+					onEvent('Selection'){
 						beanViewer.refresh()
-					})
+					}
 				}
 			}
 			tree(id:'beanTree') {

@@ -53,10 +53,10 @@ class View07 {
 						    input: bind(model:viewModel.people, modelProperty:['name', 'city']))
 			}
 			button("Add another one") {
-				onEvent(type:'Selection', closure: { addOne(viewModel)	})
+				onEvent('Selection') { addOne(viewModel)	}
 			}
 			button("Remove one") {
-				onEvent(type:'Selection', closure: { removeOne(viewModel) })
+				onEvent('Selection') { removeOne(viewModel) }
 			}
 		}
 		return shell

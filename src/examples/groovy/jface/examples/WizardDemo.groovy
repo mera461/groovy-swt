@@ -29,23 +29,23 @@ class WizardDemo {
 						label( "Label 1" )
 						
 						button( "Set Message") {
-							onEvent( type:"Selection" , closure: { 
+							onEvent('Selection') { 
 								wizardPage1.setMessage( text.getText() ) 								
-							})
+							}
 						}	
 	
 						label( "Label 2" )
 						button( "Set Error Message" ) {
-							onEvent( type:"Selection", closure: {
+							onEvent('Selection') {
 								wizardPage1.setErrorMessage('ErrorMessage: This step is not complete') 
-							})
+							}
 						}
 						
 						label( "Label 3" )
 						button ( "Set Page Complete" ) {
-							onEvent ( type:"Selection", closure: {
+							onEvent ('Selection') {
 								wizardPage1.setPageComplete(true)
-							})
+							}
 						}
 					} 
 				})

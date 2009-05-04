@@ -48,7 +48,7 @@ public class Snippet294{
 		shell = swt.shell("Regions on a Control", size:[200,200], background: "#ff0000") {
 			fillLayout()
 			def b2 = button("Button with Regions", location:[100,100], region: region) {
-				onEvent(type:'Selection', closure: {shell.close()})
+				onEvent('Selection'){shell.close()}
 			}
 		}
 		

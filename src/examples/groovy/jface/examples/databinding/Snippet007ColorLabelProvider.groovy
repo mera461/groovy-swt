@@ -132,20 +132,20 @@ class View007 {
 
 			
 			button('Toggle Gender') {
-				onEvent(type: 'Selection', closure: {
+				onEvent('Selection'){
 					def selection = viewer.selection
 					if (selection !=null && !selection.isEmpty()) {
 						selection.firstElement.toggleGender()
 					}
-				})
+				}
 			}
 			button('Change city') {
-				onEvent(type: 'Selection', closure: {
+				onEvent('Selection') {
 					viewModel.people.each {
 						it.city = "City ${(int) (Math.random()*1000) }"
 						it.gender = 0
 					}
-				})
+				}
 			}
 		}
 		return shell
