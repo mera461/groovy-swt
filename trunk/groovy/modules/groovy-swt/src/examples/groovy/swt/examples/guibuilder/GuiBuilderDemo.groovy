@@ -26,25 +26,25 @@ class ApplicationGuiDemo {
 				
 			toolBar( style:"horizontal" ){
 				toolItem( "Blue" ) {
-					onEvent( type:"Selection", closure:{
+					onEvent('Selection') {
 						guiBuilder.rebuild( parent:comp1, closure:{ 
 							guiBuilder.composite( it ) {
 								fillLayout()
 								label( "This is fresh new blue label ...", background:[0, 0, 255] )
 							}
 						})
-					})
+					}
 				}				
 				
 				toolItem( "Red" ) {
-					onEvent( type:"Selection", closure:{
+					onEvent('Selection') {
 						guiBuilder.rebuild( parent:comp1, closure:{ 
 							guiBuilder.composite( it ) {
 								fillLayout()
 								label( "This is fresh new red label ...", background:[255, 0, 0] )
 							}
 						})
-					})
+					}
 				}				
 						
 			}			
