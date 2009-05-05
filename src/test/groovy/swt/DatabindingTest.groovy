@@ -12,9 +12,14 @@ import java.io.File
 
 import junit.framework.TestCase
 
+import org.eclipse.core.databinding.observable.list.WritableList
 import org.eclipse.jface.window.ApplicationWindow
 import org.eclipse.swt.widgets.Shell
 
+@Bindable
+public class TestPerson {
+	String name
+}
 
 /**
  * @author <a href="mailto:ckl@dacelo.nl">Christiaan ten Klooster </a>
@@ -26,6 +31,8 @@ public class DatabindingTest extends TestCase {
 	String text
 	@Bindable
 	int number
+    @Bindable
+	WritableList list 
 	
 	def swt = new SwtBuilder()
 	 
@@ -51,5 +58,19 @@ public class DatabindingTest extends TestCase {
           swt.shell('title') {
           }
       }
+    
+    
+    public void testBindingToEmptyList() {
+    	list = new WritableList(swt.realm)
+        def shell = swt.shell() {
+    		table(id:'t') {
+				tableViewer(input: bind(model:list, modelProperty:['name']))
+    		}
+        }
+    	assert t.itemCount == 0
+    	list.add(new TestPerson(name: 'name'))
+        swt.dataBindingContext.updateModels()
+    	assert t.itemCount == 1
+    }
     
 }

@@ -67,7 +67,8 @@ public class BindFactory extends AbstractFactory {
         }
 
         Binding binding = new Binding()
-        binding.model = attributes.remove("model") ?: value
+        binding.model = attributes.remove("model")
+        if (binding.model==null && value!=null) binding.model = value
         binding.modelProperty = attributes.remove("modelProperty")
         binding.target = attributes.remove("target")
         binding.targetProperty = attributes.remove("targetProperty")
