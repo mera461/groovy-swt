@@ -8,6 +8,8 @@ import groovy.beans.Bindable
 import groovy.lang.GroovyClassLoader
 import groovy.lang.GroovyObject
 
+import groovy.jface.JFaceBuilder
+
 import java.io.File
 
 import junit.framework.TestCase
@@ -34,43 +36,43 @@ public class DatabindingTest extends TestCase {
     @Bindable
 	WritableList list 
 	
-	def swt = new SwtBuilder()
+	def jface = new JFaceBuilder()
 	 
     public void testSimpel() {
 		//def t1, t2
-        def shell = swt.shell() {
+        def shell = jface.shell() {
         	text(id:'t1', text: bind(model: this, modelProperty:'text'))
         	text(id:'t2', text: bind(model: this, modelProperty:'number'))
         }
         
         text = "something"
-        swt.dataBindingContext.updateTargets()
-        assert swt.t1.text == "something"
+        jface.dataBindingContext.updateTargets()
+        assert jface.t1.text == "something"
 
-        swt.t1.text = "something else"
-        swt.dataBindingContext.updateModels()
+        jface.t1.text = "something else"
+        jface.dataBindingContext.updateModels()
         assert text == "something else"
         shell.dispose()
     }
     
     public void testSimple() {
-          def swt = new SwtBuilder()
-          swt.shell('title') {
+          jface.shell('title') {
           }
       }
     
     
     public void testBindingToEmptyList() {
-    	list = new WritableList(swt.realm)
-        def shell = swt.shell() {
+    	list = new WritableList(jface.realm)
+        def shell = jface.shell() {
     		table(id:'t') {
+				tableColumn('name', style:'LEFT', width: 100)
 				tableViewer(input: bind(model:list, modelProperty:['name']))
     		}
         }
-    	assert t.itemCount == 0
+    	assert jface.t.itemCount == 0
     	list.add(new TestPerson(name: 'name'))
-        swt.dataBindingContext.updateModels()
-    	assert t.itemCount == 1
+        jface.dataBindingContext.updateModels()
+    	assert jface.t.itemCount == 1
     }
     
 }
