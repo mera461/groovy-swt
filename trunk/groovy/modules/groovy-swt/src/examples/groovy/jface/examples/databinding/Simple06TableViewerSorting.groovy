@@ -47,14 +47,14 @@ class View06 {
 		def shell = jface.shell('Simple06ListViewer') {
 			migLayout(layoutConstraints:"wrap 1, filly", columnConstraints: "[grow, fill]", rowConstraints: "")
 			label('DEFAULT sortable:')
-			table(headerVisible: true, linesVisible: true, layoutData:'grow' ) {
+			table(headerVisible: true, linesVisible: true, layoutData:'hmin 50' ) {
 				tableColumn('name', width: 100)
 				tableColumn('city', width: 100)
 				tableViewer(id:'viewer',
 						    input: bind(model:viewModel.people, modelProperty:['name', 'city']))
 			}
 			label('NOT sortable:')
-			table(headerVisible: true, linesVisible: true, layoutData:'grow' ) {
+			table(headerVisible: true, linesVisible: true, layoutData:'hmin 50' ) {
 				tableColumn('name', width: 100)
 				tableColumn('city', width: 100)
 				tableViewer(id:'viewer',
@@ -62,7 +62,7 @@ class View06 {
 						    sortable: false)
 			}
 			label('Sortable on one column:')
-			table(headerVisible: true, linesVisible: true, layoutData:'grow' ) {
+			table(headerVisible: true, linesVisible: true, layoutData:'hmin 50' ) {
 				tableColumn('name', width: 100)
 				tableColumn('city', width: 100)
 				tableViewer(id:'viewer',

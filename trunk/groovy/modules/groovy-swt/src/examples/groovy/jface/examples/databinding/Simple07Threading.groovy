@@ -45,8 +45,8 @@ class View07 {
 	def createShell() {
 		def jface = new JFaceBuilder()
 		def shell = jface.shell('Simple07ListViewer') {
-			migLayout(layoutConstraints:"wrap 1, filly", columnConstraints: "[grow, fill]", rowConstraints: "")
-			table(headerVisible: true, linesVisible: true, layoutData:'grow' ) {
+			migLayout(layoutConstraints:"wrap 1", columnConstraints: "[grow, fill]", rowConstraints: "[grow, fill][]")
+			table(headerVisible: true, linesVisible: true, layoutData:'hmin 50' ) {
 				tableColumn('name', width: 100)
 				tableColumn('city', width: 100)
 				tableViewer(id:'viewer',
