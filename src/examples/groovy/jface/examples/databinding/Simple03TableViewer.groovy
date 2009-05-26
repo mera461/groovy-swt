@@ -43,8 +43,8 @@ class View03 {
 	def createShell() {
 		def jface = new JFaceBuilder()
 		def shell = jface.shell('Simple03ListViewer') {
-			migLayout(layoutConstraints:"wrap 1, filly", columnConstraints: "[grow, fill]", rowConstraints: "")
-			table(headerVisible: true, linesVisible: true, layoutData:'grow' ) {
+			migLayout(layoutConstraints:"wrap 1, filly", columnConstraints: "[grow, fill]", rowConstraints: "[grow, fill][]")
+			table(headerVisible: true, linesVisible: true, layoutData:'hmin 50' ) {
 				tableColumn('name', style:'LEFT', width: 100)
 				tableColumn('city', style:'RIGHT', width: 100)
 				tableViewer(input: bind(model:viewModel.people, modelProperty:['name', 'city']))

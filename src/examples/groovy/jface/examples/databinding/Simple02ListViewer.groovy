@@ -46,8 +46,8 @@ class View02 {
 	def createShell() {
 		def jface = new JFaceBuilder()
 		def shell = jface.shell('Simple02ListViewer') {
-			migLayout(layoutConstraints:"wrap 1, filly", columnConstraints: "[grow, fill]", rowConstraints: "")
-			list(layoutData:"grow") {
+			migLayout(layoutConstraints:"wrap 1, filly", columnConstraints: "[grow, fill]", rowConstraints: "[grow, fill][]")
+			list(layoutData:"hmin 50") {
 				listViewer(input: bind(model:viewModel.people, modelProperty:'name'))
 			}
 			button("Add another one") {

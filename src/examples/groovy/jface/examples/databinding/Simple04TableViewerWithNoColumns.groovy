@@ -42,7 +42,7 @@ class View04 {
 		def jface = new JFaceBuilder()
 		def shell = jface.shell('Simple04ListViewer') {
 			migLayout(layoutConstraints:"wrap 1, filly", columnConstraints: "[grow, fill]", rowConstraints: "")
-			table(layoutData:'grow' ) {
+			table(layoutData:'hmin 50' ) {
 				tableViewer(input: bind(model:viewModel.people, modelProperty:['name', 'city']))
 			}
 			button("Add another one") {
