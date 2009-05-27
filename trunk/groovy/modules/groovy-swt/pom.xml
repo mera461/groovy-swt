@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>groovy-swt</groupId>
 	<artifactId>groovy-swt</artifactId>
-	<version>0.4.2</version>
+	<version>0.4.3</version>
 	<description></description>
 
 	<repositories>
@@ -120,6 +120,14 @@
 			<artifactId>miglayout</artifactId>
 			<version>3.7</version>
 			<classifier>swt</classifier>
+		</dependency>
+		
+		
+		<!-- ASM for the opcodes used in the AST @Bindable -->
+		<dependency>
+			<groupId>asm</groupId>
+			<artifactId>asm</artifactId>
+			<version>3.1</version>
 		</dependency>
 		
 		<!-- groovy compilation -->
