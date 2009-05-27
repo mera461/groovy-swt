@@ -17,7 +17,7 @@ class TabDemo {
 			cTabFolder( style:"BOTTOM" ) {
 				gridData( style:"fill_both" )
 				cTabItem( "Item1", style:"none", ) {
-					text( style:"border, multi", "Content for Item1" ) 
+					text( style:"border, multi, v_scroll, h_scroll", "Content for Item1" ) 
 				}
 				cTabItem( "Item2", style:"none") {
 					text( style:"border, multi", "Content for Item2" ) 
@@ -25,7 +25,7 @@ class TabDemo {
 				cTabItem( "Item3", style:"none" ) {
 					composite(){
 						fillLayout()
-					    text( style:"border, multi", "Content for Item3" ) 
+					    text( style:"border, multi, v_scroll", "Content for Item3" ) 
 						button("ok")
 					}
 				}
