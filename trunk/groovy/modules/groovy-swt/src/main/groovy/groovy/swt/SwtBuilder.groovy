@@ -17,6 +17,7 @@ import groovy.swt.factory.ImageFactory
 import groovy.swt.factory.LayoutDataFactory
 import groovy.swt.factory.LayoutFactory
 import groovy.swt.factory.ListenerFactory
+import groovy.swt.factory.MenuItemFactory
 import groovy.swt.factory.SwtContainer
 import groovy.swt.factory.TableItemFactory
 import groovy.swt.factory.TrayFactory
@@ -172,7 +173,7 @@ public class SwtBuilder extends FactoryBuilderSupport {
 		registerWidgetFactory("menu", Menu.class, SWT.DEFAULT)
 		//        registerMenuTag("menuBar", SWT.BAR)
 		registerWidgetFactory("menuSeparator", MenuItem.class, SWT.SEPARATOR)
-		registerWidgetFactory("menuItem", MenuItem.class)
+		registerFactory("menuItem", new MenuItemFactory())
 		registerWidgetFactory("toolBar", ToolBar.class, SWT.VERTICAL)
 		registerWidgetFactory("toolItem", ToolItem.class)
 		
