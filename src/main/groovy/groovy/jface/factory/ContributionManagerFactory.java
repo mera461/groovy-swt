@@ -5,11 +5,12 @@ import groovy.util.FactoryBuilderSupport;
 
 import java.util.Map;
 
-import org.codehaus.groovy.GroovyException;
 import org.codehaus.groovy.runtime.InvokerHelper;
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IContributionManager;
+import org.eclipse.swt.widgets.MenuItem;
 
 /**
  * @author <a href="mailto:ckl@dacelo.nl">Christiaan ten Klooster </a>
@@ -50,4 +51,24 @@ public class ContributionManagerFactory extends WidgetFactory {
         
         return bean;
     }
+	
+	// special handling for the accelerator of IAction 
+    public boolean onHandleNodeAttributes( FactoryBuilderSupport builder, Object node, Map attributes ) {
+    	if (node instanceof IAction) {
+    		Object key = attributes.remove("accelerator");
+    		if (key != null) {
+    			int value = 0;
+    			if (key instanceof Integer) {
+    				value = (Integer) key;
+    			} else {
+    				String str = key.toString();
+    				value = Action.convertAccelerator(str);
+    			}
+    			((IAction)node).setAccelerator(value);
+    		}
+    	}
+    	return super.onHandleNodeAttributes(builder, node, attributes);
+    }
+	
+	
 }
