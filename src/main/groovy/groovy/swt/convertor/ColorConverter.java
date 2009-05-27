@@ -1,11 +1,16 @@
 package groovy.swt.convertor;
 
+import groovy.lang.GroovyRuntimeException;
+
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * A Converter that converts Strings in the form "#uuuuuu" or "x,y,z" into a
@@ -17,7 +22,7 @@ import org.eclipse.swt.graphics.RGB;
 public class ColorConverter {
     private Logger log = Logger.getLogger(getClass().getName());
     private static final ColorConverter instance = new ColorConverter();
-    private static String usageText = "Color value should be in the form of '#xxxxxx' or 'x,y,z'";
+    private static String usageText = "Color value should be in the form of '#xxxxxx', 'x,y,z' or a system color name from SWT.COLOR_xxxx";
 
     public static ColorConverter getInstance() {
         return instance;
@@ -82,8 +87,30 @@ public class ColorConverter {
         } else if (value.indexOf(',') != -1) {
             return parseRGB(value);
         } else {
-            throw new IllegalArgumentException(usageText);
+        	// test if it is a system color from SWT.COLOR_xxxxx
+        	RGB color = parseSystemColor(value);
+        	if (color==null) {
+        		throw new IllegalArgumentException(usageText);
+        	}
+        	return color;
         }
+    }
+    
+    /** 
+     * 
+     */
+    public RGB parseSystemColor(String value) {
+    	RGB color = null;
+        try {
+            Field field = SWT.class.getField("COLOR_"+value.toUpperCase());
+            if (field == null) {
+                return null;
+            }
+            color = Display.getCurrent().getSystemColor(field.getInt(null)).getRGB();
+        } catch (Exception e) {
+            color = null;
+        }
+        return color;
     }
 
     public RGB parse(List list) {
