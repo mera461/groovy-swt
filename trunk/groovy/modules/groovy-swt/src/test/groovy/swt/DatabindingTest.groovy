@@ -11,12 +11,15 @@ import groovy.lang.GroovyObject
 import groovy.jface.JFaceBuilder
 
 import java.io.File
+import java.beans.PropertyChangeListener
 
 import junit.framework.TestCase
 
 import org.eclipse.core.databinding.observable.list.WritableList
 import org.eclipse.jface.window.ApplicationWindow
 import org.eclipse.swt.widgets.Shell
+
+import org.codehaus.groovy.binding.ClosureTriggerBinding
 
 @Bindable
 public class TestPerson {
@@ -35,6 +38,8 @@ public class DatabindingTest extends TestCase {
 	int number
     @Bindable
 	WritableList list 
+	@Bindable
+	boolean bool
 	
 	def jface = new JFaceBuilder()
 
@@ -123,5 +128,51 @@ public class DatabindingTest extends TestCase {
         jface.dataBindingContext.updateModels()
     	assert jface.t.itemCount == 1
     }
+     
+    public void testClosureTriggerBinding() {
+    	def model = new DatabindingTest()
+    	def closure = {model.number*2}
+    	def ctb = new ClosureTriggerBinding(new HashMap())
+    	ctb.closure = closure
+		def fullbinding = ctb.createBinding(ctb, null)
+		def bp = fullbinding.bindPaths[0]
+		assert 'model' == bp.propertyName
+		assert 'number' == bp.children[0].propertyName
+		assert model == bp.extractNewValue(closure)
+    }
     
+    public void testWithClosureBinding1() {
+		def model = this
+        def shell = jface.shell() {
+        	text(id:'t1', text: bind {model.text})
+        	text(id:'t2', text: bind {model.number.toString()})
+        	text(id:'t3', text: bind {model.text?.toLowerCase()})
+        	text(id:'t4', text: bind {model.bool ? 'Enabled' : 'Disabled'}, enabled: bind {model.bool})
+        }
+		
+		// change the model
+        model.text = "SomeThing"
+        jface.dataBindingContext.updateTargets()
+        assert jface.t1.text == "SomeThing"
+        assert jface.t3.text == "something"
+
+		// change a number
+        model.number = 7
+        jface.dataBindingContext.updateTargets()
+        assert jface.t2.text == '7'
+
+		// change a boolean
+        model.bool = true
+        jface.dataBindingContext.updateTargets()
+        assert jface.t4.text == 'Enabled'
+		assert true == jface.t4.enabled
+        model.bool = false
+        jface.dataBindingContext.updateTargets()
+        assert jface.t4.text == 'Disabled'
+		assert false == jface.t4.enabled
+
+		
+        // dispose the shell
+        shell.dispose()    	
+    }
 }
