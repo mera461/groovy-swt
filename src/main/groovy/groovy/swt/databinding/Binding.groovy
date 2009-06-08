@@ -27,13 +27,17 @@ public class Binding{
 	Object modelProperty
 	
 	
-	/* modelProperty: the property to use as the children of an element
+	/* childrenProperty: the property to use as the children of an element
 	 */
 	Object childrenProperty
 	
 	// used for viewers when the modelProperty is a list of objects
 	// select which properties of the object to display
 	//def listProperties
+	
+	/* closure: for closure binding. 
+	 */
+	Closure closure
 	
 	UpdateValueStrategy model2target = null
 	

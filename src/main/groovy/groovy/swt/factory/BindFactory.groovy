@@ -8,16 +8,18 @@ import groovy.swt.databinding.Binding
 import java.util.Map.Entry
 
 import org.codehaus.groovy.binding.*
+
 import org.eclipse.core.databinding.beans.BeansObservables
 import org.eclipse.core.databinding.beans.BeanProperties
 import org.eclipse.core.databinding.conversion.IConverter
 import org.eclipse.core.databinding.observable.IObservable
 import org.eclipse.core.databinding.observable.Observables
+import org.eclipse.core.databinding.observable.Realm
 import org.eclipse.core.databinding.observable.list.WritableList
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap
 import org.eclipse.core.databinding.observable.set.IObservableSet;
-import org.eclipse.core.databinding.observable.Realm
+import org.eclipse.core.databinding.observable.value.ComputedValue
 import org.eclipse.core.databinding.property.Properties
 import org.eclipse.core.databinding.UpdateValueStrategy
 import org.eclipse.core.databinding.validation.IValidator
@@ -76,20 +78,29 @@ public class BindFactory extends AbstractFactory {
         
         extractUpdateValueStrategy(attributes, binding)
         
-        // if the target && targetProperty is given then do the bind right away
-        if (binding.target!=null
-        	&& (binding.targetProperty!= null
-        		|| binding.target instanceof IObservable)) {
-        	doBind(builder, binding)
-        }
-        
         return binding
     }
 
     public boolean isLeaf() {
-        return true;
+        return false; // closures
+    }
+    
+    public boolean isHandlesNodeChildren() {
+    	return true;
+    }
+    
+    public boolean onNodeChildren(FactoryBuilderSupport builder, Object node, Closure childContent) {
+    	node.closure = childContent
+		return false
     }
 
+	public void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object binding) {
+		super.onNodeCompleted(builder, parent, binding)
+		if (binding.target!=null) {
+			doBind(builder, binding)
+		}
+	}    
+    
     public bindingAttributeDelegate(FactoryBuilderSupport builder, def node, def attributes) {
         Iterator iter = attributes.entrySet().iterator()
         Map bindContext = builder.context.get(CONTEXT_DATA_KEY) ?: [:]
@@ -123,6 +134,15 @@ public class BindFactory extends AbstractFactory {
     }
     
     def doBind(FactoryBuilderSupport builder, Binding binding) {
+		if (binding.target==null || binding.targetProperty==null) {
+			throw new RuntimeException("Can not creating a binding where target or targetProperty is null.")
+		}
+		if (binding.closure!=null
+			|| (binding.model!=null && binding.modelProperty!=null)) {
+		} else {
+			throw new RuntimeException("Can not creating a binding where model or modelProperty is null or no closure given.")
+		}
+
         // binding the input of a viewer
         if (binding.target instanceof StructuredViewer && binding.targetProperty.toLowerCase()=='input') {
         	bindViewerInput(builder, binding)
@@ -217,25 +237,82 @@ public class BindFactory extends AbstractFactory {
     def bindSimpleWidget(FactoryBuilderSupport builder, Binding binding) {
         // target observable
         def targetObservable = createTargetObservable(builder, binding)
-        
+		
         // model observable
-        Object properties = binding.modelProperty
-        if (properties instanceof GString) properties = properties.toString()
-        
-        // wrap an array list in a WritableList
-        if (binding.model instanceof ArrayList) {
-        	println "WARNING: Wrapping an ArrayList in a WritableList. Updating is not possible"
-        	def l = new WritableList(Realm.default)
-        	l.addAll(binding.model)
-        	binding.model = l
-        }
+		if (binding.model != null && binding.closure !=null) {
+			throw new RuntimeException("Binding: You can not specify both a model and a closure")
+		}
 
-        def modelObservable = createBeanObservable(builder, binding)
+        def modelObservable = null
+        // if a closure binding 
+		if (binding.closure != null) {
+			modelObservable = createClosureObservable(builder, binding)
+		} else {
+	        Object properties = binding.modelProperty
+	        if (properties instanceof GString) properties = properties.toString()
+	        
+	        // wrap an array list in a WritableList
+	        if (binding.model instanceof ArrayList) {
+	        	println "WARNING: Wrapping an ArrayList in a WritableList. Updating is not possible"
+	        	def l = new WritableList(Realm.default)
+	        	l.addAll(binding.model)
+	        	binding.model = l
+	        }
 
+	        modelObservable = createBeanObservable(builder, binding)
+		}
+		
         // create the binding
         def dbc = builder.dataBindingContext
         dbc."bind${binding.bindType}"(targetObservable, modelObservable, binding.target2model, binding.model2target)
     }
+    
+    def createClosureObservable(FactoryBuilderSupport builder, Binding binding) {
+    	def ctb = new ClosureTriggerBinding(new HashMap())
+    	ctb.closure = binding.closure
+		def fullbinding = ctb.createBinding(ctb, null)
+		if (fullbinding.bindPaths.size() == 0) {
+			throw new RuntimeException("A closure binding was used, but found no model properties")
+		}
+    	def modelObservables = []
+		def modelBinding = new Binding() 
+		for (bp in fullbinding.bindPaths) {
+			modelBinding.model = bp.extractNewValue(binding.closure)
+			modelBinding.modelProperty = bp.children[0].propertyName // TODO: Recursive through all children
+	        modelObservables << createBeanObservable(builder, modelBinding)
+		}
+    	
+    	return [calculate: {
+    		 		// TODO: Do we need get the values?
+    			    def values = []
+    			    for (model in modelObservables) {
+    			    	values << model.getValue()
+    			    }
+    				def value = binding.closure.call()
+					return value
+    		    }] as ComputedValue
+    }
+
+    Object extractNewValue(Object newObject, def propertyName) {
+        Object newValue;
+        try {
+            newValue = InvokerHelper.getProperty(newObject, propertyName)
+        } catch (MissingPropertyException mpe) {
+            //todo we should flag this whent he path is created that this is a field not a prop...
+            // try direct method...
+            try {
+                newValue = InvokerHelper.getAttribute(newObject, propertyName)
+                if (newValue instanceof Reference) {
+                    newValue = ((Reference) newValue).get()
+                }
+            } catch (Exception e) {
+                //LOGME?
+                newValue = null;
+            }
+        }
+        return newValue;
+    }    
+    
 
     def createTargetObservable(FactoryBuilderSupport builder, Binding binding) {
     	// if the target is an observable then just return it
