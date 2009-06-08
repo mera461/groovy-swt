@@ -9,6 +9,7 @@ import java.util.Map;
 import org.codehaus.groovy.runtime.InvokerHelper;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.window.ApplicationWindow;
+import org.eclipse.swt.widgets.Control;
 
 /**
  * @author <a href="mailto:ckl@dacelo.nl">Christiaan ten Klooster </a>
@@ -36,16 +37,23 @@ public class MenuManagerFactory extends AbstractSwtFactory {
         }
         
         MenuManager menuManager = new MenuManager(text);
+        return menuManager;
+    }
+	
+    public void setParent(FactoryBuilderSupport builder, Object parent, Object menuManager) {
         if (parent instanceof ApplicationWindow) {
             ApplicationWindow window = (ApplicationWindow) parent;
             if (window != null) {
-                window.getMenuBarManager().add(menuManager);
+                window.getMenuBarManager().add((MenuManager) menuManager);
             }
         } else if (parent instanceof MenuManager) {
         	MenuManager outerLevel = (MenuManager) parent;
-        	outerLevel.add(menuManager);
+        	outerLevel.add((MenuManager) menuManager);
+        } else if (parent instanceof Control) {
+        	// if it is a control the use the menu as a context menu.
+        	Control control = (Control) parent;
+        	control.setMenu(((MenuManager) menuManager).createContextMenu(control));
         }
-        
-        return menuManager;
-    }
+    }	
+	
 }
