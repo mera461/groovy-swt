@@ -9,8 +9,6 @@
 		<dependencySet>
 			<excludes>
 				<exclude>*groovy-all</exclude>
-				<exclude>*gmaven-mojo</exclude>
-				<exclude>*gmaven-runtime-1.6</exclude>
 				<exclude>junit:junit</exclude>
 				<exclude>commons-logging:commons-logging:*</exclude>
 			</excludes>
