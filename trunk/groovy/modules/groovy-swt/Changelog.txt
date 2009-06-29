@@ -1,0 +1,89 @@
+Changes:
+
+TODOS:
+- Default table with headerVisible, showLines, etc.
+
+0.5: 
+- Updated to Eclipse 3.5 libraries.
+
+0.4.2:
+
+- bind with closures. If you bind with a closure it is like a ComputedValue which only gives 
+  you one-way binding.
+- menu as a subnode to menuitem should automatically set the menuitem.menu
+- Added a Bindable and WritableList that can be used from several threads but only fires events
+  in the right realm. 
+- Using system colors (foreground: 'BLUE') for color attributes.
+- Change the license to Apache as the rest of groovy.
+- Upgraded to Eclipse 3.5M7
+
+0.4.1:
+
+- added initial databinding support
+- shortened the onEvent(). Instead of onEvent(type:'Selection', closure:{...}) 
+  you can use onEvent('Selection') {...}
+- added StackLayout
+- added InputDialog
+- added ErrorDialog
+- added MessageDialog
+- added MessageDialogWithToggle
+- added an id attribute
+- changed list() to use default styles: SWT.V_SCROLL | SWT.BORDER
+- added a subclass of the Shell and added a method doMainloop() to do all the repetitive:
+		pack();
+		open();
+		while (!isDisposed()) {
+			if (!getDisplay().readAndDispatch()) {
+				getDisplay().sleep();
+			}
+		}
+
+
+0.4.0:
+- updated gmaven
+- updated to Eclipse 3.4
+- changed swt/jface builders to groovy
+- added the id attribute
+
+- Change builders to support FactoryBuilderSupport to be able to 
+  use SWT in Griffon.
+  
+- Deleted the ApplicationGuiBuilder in groovy.swt.guibuilder. This 
+  was marked as "WORK IN PROGRESS, don't use this one yet" in 2004,
+  so I don't suppose anyone was using it.
+  
+- Delete the get/setCurrent methods from the builders. Was only used by the
+  GuiBuilders.
+  
+- Fixed a bug:
+	fillLayout ( type:"vertical" )
+  never worked. Strings are now matched against SWT constants if relevant.
+  
+- Included the MigLayout in the SwtBuilder
+
+- Make 'text' default attribute if a text is given without attribute. You can now use
+  	label('label text')
+  instead of
+    label(text:'label text')
+
+- Using SwingBuilder inside a SWT application is working again. 
+   
+? In SwtBuilder eg. the button can have children (like onEvent, gridLayout, image).
+  In SwingBuilder they can not: everything is attributes. Should this be changed?
+  
+? FactoryBuilderSupport: GroupNames, for register<group of widget> ??? Relevant ????
+
+? Any need for CustomSwingBuilder?
+
+? TableTree, TableTreeItem are deprecated - should they be removed?
+
+
+0.3
+- updated to maven2
+- added automatic download of eclipse libraries
+- added support for RadioGroupFieldEditor (used in Preferences)
+- added support for StyledText
+- Fixed a bug in WizardDialog
+- swt.Dialog is abstract
+- Fixed a bug using cascading MenuManagers
+
