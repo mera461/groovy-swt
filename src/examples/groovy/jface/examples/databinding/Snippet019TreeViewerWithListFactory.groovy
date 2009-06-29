@@ -77,7 +77,7 @@ class View019 {
 						def parentItem = selectedItem.parentItem
 						def parent, index
 						if (parentItem == null) {
-							parent = input
+							parent = viewModel.input
 							index = beanViewer.tree.indexOf(selectedItem)
 						} else {
 							parent = parentItem.data
@@ -121,14 +121,13 @@ class View019 {
 			label('Item Name', layoutData:'split 2')
 			text(id: 'beanText',
 				 text: bind(model: beanViewer, modelProperty:'text'))
-			bind(target:addchildButton, targetProperty: 'enabled',
-				 model: beanViewer, modelProperty: 'text', 'model2target.converter': {beanTree.selectionCount>0})
-			bind(target:removeButton, targetProperty: 'enabled',
-					 model: beanViewer, modelProperty: 'text', 'model2target.converter': {beanTree.selectionCount>0})
-			bind(target:copyButton, targetProperty: 'enabled',
-					 model: beanViewer, modelProperty: 'text', 'model2target.converter': {beanTree.selectionCount>0})
-			bind(target:pasteButton, targetProperty: 'enabled',
-				 model: this, modelProperty: 'clipboard', 'model2target.converter': {clipboard.value != null})
+			bind(target:addchildButton, targetProperty: 'enabled') {beanViewer.selection.size()>0}
+// Another way of doing it:			
+//			bind(target:addchildButton, targetProperty: 'enabled',
+//				 model: beanViewer, modelProperty: 'text', 'model2target.converter': {beanTree.selectionCount>0})
+			bind(target:removeButton, targetProperty: 'enabled') {beanViewer.selection.size()>0}
+			bind(target:copyButton, targetProperty: 'enabled') {beanViewer.selection.size()>0}
+			bind(target:pasteButton, targetProperty: 'enabled') {clipboard.value != null}
 		}
 		return shell
 	}
