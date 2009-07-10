@@ -23,8 +23,9 @@ public class TextEditor implements ExtendedModifyListener {
 	// the builders
 	JFaceBuilder jface = new JFaceBuilder()
 	
-	def mainapp;
-	StyledText text;
+	def mainapp
+	StyledText text
+	def cachedStyles
 
 	def boldButton
 	def italicButton
@@ -36,57 +37,57 @@ public class TextEditor implements ExtendedModifyListener {
 	Color GREEN = null;
 
 	void createWindow () {
-	    mainapp = jface.applicationWindow( title:"Groovy Text Editor", location:[100,100], size:[500, 300] ) {
+	    mainapp = jface.applicationWindow( title:'Groovy Text Editor', location:[100,100], size:[500, 300] ) {
 	     	gridLayout(numColumns:1)
-	     	menuManager( "File" ) {
-	     		action ( "Exit", closure:{ mainapp.close() } )
+	     	menuManager( 'File' ) {
+	     		action ( 'Exit', closure:{ mainapp.close() } )
 	     	}
 
-	     	menuManager( "Edit" ) {
-	     		action ( "Cut", accelerator: SWT.MOD1 + (int) 'X', closure:{ handleCutCopy(); text.cut() } )
-	     		action ( "Copy", accelerator: SWT.MOD1 + (int) 'C',closure:{ handleCutCopy(); text.copy() } )
-	     		action ( "Paste", accelerator: SWT.MOD1 + (int) 'P',closure:{ text.paste() } )
+	     	menuManager( 'Edit' ) {
+	     		action ( 'Cut', accelerator: 'Ctrl+X', closure:{ handleCutCopy(); text.cut() } )
+	     		action ( 'Copy', accelerator: 'Ctrl+C',closure:{ handleCutCopy(); text.copy() } )
+	     		action ( 'Paste', accelerator: 'Ctrl+P',closure:{ text.paste() } )
 	     		separator()
-	     		action ( "Set Font", closure:{ setFont() } )
+	     		action ( 'Set Font', closure:{ setFont() } )
 	     	}
-	     	toolBar( style:"none" ) {
-        		boldButton = toolItem(style:"check", toolTipText:"Bold") {
-        			image( src:"bold.png" ) 
+	     	toolBar( style:'none' ) {
+        		boldButton = toolItem(style:'check', toolTipText:'Bold') {
+        			image( src:'bold.png' ) 
         			onEvent('Selection') {setStyle(it.widget)} 
         		}
-        		italicButton = toolItem(style:"check", toolTipText:"Italic") {
-        			image( src:"italic.png" ) 
+        		italicButton = toolItem(style:'check', toolTipText:'Italic') {
+        			image( src:'italic.png' ) 
         			onEvent('Selection') {setStyle(it.widget)} 
         		}
-        		underlineButton = toolItem(style:"check", toolTipText:"Underline") {
-        			image( src:"underline.png" ) 
+        		underlineButton = toolItem(style:'check', toolTipText:'Underline') {
+        			image( src:'underline.png' ) 
         			onEvent('Selection'){setStyle(it.widget)} 
         		}
-        		strikeoutButton = toolItem(style:"check", toolTipText:"Strikeout") {
-        			image( src:"strikeout.png" ) 
+        		strikeoutButton = toolItem(style:'check', toolTipText:'Strikeout') {
+        			image( src:'strikeout.png' ) 
         			onEvent('Selection') {setStyle(it.widget)} 
         		}
-        		toolItem(style:"separator")
-        		toolItem(style:"push", toolTipText:"Red text") {
-        			image( src:"red.png" ) 
+        		toolItem(style:'separator')
+        		toolItem(style:'push', toolTipText:'Red text') {
+        			image( src:'red.png' ) 
         			onEvent('Selection') {fgColor(RED)} 
         		}
-        		toolItem(style:"push", toolTipText:"Blue text") {
-        			image( src:"blue.png" ) 
+        		toolItem(style:'push', toolTipText:'Blue text') {
+        			image( src:'blue.png' ) 
         			onEvent('Selection'){fgColor(BLUE)} 
         		}
-        		toolItem(style:"push", toolTipText:"Green text") {
-        			image( src:"green.png" ) 
+        		toolItem(style:'push', toolTipText:'Green text') {
+        			image( src:'green.png' ) 
         			onEvent('Selection'){fgColor(GREEN)} 
         		}
-        		toolItem(style:"separator")
-        		toolItem(style:"push", toolTipText:"Clear formatting") {
-        			image( src:"erase.png" ) 
+        		toolItem(style:'separator')
+        		toolItem(style:'push', toolTipText:'Clear formatting') {
+        			image( src:'erase.png' ) 
         			onEvent('Selection') {clear()} 
         		}
 	     	}        		
 	     	
-	     	text = styledText ( style: "Border, Multi, V_Scroll, H_Scroll") {
+	     	text = styledText ( style: 'Border, Multi, V_Scroll, H_Scroll') {
 	     		gridData(horizontalAlignment: GridData.FILL, 
 	     				 verticalAlignment: GridData.FILL, 
 	     				 grabExcessHorizontalSpace: true,
