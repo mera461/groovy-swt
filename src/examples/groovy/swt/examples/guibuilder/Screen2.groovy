@@ -3,9 +3,10 @@ package groovy.swt.examples.guibuilder
 class Screen2  {
     
     def guiBuilder
+    def parent
     
     def main( args ) {
-		guiBuilder.composite {
+		guiBuilder.composite(parent) {
 			fillLayout( type:"vertical")
 			group( "This is Screen2.groovy", background:[255, 255, 255] ) {
 				fillLayout( type:"vertical")

@@ -5,6 +5,7 @@
 package groovy.swt.guibuilder;
 
 import groovy.jface.JFaceBuilder;
+import groovy.jmx.builder.JmxBuilder;
 import groovy.util.GroovyScriptEngine;
 
 import java.io.IOException;
