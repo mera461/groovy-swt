@@ -3,9 +3,10 @@ package groovy.swt.examples.guibuilder
 class Screen1 {
     
     def guiBuilder
+    def parent
     
     def main( args ) {
-		guiBuilder.composite {
+		guiBuilder.composite(parent) {
 			fillLayout()
 			
 			group( "This is Screen1.groovy" ) {

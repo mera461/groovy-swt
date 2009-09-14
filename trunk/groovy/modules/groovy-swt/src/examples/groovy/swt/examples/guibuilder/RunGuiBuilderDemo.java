@@ -11,7 +11,7 @@ import groovy.util.GroovyScriptEngine;
 public class RunGuiBuilderDemo {
 
     public static void main(String[] args) throws Exception {
-        String basePath = "src/main/groovy/groovy/swt/guibuilder";
+        String basePath = "src/examples/groovy/swt/examples/guibuilder";
         GroovyScriptEngine scriptEngine = new GroovyScriptEngine(basePath);
 
         Binding binding = new Binding();
