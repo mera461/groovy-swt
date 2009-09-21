@@ -35,7 +35,7 @@ import org.eclipse.swt.widgets.*
 public class AddressBook {
 
 	 
-	static ResourceBundle resAddressBook = ResourceBundle.getBundle("examples_addressbook");
+	ResourceBundle resAddressBook = ResourceBundle.getBundle("examples_addressbook");
 	JFaceBuilder jface = new JFaceBuilder()
 	def mainapp
 	def popupMenu
@@ -50,8 +50,8 @@ public class AddressBook {
 	String[] copyBuffer;
 
 	int lastSortColumn= -1;	
-	static final String DELIMITER = "\t";
-	static final String[] columnNames = [resAddressBook.getString("Last_name"),
+	final String DELIMITER = "\t";
+	final String[] columnNames = [resAddressBook.getString("Last_name"),
 												 resAddressBook.getString("First_name"),
 												 resAddressBook.getString("Business_phone"),
 												 resAddressBook.getString("Home_phone"),
