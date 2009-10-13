@@ -9,6 +9,9 @@
 		<dependencySet>
 			<excludes>
 				<exclude>*groovy-all</exclude>
+				<exclude>*ant</exclude>
+				<!-- groovy already includes a asm and this just causes conflicts -->
+				<exclude>asm:asm</exclude>
 				<exclude>junit:junit</exclude>
 				<exclude>commons-logging:commons-logging:*</exclude>
 				<exclude>org.eclipse:swt:*</exclude>
