@@ -19,7 +19,7 @@ import org.eclipse.jface.viewers.ArrayContentProvider
 import org.eclipse.swt.widgets.Display
 
 @Bindable
-public static class Color024 {
+public class Color024 {
 	public static final Color024 RED = new Color024(name:"Red")
 	public static final Color024 ORANGE = new Color024(name:"Orange")
 	public static final Color024 YELLOW = new Color024(name:"Yellow")
