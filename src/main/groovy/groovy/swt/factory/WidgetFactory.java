@@ -53,9 +53,9 @@ public class WidgetFactory extends AbstractSwtFactory {
 		Object parent = builder.getCurrent();
 		
 		// if no parent given, check if value can be the parent
-		if (/*parent == null
-			&& */ value != null
-			&& value instanceof Composite) {
+		if (value != null
+			&& ! (value instanceof String)
+			&& ! (value instanceof GString)) {
 			parent = value;
 		}
 		
