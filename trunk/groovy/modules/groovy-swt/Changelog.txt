@@ -2,6 +2,20 @@ Changes:
 
 TODOS:
 - Default table with headerVisible, showLines, etc.
+- Support for NatTable
+- Support for glazedLists
+
+? In SwtBuilder eg. the button can have children (like onEvent, gridLayout, image).
+  In SwingBuilder they can not: everything is attributes. Should this be changed?
+  
+? Any need for CustomSwingBuilder?
+
+? TableTree, TableTreeItem are deprecated - should they be removed?
+
+
+0.5.1
+- Updated GuiBuilderDemo to run.
+- Updated to Eclipse 3.5.1 libraries.
 
 0.5: 
 - Updated to Eclipse 3.5 libraries.
@@ -68,15 +82,6 @@ TODOS:
 
 - Using SwingBuilder inside a SWT application is working again. 
    
-? In SwtBuilder eg. the button can have children (like onEvent, gridLayout, image).
-  In SwingBuilder they can not: everything is attributes. Should this be changed?
-  
-? FactoryBuilderSupport: GroupNames, for register<group of widget> ??? Relevant ????
-
-? Any need for CustomSwingBuilder?
-
-? TableTree, TableTreeItem are deprecated - should they be removed?
-
 
 0.3
 - updated to maven2
