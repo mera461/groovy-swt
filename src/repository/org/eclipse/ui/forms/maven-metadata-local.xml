@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.eclipse.ui</groupId>
+  <artifactId>forms</artifactId>
+  <version>3.4.1.v20090714_35x</version>
+  <versioning>
+    <versions>
+      <version>3.4.1.v20090714_35x</version>
+    </versions>
+    <lastUpdated>20091103132551</lastUpdated>
+  </versioning>
+</metadata>
