@@ -4,25 +4,27 @@
  */
 package groovy.swt.scrapbook;
 
-import groovy.jface.JFaceBuilder;
+import groovy.swt.SwtBuilder;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @author <a href:ckl at dacelo.nl">Christiaan ten Klooster</a> 
  * $Id$
  */
-public class DynamicUIBuilder extends JFaceBuilder {
+public class DynamicUIBuilder extends SwtBuilder {
     public DynamicUIBuilder() {
         super();
+        newContext();
     }
 
     /*
      * @see groovy.util.BuilderSupport#createNode(java.lang.Object)
      */
     public Object createNode(Object name) {
-//        System.out.println("createNode: " + name);
-        return super.createNode(name);
+        System.out.println("createNode: " + name);
+        return super.createNode(name, new HashMap(), null);
     }
 
     /* 
@@ -30,15 +32,6 @@ public class DynamicUIBuilder extends JFaceBuilder {
      */
     protected Object createNode(Object name, Map attributes) {
         System.out.println("createNode: " + name + " [attributes:]  " + attributes);
-        return super.createNode(name, attributes);
+        return super.createNode(name, attributes, null);
     }
-
-    /* 
-     * @see groovy.util.BuilderSupport#createNode(java.lang.Object, java.lang.Object)
-     */
-    protected Object createNode(Object name, Object parent) {
-        System.out.println("createNode: " + name + " [parent:] " + parent);
-        return super.createNode(name, parent);
-    }
-
 }
