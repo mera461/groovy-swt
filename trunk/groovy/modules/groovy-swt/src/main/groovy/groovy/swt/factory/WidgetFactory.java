@@ -107,21 +107,23 @@ public class WidgetFactory extends AbstractSwtFactory {
                     return constructor.newInstance(arguments);
                 }
             } else {
-                // lets try to find the constructor with 2 arguments with the
-                // 2nd argument being an int
                 Constructor[] constructors = beanClass.getConstructors();
                 if (constructors != null) {
-                    for (int i = 0, size = constructors.length; i < size; i++) {
-                        Constructor constructor = constructors[i];
+                    // lets try to find the constructor with 2 arguments with the
+                    // 2nd argument being an int
+                    for (Constructor constructor: constructors) {
                         Class[] types = constructor.getParameterTypes();
                         if (types.length == 2 && types[1].isAssignableFrom(int.class)) {
                             if (types[0].isAssignableFrom(parent.getClass())) {
                                 Object[] arguments = { parent, new Integer(style) };
                                 return constructor.newInstance(arguments);
                             }
-                            // lets try to find the constructor with 1
-                            // arguments
-                        } else if (types.length == 1
+                        } 
+                    }
+                    // if not found then try to find one with just one argument
+                    for (Constructor constructor: constructors) {
+                        Class[] types = constructor.getParameterTypes();
+                        if (types.length == 1
                                 && types[0].isAssignableFrom(parent.getClass())) {
                             Object[] arguments = { parent };
                             return constructor.newInstance(arguments);
