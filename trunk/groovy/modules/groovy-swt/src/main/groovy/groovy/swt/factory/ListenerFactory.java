@@ -28,6 +28,7 @@ import org.eclipse.ui.forms.events.IExpansionListener;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.AbstractHyperlink;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
+import org.eclipse.ui.forms.widgets.FormText;
 
 /**
  * @author <a href="mailto:ckl@dacelo.nl">Christiaan ten Klooster </a>
@@ -69,11 +70,13 @@ public class ListenerFactory extends AbstractSwtFactory {
                 browser.addStatusTextListener(statusTextListener);
                 return statusTextListener;
             }
-        } else if (parent instanceof AbstractHyperlink) {
-            AbstractHyperlink hyperlink = (AbstractHyperlink) parent;
-            IHyperlinkListener hyperLinkListenerImpl = new HyperLinkListenerImpl(
-                    type);
-            hyperlink.addHyperlinkListener(hyperLinkListenerImpl);
+        } else if (parent instanceof AbstractHyperlink || parent instanceof FormText) {
+            IHyperlinkListener hyperLinkListenerImpl = new HyperLinkListenerImpl(type);
+            if (parent instanceof AbstractHyperlink) {
+                ((AbstractHyperlink) parent).addHyperlinkListener(hyperLinkListenerImpl);
+            } else if(parent instanceof FormText) {
+                ((FormText) parent).addHyperlinkListener(hyperLinkListenerImpl);
+            }
             return hyperLinkListenerImpl;
         } else if (parent instanceof ExpandableComposite) {
             ExpandableComposite expandableComposite = (ExpandableComposite) parent;

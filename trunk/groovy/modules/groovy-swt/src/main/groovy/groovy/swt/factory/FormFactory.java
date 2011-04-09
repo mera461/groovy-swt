@@ -11,6 +11,7 @@ import groovy.util.FactoryBuilderSupport;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -185,19 +186,23 @@ public class FormFactory extends AbstractSwtFactory {
         if ("formFormattedText".equals(type)) {
             boolean parseTags = false;
             boolean expandURLs = false;
+            boolean trackFocus = false;
             if (properties.get("parseTags") != null) {
                 parseTags = ((Boolean) properties.remove("parseTags")).booleanValue();
             }
             if (properties.get("expandURLs") != null) {
                 expandURLs = ((Boolean) properties.remove("expandURLs")).booleanValue();
             }
+            if (properties.get("trackFocus") != null) {
+                trackFocus = ((Boolean) properties.remove("trackFocus")).booleanValue();
+            }
 
-            FormText formText = getToolkit().createFormText(parentComposite, true);
+            FormText formText = getToolkit().createFormText(parentComposite, trackFocus);
             HyperlinkSettings hyperlinkSettings = new HyperlinkSettings(Display.getCurrent());
             hyperlinkSettings.setBackground(getToolkit().getColors().getBackground());
             hyperlinkSettings.setActiveBackground(getToolkit().getColors().getBackground());
-            hyperlinkSettings.setForeground(getToolkit().getColors().getForeground());
-            hyperlinkSettings.setActiveForeground(getToolkit().getColors().getBackground());
+            hyperlinkSettings.setForeground(new Color(Display.getCurrent(), 0,0,255));
+            hyperlinkSettings.setActiveForeground(getToolkit().getColors().getForeground());
             formText.setHyperlinkSettings(hyperlinkSettings);
 
             formText.setText(text, parseTags, expandURLs);
