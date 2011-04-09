@@ -19,6 +19,7 @@ import org.eclipse.core.databinding.observable.list.WritableList
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.map.IObservableMap
 import org.eclipse.core.databinding.observable.set.IObservableSet;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.ComputedValue
 import org.eclipse.core.databinding.property.Properties
 import org.eclipse.core.databinding.UpdateValueStrategy
@@ -134,13 +135,16 @@ public class BindFactory extends AbstractFactory {
     }
     
     def doBind(FactoryBuilderSupport builder, Binding binding) {
-		if (binding.target==null || binding.targetProperty==null) {
+		if ((binding.target instanceof IObservableValue && binding.targetProperty==null)
+			|| (binding.target!=null && binding.targetProperty!=null)) {
+		} else {
 			throw new RuntimeException("Can not creating a binding where target or targetProperty is null.")
 		}
 		if (binding.closure!=null
-			|| (binding.model!=null && binding.modelProperty!=null)) {
+			|| (binding.model!=null && binding.modelProperty!=null)
+			|| (binding.model instanceof IObservableValue && binding.modelProperty==null)) {
 		} else {
-			throw new RuntimeException("Can not creating a binding where model or modelProperty is null or no closure given.")
+			throw new RuntimeException("Can not creating a binding where model (${binding.model}) or modelProperty (${binding.modelProperty}) is null or no closure given.")
 		}
 
         // binding the input of a viewer
