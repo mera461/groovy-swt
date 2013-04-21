@@ -112,6 +112,7 @@ class SwtBuilderTest1 {
 				locationListener()
 				progressListener()
 				statusTextListener()
+				openWindowListener()
 			}	
 			form(){
 				//TODO: toolBarManager()
