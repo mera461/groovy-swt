@@ -21,46 +21,6 @@ import org.eclipse.jface.databinding.swt.SWTObservables
 import org.eclipse.jface.databinding.viewers.ViewerProperties
 import org.eclipse.swt.widgets.Display
 
-// The data model class. This is normally a persistent class of some sort.
-@Bindable
-class Person010 {
-	String name
-}
-
-class View010 {
-	@Bindable
-	def people
-	
-	def createShell() {
-		people = new WritableList(SWTObservables.getRealm(Display.getCurrent()))
-		people << new Person010(name:"Me")
-		people << new Person010(name:"Myself")
-		people << new Person010(name:"I")
-		
-		def jface = new JFaceBuilder()
-		def shell = jface.shell('Snippet010NestedSelectionWithCombo') {
-			migLayout(layoutConstraints:"wrap 1", columnConstraints: "[grow, fill]")
-			list() {
-				listViewer(id:'v1', input: bind(people,  modelProperty:'name'))
-			}
-			// doing it manually:
-			text(text: bind(BeansObservables.observeDetailValue(ViewerProperties.singleSelection().observe(v1), 'name', String.class)))
-			// shortcut
-			text(text: bind(model: v1, modelProperty:'name'))
-		}
-		return shell
-	}
-
-	def open() {
-		def shell
-		def display = new Display()
-		Realm.runWithDefault(SWTObservables.getRealm(display), {
-			shell = createShell()
-		})
-		return shell
-	}
-}
-
 /**
  * @author Frank
  *
@@ -70,5 +30,53 @@ public class Snippet010MasterDetail {
 		def shell = new View010().open()
 		shell.doMainloop()
 	}
-	
+
 }
+
+/**
+ * Because of GROOVY-4737, it will throw a MissingFieldException on accessing id attributes
+ * if neested into the snippet class.
+ * 
+ */
+
+	// The data model class. This is normally a persistent class of some sort.
+	@Bindable
+	class Person010 {
+		String name
+	}
+	
+	class View010 {
+		@Bindable
+		def people
+		
+		def createShell() {
+			people = new WritableList(SWTObservables.getRealm(Display.getCurrent()))
+			people << new Person010(name:"Me")
+			people << new Person010(name:"Myself")
+			people << new Person010(name:"I")
+			
+			def jface = new JFaceBuilder()
+			def shell = jface.shell('Snippet010NestedSelectionWithCombo') {
+				migLayout(layoutConstraints:"wrap 1", columnConstraints: "[grow, fill]")
+				list() {
+					listViewer(id:'v1', input: bind(people,  modelProperty:'name'))
+				}
+				// doing it manually:
+				text(text: bind(BeansObservables.observeDetailValue(ViewerProperties.singleSelection().observe(v1), 'name', String.class)))
+				// shortcut
+				text(text: bind(model: v1, modelProperty:'name'))
+			}
+			return shell
+		}
+	
+		def open() {
+			def shell
+			def display = new Display()
+			Realm.runWithDefault(SWTObservables.getRealm(display), {
+				shell = createShell()
+			})
+			return shell
+		}
+	}
+	
+	

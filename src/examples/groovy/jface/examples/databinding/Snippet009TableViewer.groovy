@@ -24,60 +24,6 @@ import org.eclipse.swt.SWT
 import org.eclipse.swt.graphics.Color
 import org.eclipse.swt.widgets.Display
 
-//TODO: Should be deleted:
-import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider
-import org.eclipse.core.databinding.beans.BeansObservables
-import org.eclipse.core.databinding.observable.Observables
-import org.eclipse.jface.databinding.viewers.ViewerProperties
-import org.eclipse.jface.databinding.viewers.ViewersObservables
-
-
-// The data model class. This is normally a persistent class of some sort.
-@Bindable
-class Person009 {
-	String name
-}
-
-// The View's model--the root of our Model graph for this particular GUI.
-class ViewModel009 {
-	// The model to bind
-	@Bindable
-	def people
-	
-	ViewModel009() {
-		people = new WritableList(SWTObservables.getRealm(Display.getCurrent()))
-		people << new Person009(name:"Steve Northover")
-		people << new Person009(name:"Grant Gayed")
-		people << new Person009(name:"Veronika Irvine")
-		people << new Person009(name:"Mike Wilson")
-		people << new Person009(name:"Christophe Cornu")
-		people << new Person009(name:"Lynne Kues")
-		people << new Person009(name:"Silenio Quarti")
-	}
-}
-
-class View009 {
-	ViewModel009 viewModel
-	
-	def createShell() {
-		def jface = new JFaceBuilder()
-		def shell = jface.shell('Gender Bender') {
-			fillLayout()
-			table(style:'FULL_SELECTION, BORDER', linesVisible: true) {
-				tableViewer(input: bind(model: viewModel.people, modelProperty:'name'))
-			}
-		}
-		return shell
-	}
-
-	def open() {
-		def shell
-		Realm.runWithDefault(Realm.default, {
-			shell = createShell()
-		})
-		return shell
-	}
-}
 
 /**
  * @author Frank
@@ -87,10 +33,56 @@ public class Snippet009TableViewer {
 	public static void main(String[] args){
 		def display = Display.default ?: new Display()
 		Realm.default = SWTObservables.getRealm(display)
-		
-		def model = new ViewModel009()
-		def shell = new View009(viewModel: model).open()
+
+		def model = new ViewModel()
+		def shell = new View(viewModel: model).open()
 		shell.doMainloop()
 	}
-	
+
+
+	// The data model class. This is normally a persistent class of some sort.
+	@Bindable
+	static class Person {
+		String name
+	}
+
+	// The View's model--the root of our Model graph for this particular GUI.
+	static class ViewModel {
+		// The model to bind
+		@Bindable
+		def people
+
+		ViewModel() {
+			people = new WritableList(SWTObservables.getRealm(Display.getCurrent()))
+			people << new Person(name:"Steve Northover")
+			people << new Person(name:"Grant Gayed")
+			people << new Person(name:"Veronika Irvine")
+			people << new Person(name:"Mike Wilson")
+			people << new Person(name:"Christophe Cornu")
+			people << new Person(name:"Lynne Kues")
+			people << new Person(name:"Silenio Quarti")
+		}
+	}
+
+	static class View {
+		ViewModel viewModel
+
+		def createShell() {
+			def jface = new JFaceBuilder()
+			def shell = jface.shell('Gender Bender') {
+				fillLayout()
+				table(style:'FULL_SELECTION, BORDER', linesVisible: true) {
+					tableViewer(input: bind(model: viewModel.people, modelProperty:'name'))
+				}
+			}
+			return shell
+		}
+
+		def open() {
+			def shell
+			Realm.runWithDefault(Realm.default, { shell = createShell() })
+			return shell
+		}
+	}
+
 }

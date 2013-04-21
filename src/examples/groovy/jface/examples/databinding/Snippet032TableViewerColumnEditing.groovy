@@ -8,13 +8,15 @@ package groovy.jface.examples.databinding
 
 import groovy.beans.Bindable
 import groovy.jface.JFaceBuilder
+import groovy.transform.NotYetImplemented;
 
+import org.eclipse.core.databinding.property.Properties
 import org.eclipse.core.databinding.beans.BeansObservables
 import org.eclipse.core.databinding.beans.BeanProperties
 import org.eclipse.core.databinding.beans.IBeanValueProperty
 import org.eclipse.core.databinding.observable.Realm
 import org.eclipse.core.databinding.observable.list.WritableList
-import org.eclipse.core.databinding.observable.map.IObservableMap;
+import org.eclipse.core.databinding.observable.map.IObservableMap
 
 import org.eclipse.jface.databinding.swt.SWTObservables
 import org.eclipse.jface.databinding.swt.WidgetProperties
@@ -38,10 +40,36 @@ import org.eclipse.core.databinding.observable.Observables
 import org.eclipse.jface.databinding.viewers.ViewerProperties
 import org.eclipse.jface.databinding.viewers.ViewersObservables
 
+/**
+* @author Frank
+* 
+*  
+*
+*/
+public class Snippet032TableViewerColumnEditing {
+   public static void main(String[] args){
+	   throw new UnsupportedOperationException("TODO: This snippet is not working")
+	   def display = Display.default ?: new Display()
+	   Realm.default = SWTObservables.getRealm(display)
+	   
+	   def model = new ViewModel032()
+	   def shell = new View032(viewModel: model).open()
+	   shell.doMainloop()
+   }
+}
 
+/**
+ * Because of GROOVY-4737, it will throw a MissingFieldException on accessing id attributes
+ * if neested into the snippet class.
+ *
+ */
+
+
+   
+   
 // The data model class. This is normally a persistent class of some sort.
 @Bindable
-class Person032 {
+ class Person032 {
 	String name
 	String firstName
 }
@@ -84,9 +112,14 @@ class View032 {
 				tableColumn(id:'tcFirstName', 'FirstName', width:100)
 				tableViewer(id:'peopleViewer',
 							input: bind(model: viewModel.people, modelProperty:['name', 'firstName'])) {
+					println "test1"
+					println "this=$this"
+					//println "current=$parent"
+					println "test, $peopleViewer "
 					peopleViewer.setContentProvider(new ObservableListContentProvider())
 					IObservableMap[] result = Properties.observeEach(peopleViewer.contentProvider.getKnownElements(),
 				 			 [propName, propFirstName] as IBeanValueProperty[]);
+					def peopleTable = peopleViewer.table
 					tableViewerColumn(tcName,
 									  editingSupport: ObservableValueEditingSupport
 									  				.create(peopleViewer,
@@ -122,18 +155,3 @@ class View032 {
 	}
 }
 
-/**
- * @author Frank
- *
- */
-public class Snippet032TableViewerColumnEditing {
-	public static void main(String[] args){
-		def display = Display.default ?: new Display()
-		Realm.default = SWTObservables.getRealm(display)
-		
-		def model = new ViewModel032()
-		def shell = new View032(viewModel: model).open()
-		shell.doMainloop()
-	}
-	
-}

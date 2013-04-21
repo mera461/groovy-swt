@@ -85,7 +85,7 @@ public class ComplexSample {
 				label("Estimated close:", layoutData: "right")
 				text("Real soon now...", layoutData: "span 2")
 				button("Edit", layoutData:"top") {
-					image(src:"edit-redo.png")
+					//image(src:"edit-redo.png")
 				}
 
 				label("Creation data:", layoutData:"right")
@@ -116,13 +116,13 @@ public class ComplexSample {
 				arrayTable(columnNames:columns, width: width, data:data, style:"MULTI , BORDER , FULL_SELECTION, H_SCROLL, V_SCROLL", layoutData: "grow, span 3")
 
 				button("Add", layoutData: "sg 1, split 3, flowy, top") {
-					image(src:"list-add.png")
+					//image(src:"list-add.png")
 				}
 				button("Edit", layoutData: "sg 1") {
-					image(src:"edit-redo.png")
+					//image(src:"edit-redo.png")
 				}
 				button("Delete", layoutData: "sg 1") {
-					image(src:"list-remove.png")
+					//image(src:"list-remove.png")
 				}
 				
 				line(layoutData:"growx")
@@ -142,13 +142,13 @@ public class ComplexSample {
 				String[][] data = [["test1", "test2"]]
 				arrayTable(columnNames:columns, data:data, width: width, style:"MULTI , BORDER , FULL_SELECTION, H_SCROLL, V_SCROLL", layoutData: "grow")
 				button("Add", layoutData: "sg 1, split 3, flowy, top") {
-					image(src:"list-add.png")
+					//image(src:"list-add.png")
 				}
 				button("Edit", layoutData: "sg 1")  {
-					image(src:"edit-redo.png")
+					//image(src:"edit-redo.png")
 				}
 				button("Delete", layoutData: "sg 1") {
-					image(src:"list-remove.png")
+					//image(src:"list-remove.png")
 				}
 			}
 			// Comments Panel
@@ -158,13 +158,13 @@ public class ComplexSample {
 				def int[] width = [250]
 				arrayTable(columnNames:columns, width: width, style:"MULTI , BORDER , FULL_SELECTION, H_SCROLL, V_SCROLL", layoutData: "grow")
 				button("Add", layoutData: "sg 1, split 3, flowy, top") {
-					image(src:"list-add.png")
+					//image(src:"list-add.png")
 				}
 				button("Edit", layoutData: "sg 1") {
-					image(src:"edit-redo.png")
+					//image(src:"edit-redo.png")
 				}
 				button("Delete", layoutData: "sg 1") {
-					image(src:"list-remove.png")
+					//image(src:"list-remove.png")
 				}
 			}
 			// Buttons panel
@@ -172,10 +172,10 @@ public class ComplexSample {
 				migLayout(layoutConstraints:"",columnConstraints:"[] [grow, right]")
 				button("Export", layoutData:"sg 1")
 				button("Save", layoutData:"split 2, sg 1") {
-					image(src:"document-save.png")
+					//image(src:"document-save.png")
 				}
 				button("Cancel", layoutData:"sg 1") {
-					image(src:"system-log-out.png")
+					//image(src:"system-log-out.png")
 				}
 			}
 		}

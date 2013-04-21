@@ -34,6 +34,7 @@ import org.eclipse.jface.databinding.swt.SWTObservables
 import org.eclipse.swt.SWT
 import org.eclipse.swt.browser.Browser
 import org.eclipse.swt.browser.LocationListener
+import org.eclipse.swt.browser.OpenWindowListener 
 import org.eclipse.swt.browser.ProgressListener
 import org.eclipse.swt.browser.StatusTextListener
 import org.eclipse.swt.custom.CBanner
@@ -236,6 +237,7 @@ public class SwtBuilder extends FactoryBuilderSupport {
 		registerFactory("locationListener", new ListenerFactory(LocationListener.class))
 		registerFactory("progressListener", new ListenerFactory(ProgressListener.class))
 		registerFactory("statusTextListener", new ListenerFactory(StatusTextListener.class))
+		registerFactory("openWindowListener", new ListenerFactory(OpenWindowListener.class))
 	}
 	
 	public void registerFormWidgets() {
@@ -320,8 +322,10 @@ public class SwtBuilder extends FactoryBuilderSupport {
 		// Drag and drop support
 		registerFactory("dragSource", new DragSourceFactory())
 		registerFactory("dropTarget", new DropTargetFactory())
-		//object id delegage, for propertyNotFound
+		
+		//object id delegate, for propertyNotFound
 		addAttributeDelegate(SwtBuilder.&objectIDAttributeDelegate)
+		
 		// binding
 		BindFactory bindFactory = new BindFactory()
 		registerFactory("bind", bindFactory)
@@ -380,6 +384,14 @@ public class SwtBuilder extends FactoryBuilderSupport {
 		def theID = attributes.remove(idAttr)
 		if (theID) {
 			builder.setVariable(theID, node)
+			// also set the name attr if not already set
+			if(node) {
+				try {
+					if (!node.name) node.name = theID
+				} catch (MissingPropertyException mpe) {
+					// ignore
+				}
+			}
 		}
 	}
 	

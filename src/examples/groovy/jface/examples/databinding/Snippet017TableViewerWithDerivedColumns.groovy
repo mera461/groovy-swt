@@ -21,6 +21,23 @@ import org.eclipse.jface.databinding.swt.SWTObservables
 import org.eclipse.jface.databinding.viewers.ViewerProperties
 import org.eclipse.swt.widgets.Display
 
+/**
+ * @author Frank
+ *
+ */
+public class Snippet017TableViewerWithDerivedColumns {
+	public static void main(String[] args){
+		def shell = new View017().open()
+		shell.doMainloop()
+	}
+}
+
+/**
+ * Because of GROOVY-4737, it will throw a MissingFieldException on accessing id attributes
+ * if neested into the snippet class.
+ *
+ */
+
 // The data model class. This is normally a persistent class of some sort.
 @Bindable
 class Person017 {
@@ -28,13 +45,13 @@ class Person017 {
 	Person017 father
 	Person017 mother
 }
- 
+
 class View017 {
 	@Bindable
 	def people
 
-	private static Person017 UNKNOWN = new Person017(name: "unknown", father:null, mother:null); 
-	
+	private static Person017 UNKNOWN = new Person017(name: "unknown", father:null, mother:null);
+
 	def createShell() {
 		people = new WritableList(SWTObservables.getRealm(Display.getCurrent()))
 		def fergus = new Person017(name:"Fergus McDuck", mother:UNKNOWN, father:UNKNOWN)
@@ -44,10 +61,10 @@ class View017 {
 		def quackmore = new Person017(name:"Quackmore Duck", mother:UNKNOWN, father:UNKNOWN)
 		def della = new Person017(name:"Della Duck", mother:hortense, father:quackmore)
 		def donald = new Person017(name:"Donald Duck", mother:hortense, father:quackmore)
-		
+
 		people << UNKNOWN << downy << fergus << scrooge << quackmore <<
-			      hortense << della << donald
-		
+				hortense << della << donald
+
 		def jface = new JFaceBuilder()
 		def shell = jface.shell('Snippet017TableViewerWithDerivedColumns') {
 			migLayout(layoutConstraints:"wrap 2", columnConstraints: "[right][grow, fill]")
@@ -56,7 +73,12 @@ class View017 {
 				tableColumn('Mother', width: 100)
 				tableColumn('Father', width: 100)
 				tableColumn('Grandmother', width: 100)
-				tableViewer(id:'v1', input: bind(people,  modelProperty:['name', 'mother.name', 'father.name', 'mother.mother.name']))
+				tableViewer(id:'v1', input: bind(people,  modelProperty:[
+					'name',
+					'mother.name',
+					'father.name',
+					'mother.mother.name'
+				]))
 			}
 			label('Name:')
 			text(text: bind(model: v1, modelProperty:'name'))
@@ -75,21 +97,8 @@ class View017 {
 	def open() {
 		def shell
 		def display = new Display()
-		Realm.runWithDefault(SWTObservables.getRealm(display), {
-			shell = createShell()
-		})
+		Realm.runWithDefault(SWTObservables.getRealm(display), { shell = createShell() })
 		return shell
 	}
 }
 
-/**
- * @author Frank
- *
- */
-public class Snippet017TableViewerWithDerivedColumns {
-	public static void main(String[] args){
-		def shell = new View017().open()
-		shell.doMainloop()
-	}
-	
-}

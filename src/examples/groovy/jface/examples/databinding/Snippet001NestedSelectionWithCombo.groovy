@@ -1,5 +1,5 @@
 /**
- * See http://dev.eclipse.org/viewcvs/index.cgi/org.eclipse.jface.examples.databinding/src/org/eclipse/jface/examples/databinding/snippets/Snippet001NestedSelectionWithCombo.java?view=markup
+ * See http://dev.eclipse.org/viewcvs/index.cgi/org.eclipse.jface.examples.databinding/src/org/eclipse/jface/examples/databinding/snippets/SnippetNestedSelectionWithCombo.java?view=markup
  * for the example in java.
  *
  * Hello, databinding. Bind changes in a GUI to a Model object but don't worry
@@ -28,30 +28,43 @@ import org.eclipse.jface.databinding.viewers.ViewerProperties
 import org.eclipse.jface.databinding.viewers.ViewersObservables
 
 
+/**
+* @author Frank
+*
+*/
+public class Snippet001NestedSelectionWithCombo{
+   public static void main(String[] args){
+	   def model = new ViewModel()
+	   def shell = new View(viewModel: model).open()
+	   shell.doMainloop()
+   }
+   
+
+
 // The data model class. This is normally a persistent class of some sort.
 @Bindable
-class Person001 {
+static class Person {
 	String name
 	String city
 }
 
 // The View's model--the root of our Model graph for this particular GUI.
 @Bindable
-class ViewModel001 {
+static class ViewModel {
 	// The model to bind
-	def people = [new Person001(name:"Wile E. Coyote", city:"Tuscon"),
-	              new Person001(name:"Road Runner", city:"Lost Horse"),
-	              new Person001(name:"Bugs Bunny", city:"Forrest")]
+	def people = [new Person(name:"Wile E. Coyote", city:"Tuscon"),
+	              new Person(name:"Road Runner", city:"Lost Horse"),
+	              new Person(name:"Bugs Bunny", city:"Forrest")]
 	
 	def cities = ["Tuscon", "AcmeTown", "Lost Horse", "Forrest", "Lost Mine"]
 }
 
-class View001 {
-	ViewModel001 viewModel
+static class View {
+	ViewModel viewModel
 	
 	def createShell() {
 		def jface = new JFaceBuilder()
-		def shell = jface.shell('Snippet001NestedSelectionWithCombo') {
+		def shell = jface.shell('SnippetNestedSelectionWithCombo') {
 			migLayout(layoutConstraints:"wrap 1", columnConstraints: "[grow, fill]")
 			list() {
 				listViewer(id:'v1', input: bind(BeansObservables.observeList(viewModel, 'people'),  modelProperty:'name'))
@@ -75,15 +88,4 @@ class View001 {
 	}
 }
 
-/**
- * @author Frank
- *
- */
-public class Snippet001NestedSelectionWithCombo{
-	public static void main(String[] args){
-		def model = new ViewModel001()
-		def shell = new View001(viewModel: model).open()
-		shell.doMainloop()
-	}
-	
 }

@@ -21,51 +21,6 @@ import java.beans.PropertyChangeListener
 
 
 
-//The View's model--the root of our Model graph for this particular GUI.
-@Bindable
-class ViewModel011 {
-	String value1
-	String value2
-}
-
-class View011 {
-	ViewModel011 viewModel
-	def value
-	
-	def createShell() {
-		def jface = new JFaceBuilder()
-		def shell = jface.shell('Data Binding Snippet 011') {
-			migLayout(layoutConstraints:"wrap 2", columnConstraints: "[left][grow, fill]", rowConstraints: "")
-			text(text: bind(model: viewModel,
-						    modelProperty: 'value1',
-					        'target2model.afterConvertValidator': {
-								it != viewModel.value2 ? ValidationStatus.ok() : ValidationStatus.error("values cannot be the same")
-							})
-			)
-			text(text:  bind(model: viewModel,
-				    	modelProperty: 'value2',
-				    	'target2model.afterConvertValidator': {
-							it != viewModel.value1 ? ValidationStatus.ok() : ValidationStatus.error("values cannot be the same")
-						})
-			)
-		}
-		
-		// DEBUG 
-		viewModel.addPropertyChangeListener({println "value1=${viewModel.value1}";println "value2=${viewModel.value2}"} as PropertyChangeListener)
-		
-		return shell
-	}
-
-	def open() {
-		def shell
-		def display = new Display()
-		Realm.runWithDefault(SWTObservables.getRealm(display), {
-			shell = createShell()
-		})
-		return shell
-	}
-	
-}
 
 /**
  * @author Frank
@@ -73,8 +28,55 @@ class View011 {
  */
 public class Snippet011DatabindingContextErrorLabel{
 	public static void main(String[] args){
-		def shell = new View011(viewModel: new ViewModel011()).open()
+		def shell = new View(viewModel: new ViewModel()).open()
 		shell.doMainloop()
 	}
+
+	//The View's model--the root of our Model graph for this particular GUI.
+	@Bindable
+	static class ViewModel {
+		String value1
+		String value2
+	}
 	
+	static class View {
+		ViewModel viewModel
+		def value
+		
+		def createShell() {
+			def jface = new JFaceBuilder()
+			def shell = jface.shell('Data Binding Snippet 011') {
+				migLayout(layoutConstraints:"wrap 2", columnConstraints: "[left][grow, fill]", rowConstraints: "")
+				text(text: bind(model: viewModel,
+								modelProperty: 'value1',
+								'target2model.afterConvertValidator': {
+									it != viewModel.value2 ? ValidationStatus.ok() : ValidationStatus.error("values cannot be the same")
+								})
+				)
+				text(text:  bind(model: viewModel,
+							modelProperty: 'value2',
+							'target2model.afterConvertValidator': {
+								it != viewModel.value1 ? ValidationStatus.ok() : ValidationStatus.error("values cannot be the same")
+							})
+				)
+			}
+			
+			// DEBUG
+			viewModel.addPropertyChangeListener({println "value1=${viewModel.value1}";println "value2=${viewModel.value2}"} as PropertyChangeListener)
+			
+			return shell
+		}
+	
+		def open() {
+			def shell
+			def display = new Display()
+			Realm.runWithDefault(SWTObservables.getRealm(display), {
+				shell = createShell()
+			})
+			return shell
+		}
+		
+	}
+	
+		
 }
