@@ -54,7 +54,7 @@ class JFaceBuilderTest extends TestCase {
 
         	// Preferences
         	preferenceDialog(  ) {
-        		preferencePage( filename:"src/test/groovy/jface/test.properties", title:"myprefs" ) {
+        		preferencePage( filename:"src/test/groovy/groovy/jface/test.properties", title:"myprefs" ) {
 	        		booleanFieldEditor( propertyName:"prop", title:"none" )
     	    		colorFieldEditor( propertyName:"prop", title:"none" )
    					directoryFieldEditor( propertyName:"prop", title:"none" )
@@ -66,7 +66,7 @@ class JFaceBuilderTest extends TestCase {
     	    	}
     	    }
 
-        	image( src:"src/test/groovy/swt/groovy-logo.png" )
+        	image( src:"src/test/groovy/groovy/swt/groovy-logo.png" )
         }
 	}
     

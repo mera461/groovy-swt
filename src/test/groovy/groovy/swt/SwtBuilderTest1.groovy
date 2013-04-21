@@ -107,7 +107,7 @@ class SwtBuilderTest1 {
 			onEvent( type:"MouseEnter" )
 			onEvent( type:"MouseHover" )
 			onEvent( type:"Traverse" )
-			image( src:"src/test/groovy/swt/groovy-logo.png" )
+			image( src:"src/test/groovy/groovy/swt/groovy-logo.png" )
 			browser() {
 				locationListener()
 				progressListener()
