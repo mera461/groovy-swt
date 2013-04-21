@@ -92,7 +92,7 @@ artifacts {
 /**
  * Check the eclipse directory for new version of the dependencies
  */
-task newEclipseLibs() {
+task newEclipseLibs() << {
 	def items = configurations.compile.dependencies.findAll { it.group.toString() =~ /org.eclipse/}
 	def eclipseDir = new File('c:/tools/eclipse-4.2/plugins')
 	def files = eclipseDir.list().findAll {it =~ /org.eclipse.*jar$/}
