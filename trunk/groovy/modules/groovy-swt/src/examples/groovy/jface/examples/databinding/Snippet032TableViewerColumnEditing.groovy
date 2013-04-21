@@ -109,10 +109,6 @@ class View032 {
 				tableColumn(id:'tcFirstName', 'FirstName', width:100)
 				tableViewer(id:'peopleViewer',
 							input: bind(model: viewModel.people, modelProperty:['name', 'firstName'])) {
-					println "test1"
-					println "this=$this"
-					//println "current=$parent"
-					println "test, $peopleViewer "
 					peopleViewer.setContentProvider(new ObservableListContentProvider())
 					IObservableMap[] result = Properties.observeEach(peopleViewer.contentProvider.getKnownElements(),
 				 			 [propName, propFirstName] as IBeanValueProperty[]);
