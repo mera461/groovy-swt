@@ -10,7 +10,25 @@ TODOS:
   
 ? Any need for CustomSwingBuilder?
 
-? TableTree, TableTreeItem are deprecated - should they be removed?
+? TableTree, TableTreeItem are deprecated - should they be removed? Anyone using them?
+
+
+0.7
+- Updated to eclipse 4.2
+- Updated to groovy 2
+- Updated to gradle build
+
+
+0.6
+- Fixed a bug: applying the style attribute on the widget. 
+  Eg. FileDialog(style: 'SAVE') didn't work. (Thanks to Stephen for finding the bug)
+- GMOD-238: Added a OpenWindowListener for browser events (Thanks to Stephen)
+- GMOD-154: Support for hyperlink listeners in formFormattedText (Thanks to Alexander)
+
+*** ??? Not working:
+- Snippet005MenuUpdater
+- Snippet007ColorLabelProvider
+
 
 
 0.5.1
