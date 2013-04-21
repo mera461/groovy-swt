@@ -42,13 +42,10 @@ import org.eclipse.jface.databinding.viewers.ViewersObservables
 
 /**
 * @author Frank
-* 
-*  
-*
 */
 public class Snippet032TableViewerColumnEditing {
    public static void main(String[] args){
-	   throw new UnsupportedOperationException("TODO: This snippet is not working")
+	   //throw new UnsupportedOperationException("TODO: This snippet is not working")
 	   def display = Display.default ?: new Display()
 	   Realm.default = SWTObservables.getRealm(display)
 	   
@@ -135,7 +132,7 @@ class View032 {
 									  						new TextCellEditor(peopleTable),
 									  						cellEditorControlText,
 									  						propFirstName),
-									  labelProvider: new ObservableMapCellLabelProvider(result[0]))
+									  labelProvider: new ObservableMapCellLabelProvider(result[1]))
 				}
 			}
 			def selection = ViewerProperties.singleSelection().observe(peopleViewer)
