@@ -10,6 +10,7 @@ import groovy.swt.impl.ExpansionListenerImpl;
 import groovy.swt.impl.HyperLinkListenerImpl;
 import groovy.swt.impl.ListenerImpl;
 import groovy.swt.impl.LocationListenerImpl;
+import groovy.swt.impl.OpenWindowListenerImpl; 
 import groovy.swt.impl.ProgressListenerImpl;
 import groovy.swt.impl.StatusTextListenerImpl;
 import groovy.util.FactoryBuilderSupport;
@@ -21,6 +22,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.LocationListener;
+import org.eclipse.swt.browser.OpenWindowListener;
 import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.browser.StatusTextListener;
 import org.eclipse.swt.widgets.Widget;
@@ -44,8 +46,6 @@ public class ListenerFactory extends AbstractSwtFactory {
     public ListenerFactory(Class beanClass) {
         this.beanClass = beanClass;
     }
-
-    
     
 	public Object newInstance(FactoryBuilderSupport builder, Object name,
 			Object value, Map attributes) throws InstantiationException,
@@ -65,6 +65,10 @@ public class ListenerFactory extends AbstractSwtFactory {
                         type);
                 browser.addProgressListener(progressListener);
                 return progressListener;
+            } else if (beanClass.equals(OpenWindowListener.class)) {
+                OpenWindowListener openWindowListener = new OpenWindowListenerImpl();
+                browser.addOpenWindowListener(openWindowListener);
+                return openWindowListener;                 
             } else if (beanClass.equals(StatusTextListener.class)) {
                 StatusTextListener statusTextListener = new StatusTextListenerImpl();
                 browser.addStatusTextListener(statusTextListener);

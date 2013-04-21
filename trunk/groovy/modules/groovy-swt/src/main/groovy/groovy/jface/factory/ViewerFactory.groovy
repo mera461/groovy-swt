@@ -21,11 +21,13 @@ import org.eclipse.jface.viewers.TableTreeViewer
 import org.eclipse.jface.viewers.TableViewer
 import org.eclipse.jface.viewers.TableViewerColumn
 import org.eclipse.jface.viewers.TreeViewer
+import org.eclipse.jface.viewers.Viewer
 import org.eclipse.jface.viewers.ViewerSorter
 
 import org.eclipse.swt.SWT
 import org.eclipse.swt.custom.TableTree
 import org.eclipse.swt.events.SelectionAdapter
+import org.eclipse.swt.events.SelectionListener
 import org.eclipse.swt.widgets.Combo
 import org.eclipse.swt.widgets.List
 import org.eclipse.swt.widgets.Table
@@ -41,134 +43,128 @@ import org.eclipse.swt.widgets.Tree
 public class ViewerFactory extends WidgetFactory {
 
 	def sortable = null
-	 
-    /**
-     * @param beanClass
-     * @param style
-     */
-    public ViewerFactory(Class beanClass, int style) {
-        super(beanClass, style)
-    }
 
-    /**
-     * @param class1
-     */
-    public ViewerFactory(Class beanClass) {
-        super(beanClass)
-    }
+	/**
+	 * @param beanClass
+	 * @param style
+	 */
+	public ViewerFactory(Class beanClass, int style) {
+		super(beanClass, style)
+	}
+
+	/**
+	 * @param class1
+	 */
+	public ViewerFactory(Class beanClass) {
+		super(beanClass)
+	}
 
 	public Object newInstance(FactoryBuilderSupport builder, Object name,
-			Object value, Map attributes) throws InstantiationException,
-			IllegalAccessException {
+	Object value, Map attributes) throws InstantiationException,
+	IllegalAccessException {
 		Object parent = builder.getCurrent()
-        Object bean
-        sortable = null
-        
-        String styleProperty = (String) attributes.remove("style")
-        int style = 0
-        if (styleProperty != null) {
-        	style = SwtUtils.parseStyle(SWT.class, styleProperty)
-        }
+		Object bean
+		sortable = null
 
-        if (beanClass.equals(TableViewer.class) && (parent instanceof Table)) {
-            bean = new TableViewer((Table) parent)
-            
-        } else if (beanClass.equals(CheckboxTableViewer.class) && (parent instanceof Table)) {
-                bean = new CheckboxTableViewer((Table) parent)
+		String styleProperty = (String) attributes.remove("style")
+		int style = 0
+		if (styleProperty != null) {
+			style = SwtUtils.parseStyle(SWT.class, styleProperty)
+		}
 
-        } else if (beanClass.equals(TableViewerColumn.class) && (parent instanceof TableViewer)) {
-            String index = (String) attributes.remove("index")
-            if (value != null && value instanceof TableColumn) {
-            	bean = new TableViewerColumn((TableViewer) parent, (TableColumn) value)
-            } else if (index != null) {
-                bean = new TableViewerColumn((TableViewer) parent, style, Integer.parseInt(index))
-            } else {
-                bean = new TableViewerColumn((TableViewer) parent, style)
-            }
+		if (beanClass.equals(TableViewer.class) && (parent instanceof Table)) {
+			bean = new TableViewer((Table) parent)
+		} else if (beanClass.equals(CheckboxTableViewer.class) && (parent instanceof Table)) {
+			bean = new CheckboxTableViewer((Table) parent)
+		} else if (beanClass.equals(TableViewerColumn.class) && (parent instanceof TableViewer)) {
+			String index = (String) attributes.remove("index")
+			if (value != null && value instanceof TableColumn) {
+				bean = new TableViewerColumn((TableViewer) parent, (TableColumn) value)
+			} else if (index != null) {
+				bean = new TableViewerColumn((TableViewer) parent, style, Integer.parseInt(index))
+			} else {
+				bean = new TableViewerColumn((TableViewer) parent, style)
+			}
+		} else if (beanClass.equals(TableTreeViewer.class) && (parent instanceof TableTree)) {
+			bean = new TableTreeViewer((TableTree) parent)
+		} else if (beanClass.equals(TreeViewer.class) && (parent instanceof Tree)) {
+			bean = new TreeViewer((Tree) parent)
+			// useHaslookup needs to be set before the input
+			def useHashlookup = attributes.remove('useHashlookup')
+			if (useHashlookup) InvokerHelper.setProperty(bean, 'useHashlookup', useHashlookup)
 
-        } else if (beanClass.equals(TableTreeViewer.class) && (parent instanceof TableTree)) {
-            bean = new TableTreeViewer((TableTree) parent)
+		} else if (beanClass.equals(CheckboxTreeViewer.class) && (parent instanceof Tree)) {
+			bean = new CheckboxTreeViewer((Tree) parent)
+		} else if (beanClass.equals(ComboViewer.class) && (parent instanceof Combo)) {
+			bean = new ComboViewer((Combo) parent)
+		} else if (beanClass.equals(ListViewer.class) && (parent instanceof List)) {
+			bean = new ListViewer((List)parent)
+		} else {
+			Object parentWidget = SwtUtils.getParentWidget(parent, attributes)
+			bean = createWidget(parentWidget)
+		}
 
-        } else if (beanClass.equals(TreeViewer.class) && (parent instanceof Tree)) {
-            bean = new TreeViewer((Tree) parent)
-            // useHaslookup needs to be set before the input
-            def useHashlookup = attributes.remove('useHashlookup')
-            if (useHashlookup) InvokerHelper.setProperty(bean, 'useHashlookup', useHashlookup)
+		setParent(builder, parent, bean)
 
-        } else if (beanClass.equals(CheckboxTreeViewer.class) && (parent instanceof Tree)) {
-            bean = new CheckboxTreeViewer((Tree) parent)
+		return bean
+	}
 
-        } else if (beanClass.equals(ComboViewer.class) && (parent instanceof Combo)) {
-            bean = new ComboViewer((Combo) parent)
+	public boolean onHandleNodeAttributes( FactoryBuilderSupport builder, Object node, Map attributes ) {
+		if (node instanceof TableViewer) {
+			sortable = attributes.remove('sortable')
+		}
+		return true
+	}
 
-        } else if (beanClass.equals(ListViewer.class) && (parent instanceof List)) {
-            bean = new ListViewer((List)parent)
+	public void onNodeCompleted( FactoryBuilderSupport builder, Object parent, Object node ) {
+		// handle the sortable attribute at the completion in case the columns are added
+		// after the viewer.
+		if (! (node instanceof TableViewer)) return
 
-        } else {
-            Object parentWidget = SwtUtils.getParentWidget(parent, attributes)
-            bean = createWidget(parentWidget)
-        }
+		// as default always add the sortable columns, so only skip if "sortable: false"
+		if (sortable!=null && ! sortable) return
 
-        setParent(builder, parent, bean)
+		// no columns?
+		if (node.table.columnCount == 0) return
 
-        return bean
-    }
-	
-    public boolean onHandleNodeAttributes( FactoryBuilderSupport builder, Object node, Map attributes ) {
-    	if (node instanceof TableViewer) {
-    		sortable = attributes.remove('sortable')
-    	}
-    	return true
-    }
+		// default use all columns
+		if (sortable==null || sortable instanceof Boolean) sortable = [*0..node.table.columnCount-1]
 
-    public void onNodeCompleted( FactoryBuilderSupport builder, Object parent, Object node ) {
-    	// handle the sortable attribute at the completion in case the columns are added
-    	// after the viewer.
-    	if (! (node instanceof TableViewer)) return
-    	
-    	// as default always add the sortable columns, so only skip if "sortable: false"
-    	if (sortable!=null && ! sortable) return
-    	
-    	// no columns?
-    	if (node.table.columnCount == 0) return		
-    	
-    	// default use all columns
-    	if (sortable==null || sortable instanceof Boolean) sortable = [*0..node.table.columnCount-1]
-    	
-    	// set the columns to be sortable
-    	sortable.each {
-    		def column = node.table.getColumn(it)
-    		column.addSelectionListener(
-    				{
-    					int dir = node.table.sortDirection
-    					if (node.table.sortColumn == column) {
-    						dir = (dir == SWT.UP) ? SWT.DOWN : SWT.UP
-    					} else {
-    						dir = SWT.DOWN
-    					}
-    					node.table.sortDirection = dir
-    					node.table.sortColumn = column
-    					node.refresh()
-    				} as SelectionAdapter)
-    	}
+		// set the columns to be sortable
+		sortable.each {
+			def column1 = node.table.getColumn(it)
+			def listener = new SelectionListener() {
+						void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+							int dir = node.table.sortDirection
+							if (node.table.sortColumn == column1) {
+								dir = (dir == SWT.UP) ? SWT.DOWN : SWT.UP
+							} else {
+								dir = SWT.DOWN
+							}
+							node.table.sortDirection = dir
+							node.table.sortColumn = column1
+							node.refresh()
+						}
+						void widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent e) {}
+			}
+			column1.addSelectionListener(listener)
+		}
 
-        // if no sorter have been set then use a default.
-        if (! node.sorter) {
-        	node.sorter = [compare: { viewer, item0, item1 ->
-        		if (! viewer.table.sortColumn) return 0
-        		def lp = viewer.labelProvider
-        		def columnIndex = viewer.table.columns.findIndexOf { it == viewer.table.sortColumn}
-        		String s1 = lp.getColumnText(item0, columnIndex)
-        		String s2 = lp.getColumnText(item1, columnIndex)
-        		def result = s1.compareTo(s2)
-        		if (viewer.table.sortDirection == SWT.UP) result = -result
-        		return result
-        	}] as ViewerSorter
-        		
-        }
-    	
-    }
-    
-    
-	
+		// if no sorter have been set then use a default.
+		if (! node.sorter) {
+			node.sorter = new ViewerSorter() {
+						public int compare(Viewer viewer, Object item0, Object item1) {
+							if (! viewer.table.sortColumn) return 0
+							def lp = viewer.labelProvider
+							def columnIndex = viewer.table.columns.findIndexOf { it == viewer.table.sortColumn}
+							String s1 = lp.getColumnText(item0, columnIndex)
+							String s2 = lp.getColumnText(item1, columnIndex)
+							def result = s1.compareTo(s2)
+							if (viewer.table.sortDirection == SWT.UP) result = -result
+							return result
+						}
+					}
+		}
+	}
 }
+	

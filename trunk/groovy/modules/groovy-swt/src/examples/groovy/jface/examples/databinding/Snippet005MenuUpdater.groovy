@@ -16,8 +16,18 @@ import org.eclipse.swt.widgets.Display
 import org.eclipse.swt.widgets.MenuItem
 import org.eclipse.swt.SWT
 
+/**
+* @author Frank
+*
+*/
+public class Snippet005MenuUpdater {
+   public static void main(String[] args){
+	   def shell = new View().open()
+	   shell.doMainloop()
+   }
+   
 
-class View005 {
+static class View {
 	
 	def createShell() {
 		def jface = new JFaceBuilder()
@@ -78,7 +88,7 @@ class View005 {
 	
 }
 
-class LocalMenuUpdater extends MenuUpdater {
+static class LocalMenuUpdater extends MenuUpdater {
 	def submenu
 	def menuItemStrings
 	LocalMenuUpdater(def submenu, def menuItemStrings) {
@@ -99,14 +109,4 @@ class LocalMenuUpdater extends MenuUpdater {
 	
 }
 
-/**
- * @author Frank
- *
- */
-public class Snippet005MenuUpdater {
-	public static void main(String[] args){
-		def shell = new View005().open()
-		shell.doMainloop()
-	}
-	
 }

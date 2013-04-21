@@ -18,12 +18,33 @@ import org.eclipse.jface.window.Window
 
 import org.eclipse.swt.widgets.Display
 
+/**
+ * @author Frank
+ *
+ */
+public class Snippet019TreeViewerWithListFactory {
+	public static void main(String[] args){
+		Realm.default = SWTObservables.getRealm(Display.default ?: new Display())
+
+		def model = new ViewModel019()
+		def shell = new View019(viewModel: model).open()
+		shell.doMainloop()
+	}
+}
+
+/**
+ * Because of GROOVY-4737, it will throw a MissingFieldException on accessing id attributes
+ * if neested into the snippet class.
+ *
+ */
+
+
 // The data model class. This is normally a persistent class of some sort.
 @Bindable
 class Bean019 {
 	String text
 	List list = []
-	
+
 	String toString() {name}
 }
 
@@ -32,14 +53,14 @@ class ViewModel019 {
 	// The model to bind
 	@Bindable
 	def input = new Bean019(text:'input')
-	
+
 }
 
 class View019 {
 	ViewModel019 viewModel
 	@Bindable
 	def clipboard = new WritableValue()
-	
+
 	def createShell() {
 		def jface = new JFaceBuilder()
 		def shell
@@ -50,7 +71,7 @@ class View019 {
 				button('Add Root') {
 					onEvent('Selection') {
 						def list = new ArrayList(viewModel.input.list)
-						def root = new Bean019(text:'root') 
+						def root = new Bean019(text:'root')
 						list << root
 						viewModel.input.list = list
 						beanViewer.selection = new StructuredSelection(root)
@@ -65,7 +86,7 @@ class View019 {
 						def child = new Bean019(text:'child')
 						list << child
 						parent.list = list
-						
+
 						beanViewer.selection = new StructuredSelection(child)
 						beanText.selectAll()
 						beanText.setFocus()
@@ -97,34 +118,32 @@ class View019 {
 					onEvent('Selection') {
 						def copy = clipboard.value
 						if (copy == null) return
-						def parent = beanViewer.selection?.firstElement
+							def parent = beanViewer.selection?.firstElement
 						if (parent==null) parent=input
 						def list = new ArrayList(parent.list)
 						list << copy
 						parent.list = list
-						
+
 						beanViewer.selection = new StructuredSelection(copy)
 						beanText.selectAll()
 						beanText.setFocus()
 					}
 				}
 				button('Refresh') {
-					onEvent('Selection'){
-						beanViewer.refresh()
-					}
+					onEvent('Selection'){ beanViewer.refresh() }
 				}
 			}
 			tree(id:'beanTree') {
 				treeViewer(id:'beanViewer', style:'FULL_SELECTION, BORDER', useHashlookup: true,
-						   input: bind(model:viewModel.input, modelProperty:'text', childrenProperty: 'list'))
+				input: bind(model:viewModel.input, modelProperty:'text', childrenProperty: 'list'))
 			}
 			label('Item Name', layoutData:'split 2')
 			text(id: 'beanText',
-				 text: bind(model: beanViewer, modelProperty:'text'))
+			text: bind(model: beanViewer, modelProperty:'text'))
 			bind(target:addchildButton, targetProperty: 'enabled') {beanViewer.selection.size()>0}
-// Another way of doing it:			
-//			bind(target:addchildButton, targetProperty: 'enabled',
-//				 model: beanViewer, modelProperty: 'text', 'model2target.converter': {beanTree.selectionCount>0})
+			// Another way of doing it:
+			//			bind(target:addchildButton, targetProperty: 'enabled',
+			//				 model: beanViewer, modelProperty: 'text', 'model2target.converter': {beanTree.selectionCount>0})
 			bind(target:removeButton, targetProperty: 'enabled') {beanViewer.selection.size()>0}
 			bind(target:copyButton, targetProperty: 'enabled') {beanViewer.selection.size()>0}
 			bind(target:pasteButton, targetProperty: 'enabled') {clipboard.value != null}
@@ -134,24 +153,9 @@ class View019 {
 
 	def open() {
 		def shell
-		Realm.runWithDefault(Realm.default, {
-			shell = createShell()
-		})
+		Realm.runWithDefault(Realm.default, { shell = createShell() })
 		return shell
 	}
 }
 
-/**
- * @author Frank
- *
- */
-public class Snippet019TreeViewerWithListFactory {
-	public static void main(String[] args){
-		Realm.default = SWTObservables.getRealm(Display.default ?: new Display())
-		
-		def model = new ViewModel019()
-		def shell = new View019(viewModel: model).open()
-		shell.doMainloop()
-	}
-	
-}
+

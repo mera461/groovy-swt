@@ -286,7 +286,7 @@ public class BindFactory extends AbstractFactory {
 	        modelObservables << createBeanObservable(builder, modelBinding)
 		}
     	
-    	return [calculate: {
+    	return new ComputedValue() {def calculate() {
     		 		// TODO: Do we need get the values?
     			    def values = []
     			    for (model in modelObservables) {
@@ -294,7 +294,7 @@ public class BindFactory extends AbstractFactory {
     			    }
     				def value = binding.closure.call()
 					return value
-    		    }] as ComputedValue
+    		    }}
     }
 
     Object extractNewValue(Object newObject, def propertyName) {

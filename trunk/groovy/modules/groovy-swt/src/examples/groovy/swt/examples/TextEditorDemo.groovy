@@ -48,7 +48,7 @@ class TextEditorDemo {
 		        	}
 		        	if (result != null) {
 			        	def file = new File(result)
-					    if (file.exists()){
+					    if (file.exists()) {
 					    	textarea.text = file.text
 					    	shell.text = "$shelltitle [$result]"
 							haschanged = false;

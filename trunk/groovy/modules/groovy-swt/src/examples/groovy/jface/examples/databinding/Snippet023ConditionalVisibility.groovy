@@ -18,49 +18,6 @@ import org.eclipse.jface.window.Window
 import org.eclipse.swt.widgets.Display
 
 
-class View023 {
-	
-	def createShell() {
-		def jface = new JFaceBuilder()
-		def shell
-		shell = jface.shell('Binding checked elements in CheckboxTableViewer') {
-			migLayout(layoutConstraints:"wrap 1", columnConstraints: "[grow, fill]")
-			composite {
-				fillLayout()
-				group('Type') {
-					fillLayout()
-					button('Text', id:'textButton', style:'RADIO')
-					button('Range', id:'rangeButton', style:'RADIO')
-				}
-			}
-			composite {
-				stackLayout()
-				group('Range', visible: bind (model: rangeButton, modelProperty:'selection')) {
-					migLayout(layoutConstraints:"wrap 2", columnConstraints: "[right][grow, fill]")
-					label('From:')
-					text(style:'SINGLE, LEAD, BORDER')
-					label('To:')
-					text(style:'SINGLE, LEAD, BORDER')
-				}
-				group('Text', visible: bind (model: textButton, modelProperty:'selection')) {
-					migLayout(layoutConstraints:"wrap 2", columnConstraints: "[right][grow, fill]")
-					label('Text:')
-					text(style:'SINGLE, LEAD, BORDER')
-				}
-			}
-		}
-		return shell
-	}
-
-	def open() {
-		def shell
-		Realm.runWithDefault(Realm.default, {
-			shell = createShell()
-		})
-		return shell
-	}
-}
-
 /**
  * @author Frank
  *
@@ -72,5 +29,58 @@ public class Snippet023ConditionalVisibility {
 		def shell = new View023().open()
 		shell.doMainloop()
 	}
-	
 }
+
+/**
+ * Because of GROOVY-4737, it will throw a MissingFieldException on accessing id attributes
+ * if neested into the snippet class.
+ *
+ */
+
+	
+	
+	class View023 {
+		
+		def createShell() {
+			def jface = new JFaceBuilder()
+			def shell
+			shell = jface.shell('Binding checked elements in CheckboxTableViewer') {
+				migLayout(layoutConstraints:"wrap 1", columnConstraints: "[grow, fill]")
+				composite {
+					fillLayout()
+					group('Type') {
+						fillLayout()
+						button('Text', id:'textButton', style:'RADIO')
+						button('Range', id:'rangeButton', style:'RADIO')
+					}
+				}
+				composite {
+					stackLayout()
+					group('Range', visible: bind (model: rangeButton, modelProperty:'selection')) {
+						migLayout(layoutConstraints:"wrap 2", columnConstraints: "[right][grow, fill]")
+						label('From:')
+						text(style:'SINGLE, LEAD, BORDER')
+						label('To:')
+						text(style:'SINGLE, LEAD, BORDER')
+					}
+					group('Text', visible: bind (model: textButton, modelProperty:'selection')) {
+						migLayout(layoutConstraints:"wrap 2", columnConstraints: "[right][grow, fill]")
+						label('Text:')
+						text(style:'SINGLE, LEAD, BORDER')
+					}
+				}
+			}
+			return shell
+		}
+	
+		def open() {
+			def shell
+			Realm.runWithDefault(Realm.default, {
+				shell = createShell()
+			})
+			return shell
+		}
+	}
+	
+	
+	
