@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.eclipse.swt.win32.win32</groupId>
+  <artifactId>x86</artifactId>
+  <versioning>
+    <release>3.100.1.v4236b</release>
+    <versions>
+      <version>3.100.0.v4233d</version>
+      <version>3.100.1.v4236b</version>
+    </versions>
+    <lastUpdated>20130421105824</lastUpdated>
+  </versioning>
+</metadata>
