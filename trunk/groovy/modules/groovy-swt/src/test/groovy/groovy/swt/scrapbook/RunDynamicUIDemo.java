@@ -24,7 +24,7 @@ public class RunDynamicUIDemo extends TestCase {
         binding.setVariable("builder", builder);
         binding.setVariable("parent", shell);
         
-        GroovyScriptEngine scriptEngine = new GroovyScriptEngine("src/test/groovy/swt/scrapbook/");
+        GroovyScriptEngine scriptEngine = new GroovyScriptEngine("src/test/groovy/groovy/swt/scrapbook/");
         Object object = scriptEngine.run("NamedObjectUI.groovy", binding);
 
         shell.pack();

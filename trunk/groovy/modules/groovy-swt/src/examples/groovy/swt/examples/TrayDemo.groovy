@@ -20,7 +20,7 @@ class TrayDemo {
          	tray() {
 	         	
          		trayItem( text:"trayItem1" ) {
-	         		image( src:"src/test/groovy/swt/groovy-logo.png" ) 
+	         		image( src:"src/test/groovy/groovy/swt/groovy-logo.png" ) 
 	         		
 	         		onEvent('Selection') {
 	         			println "Selection event ..."
