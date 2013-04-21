@@ -1,0 +1,123 @@
+apply plugin: 'groovy'
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'groovy-swt'
+project.buildDir = 'target'
+
+defaultTasks 'check'
+
+sourceCompatibility = 1.6
+version = '0.7'
+
+repositories {
+    mavenCentral()
+    mavenCentral name:'codehaus', url: 'http://repository.codehaus.org/'
+    mavenRepo    name:'eclipse', url: "${rootDir}/src/repository"
+}
+
+dependencies {
+    groovy 'org.codehaus.groovy:groovy:2.1.3'
+    compile 'commons-logging:commons-logging:1.1'
+    compile 'org.codehaus.groovy:groovy-all:2.1.3'
+    testCompile 'junit:junit:3.8.1'
+    // Eclipse stuff
+	compile 'org.eclipse.core:commands:3.6.2.v20130123-162658'
+	compile 'org.eclipse.core:databinding:1.4.1.v20120912-132807'
+    compile 'org.eclipse.core.databinding:beans:1.2.200.v20120523-1955'
+    compile 'org.eclipse.core.databinding:observable:1.4.1.v20120521-2329'
+    compile 'org.eclipse.core.databinding:property:1.4.100.v20120523-1955'
+	compile 'org.eclipse.equinox:common:3.6.100.v20120522-1841'
+	compile 'org.eclipse:jface:3.8.102.v20130123-162658'
+	compile 'org.eclipse.jface:databinding:1.6.0.v20120912-132807'
+	compile 'org.eclipse:osgi:3.8.2.v20130124-134944'
+	compile 'org.eclipse.swt.win32.win32:x86:3.100.1.v4236b'
+    compile 'org.eclipse.ui:forms:3.5.200.v20120705-114351'
+    compile 'com.ibm:icu:4.4.2.v20110823'
+    // migLayout
+    compile 'com.miglayout:miglayout-swt:4.2'
+    // ASM for the opcodes used in the AST @Bindable
+    // compile group: 'asm', name: 'asm', version: '3.2'
+	
+	
+}
+
+configurations {
+    windowsAll {
+        extendsFrom compile
+        exclude group:'org.codehaus.groovy', name:'groovy-all'
+        // commons-logging already in groovy-all
+        exclude group:'commons-logging', name:'commons-logging'
+        // antlr also part of groovy-all
+        exclude group:'antlr', name:'antlr'
+    }
+    withoutSwt {
+        extendsFrom windowsAll
+        exclude group:'org.eclipse.swt.win32.win32', name:'x86'
+    }
+}
+
+task withoutSwt(type: Jar)  {
+    classifier='without-swt'
+    def classpath = configurations.withoutSwt.collect { it.directory ? it : zipTree(it) }
+    from sourceSets.main.output
+    from classpath
+      exclude 'META-INF/**'
+      exclude 'about_files/**'
+      exclude 'licenses/**'
+      exclude '*.properties'
+      exclude '*.profile'
+      exclude 'about.html'
+      exclude '.api_description'
+}
+
+task windowsAll (type: Jar) {
+    dependsOn 'withoutSwt'
+    classifier='windows-all'
+    def cp = configurations.compile.collect { it }
+                .findAll { it.toString() =~ /org.eclipse.swt/}
+                .collect { it.directory ? it : zipTree(it) }
+    def swt = zipTree("${libsDir}/groovy-swt-$version-without-swt.jar")
+    from swt
+    from cp                
+      exclude 'META-INF/**'
+}
+
+artifacts {
+	archives withoutSwt
+	archives windowsAll
+}
+
+
+/**
+ * Check the eclipse directory for new version of the dependencies
+ */
+task newEclipseLibs() {
+	def items = configurations.compile.dependencies.findAll { it.group.toString() =~ /org.eclipse/}
+	def eclipseDir = new File('c:/tools/eclipse-4.2/plugins')
+	def files = eclipseDir.list().findAll {it =~ /org.eclipse.*jar$/}
+	// find updated items
+	def newItems = []
+	items.each { item ->
+		def name = "${item.group}\\.${item.name}_"
+		def versions = files.findAll {it =~ /${name}/}
+			 				.collect {(it =~ /${name}(.*)\.jar/)[0][1]}
+		assert versions.size() == 1
+		println "${item.version}==$versions[0]"
+		if (item.version != versions[0]) {
+			newItems << [group: item.group, name:item.name, version:versions[0], filename:"${item.group}.${item.name}_${versions[0]}.jar"]
+		}
+	}
+	// mvn install them
+	println "**** NO UPDATES: ${newItems.size()}"
+	newItems.each {
+		println "Installing: $it"
+		def cmd = "cmd /c mvn org.apache.maven.plugins:maven-install-plugin:2.3.1:install-file -DgroupId=${it.group} -DartifactId=${it.name} -Dversion=${it.version} -Dfile=${eclipseDir.absolutePath}/${it.filename} -Dpackaging=jar -DgeneratePom=true -DlocalRepositoryPath=/pr/projekter/java/groovy-swt/src/repository"
+		//println cmd
+		cmd.execute()
+	}
+	println "********** UPDATE FOR build.gradle **************"
+	newItems.each {
+		println "\tcompile '${it.group}:${it.name}:${it.version}'"
+	}
+}
