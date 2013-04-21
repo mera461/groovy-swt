@@ -1,0 +1,16 @@
+ Volume in drive C is SQ004513V03
+ Volume Serial Number is 382E-2B62
+
+ Directory of C:\pr\projekter\java\groovy-swt\src\repository\org\eclipse
+
+25/06/2010  17:47    <DIR>          .
+25/06/2010  17:47    <DIR>          ..
+22/03/2009  00:46    <DIR>          core
+21/03/2009  12:02    <DIR>          equinox
+11/12/2009  00:26    <DIR>          jface
+11/12/2009  00:26    <DIR>          osgi
+18/10/2009  21:37    <DIR>          swt
+25/06/2010  17:47                 0 t.txt
+21/03/2009  12:03    <DIR>          ui
+               1 File(s)              0 bytes
+               8 Dir(s)  17,814,405,120 bytes free
