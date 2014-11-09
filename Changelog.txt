@@ -5,6 +5,11 @@ TODOS:
 - Support for NatTable
 - Support for glazedLists
 
+- Add support for 64-bit windows in the same jar:
+  http://stackoverflow.com/questions/2706222/create-cross-platform-java-swt-application/3204032#3204032
+  http://stackoverflow.com/questions/18612691/how-to-run-swt-application-on-both-xp-and-windows-7
+  
+ 
 ? In SwtBuilder eg. the button can have children (like onEvent, gridLayout, image).
   In SwingBuilder they can not: everything is attributes. Should this be changed?
   
@@ -12,6 +17,10 @@ TODOS:
 
 ? TableTree, TableTreeItem are deprecated - should they be removed? Anyone using them?
 
+
+0.8:
+- Updated to eclipse 4.4
+- updated to gradle 2.1
 
 0.7
 - Updated to eclipse 4.2
