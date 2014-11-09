@@ -2,14 +2,15 @@
 <metadata>
   <groupId>org.eclipse.core.databinding</groupId>
   <artifactId>property</artifactId>
-  <version>1.2.0.N20090322-2000</version>
   <versioning>
+    <release>1.4.200.v20140214-0004</release>
     <versions>
       <version>1.2.0.N20090322-2000</version>
       <version>1.2.0.I20090429-1800</version>
       <version>1.3.0.I20100601-0800</version>
       <version>1.4.100.v20120523-1955</version>
+      <version>1.4.200.v20140214-0004</version>
     </versions>
-    <lastUpdated>20120705212139</lastUpdated>
+    <lastUpdated>20141109225723</lastUpdated>
   </versioning>
 </metadata>
