@@ -2,11 +2,11 @@
 <metadata>
   <groupId>org.eclipse</groupId>
   <artifactId>swt</artifactId>
-  <version>3.100.0.v4233d</version>
   <versioning>
+    <release>3.100.0.v4233d</release>
     <versions>
       <version>3.100.0.v4233d</version>
     </versions>
-    <lastUpdated>20120705212139</lastUpdated>
+    <lastUpdated>20150427084755</lastUpdated>
   </versioning>
 </metadata>

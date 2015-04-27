@@ -3,12 +3,12 @@
   <groupId>com.ibm</groupId>
   <artifactId>icu</artifactId>
   <versioning>
-    <release>52.1.0.v201404241930</release>
+    <release>4.4.2.v20110823</release>
     <versions>
       <version>4.0.1.v20090415</version>
       <version>4.4.2.v20110823</version>
       <version>52.1.0.v201404241930</version>
     </versions>
-    <lastUpdated>20141109230731</lastUpdated>
+    <lastUpdated>20150427084756</lastUpdated>
   </versioning>
 </metadata>
