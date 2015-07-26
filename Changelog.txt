@@ -18,6 +18,10 @@ TODOS:
 ? TableTree, TableTreeItem are deprecated - should they be removed? Anyone using them?
 
 
+0.9:
+- Updated to eclipse 4.5
+- Updated to gradle 2.5
+
 0.8:
 - Updated to eclipse 4.4
 - updated to gradle 2.1
