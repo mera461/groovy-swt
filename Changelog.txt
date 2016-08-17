@@ -17,6 +17,12 @@ TODOS:
 
 ? TableTree, TableTreeItem are deprecated - should they be removed? Anyone using them?
 
+? com.ibm.icu is the largest jar (11 Mb) included in the distributable. Is it all needed?
+
+0.95:
+- Updated to eclipse 4.6
+- Do not include groovy in the jar
+
 
 0.9:
 - Updated to eclipse 4.5

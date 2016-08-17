@@ -3,14 +3,15 @@
   <groupId>org.eclipse.core</groupId>
   <artifactId>commands</artifactId>
   <versioning>
-    <release>3.7.0.v20150422-0725</release>
+    <release>3.8.0.v20160316-1921</release>
     <versions>
       <version>3.5.0.I20090429-1800</version>
       <version>3.6.1.v20120521-2329</version>
       <version>3.6.2.v20130123-162658</version>
       <version>3.6.100.v20140528-1422</version>
       <version>3.7.0.v20150422-0725</version>
+      <version>3.8.0.v20160316-1921</version>
     </versions>
-    <lastUpdated>20150724215341</lastUpdated>
+    <lastUpdated>20160817045337</lastUpdated>
   </versioning>
 </metadata>
