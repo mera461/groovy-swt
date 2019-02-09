@@ -38,9 +38,10 @@ import org.eclipse.jface.preference.RadioGroupFieldEditor
 import org.eclipse.jface.preference.StringFieldEditor
 import org.eclipse.jface.viewers.CheckboxTableViewer
 import org.eclipse.jface.viewers.CheckboxTreeViewer
+import org.eclipse.jface.viewers.ColumnViewer
 import org.eclipse.jface.viewers.ComboViewer
+import org.eclipse.jface.viewers.ContentViewer
 import org.eclipse.jface.viewers.ListViewer
-import org.eclipse.jface.viewers.TableTreeViewer
 import org.eclipse.jface.viewers.TableViewer
 import org.eclipse.jface.viewers.TableViewerColumn
 import org.eclipse.jface.viewers.TreeViewer
@@ -103,13 +104,14 @@ public class JFaceBuilder extends SwtBuilder {
     }
     
 	public void registerViewers() {
+        registerFactory("checkboxTableViewer", new ViewerFactory(CheckboxTableViewer.class))
+        registerFactory("checkboxTreeViewer", new ViewerFactory(CheckboxTreeViewer.class))
+        registerFactory("columnViewer", new ViewerFactory(ColumnViewer.class))
+        registerFactory("comboViewer", new ViewerFactory(ComboViewer.class))
+        registerFactory("contentViewer", new ViewerFactory(ContentViewer.class))
+        registerFactory("listViewer", new ViewerFactory(ListViewer.class))
         registerFactory("tableViewer", new ViewerFactory(TableViewer.class))
         registerFactory("tableViewerColumn", new ViewerFactory(TableViewerColumn.class))
-        registerFactory("tableTreeViewer", new ViewerFactory(TableTreeViewer.class))
-        registerFactory("checkboxTableViewer", new ViewerFactory(CheckboxTableViewer.class))
         registerFactory("treeViewer", new ViewerFactory(TreeViewer.class))
-        registerFactory("checkboxTreeViewer", new ViewerFactory(CheckboxTreeViewer.class))
-        registerFactory("comboViewer", new ViewerFactory(ComboViewer.class))
-        registerFactory("listViewer", new ViewerFactory(ListViewer.class))
     }
 }

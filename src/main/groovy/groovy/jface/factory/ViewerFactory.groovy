@@ -17,7 +17,6 @@ import org.eclipse.jface.viewers.CheckboxTableViewer
 import org.eclipse.jface.viewers.CheckboxTreeViewer
 import org.eclipse.jface.viewers.ComboViewer
 import org.eclipse.jface.viewers.ListViewer
-import org.eclipse.jface.viewers.TableTreeViewer
 import org.eclipse.jface.viewers.TableViewer
 import org.eclipse.jface.viewers.TableViewerColumn
 import org.eclipse.jface.viewers.TreeViewer
@@ -85,8 +84,6 @@ public class ViewerFactory extends WidgetFactory {
 			} else {
 				bean = new TableViewerColumn((TableViewer) parent, style)
 			}
-		} else if (beanClass.equals(TableTreeViewer.class) && (parent instanceof TableTree)) {
-			bean = new TableTreeViewer((TableTree) parent)
 		} else if (beanClass.equals(TreeViewer.class) && (parent instanceof Tree)) {
 			bean = new TreeViewer((Tree) parent)
 			// useHaslookup needs to be set before the input

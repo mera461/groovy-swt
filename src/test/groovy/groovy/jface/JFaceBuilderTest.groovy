@@ -23,10 +23,6 @@ class JFaceBuilderTest extends TestCase {
 				tableViewer()
         	}
         	
-        	tableTreeViewer()
-        	tableTree {
-        		tableTreeViewer()
-        	}
         	
         	treeViewer()
         	tree {
